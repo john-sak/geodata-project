@@ -1,18 +1,24 @@
-import React, {useState} from 'react'
+import React, {useState, useContext} from 'react'
 import NavLogo from './NavLogo'
 import NavMenu from './NavMenu';
 import NavIcon from './NavIcon';
 import { INavLink, INavMenu } from './Inav';
 import NavLink from './NavLink';
 import NavButtons from './NavButtons';
+import { INavMenuProps } from './Inav';
 
-const NavBar = () => {
+const NavBar = (props: INavMenuProps) => {
+
+  const  { menuColor } = props;
+
+  console.log(menuColor);
 
   const [open, setOpen] = useState(false);
 
   const menuProps: INavMenu = {
     open: open,
-    setOpen: setOpen
+    setOpen: setOpen,
+    menuColor: menuColor
   }
 
   const NavItem1: INavLink = {
@@ -26,7 +32,7 @@ const NavBar = () => {
   }
 
   return (
-    <nav className='relative h-20 bg-slate-200 flex items-center'>
+    <nav className='relative h-20 bg-inherit flex items-center'>
       <NavLogo/>
       <div className='relative ml-28 flex flex-column'>
         <NavLink {...NavItem1}/>

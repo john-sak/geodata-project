@@ -16,6 +16,10 @@
   /* outline: 1px solid red; */
 }
 
+body {
+  background: white;
+}
+
 a {
   color: unset;
   text-decoration: none;

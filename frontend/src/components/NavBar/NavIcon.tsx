@@ -5,7 +5,11 @@ import { INavMenu } from './Inav';
 
 const NavIcon = (props: INavMenu) => {
 
-    const { open, setOpen } = props;
+    const { 
+      open, 
+      setOpen,
+      menuColor 
+    } = props;
 
   return (
     <>
@@ -18,6 +22,7 @@ const NavIcon = (props: INavMenu) => {
           <MenuIcon className='absolute right-5 z-10 lg:hidden cursor-pointer'
           fontSize='large'
           onClick={() => setOpen(!open)}
+          style={{color: menuColor}}
           />
       }
     </>

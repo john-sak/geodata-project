@@ -12,8 +12,9 @@ const NavLogo = () => {
             src='/logo1.png'
             alt='logo'
             fill
-            priority
             sizes='width: 112px'
+            placeholder='blur'
+            blurDataURL='/logo1.png'
             />
         </Link>
     </div>

@@ -1,12 +1,12 @@
 import React from 'react'
 import Head from 'next/head'
 import NavBar from './components/NavBar/NavBar'
+import { LayoutProps } from './interfaces/ILayout'
 
-interface Props {
-    children?: React.ReactNode
-}
+const Layout = (props: LayoutProps) => {
 
-const Layout = ({children}: Props) => {
+  const { navbarProps, children } = props;
+
   return (
     <>
     <Head>
@@ -14,7 +14,7 @@ const Layout = ({children}: Props) => {
             CrowdCritic
         </title>
     </Head>
-    <NavBar/>
+    <NavBar {...navbarProps}/>
     <main>
         {children}
     </main>
