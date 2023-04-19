@@ -36,6 +36,8 @@ public class AppUserController {
 
     }
 
+
+    //TODO AppUser.id  must be null when in POST request
     @PostMapping
     public ResponseEntity<String> createAppUser(@Valid @RequestBody AppUser appUser){
 

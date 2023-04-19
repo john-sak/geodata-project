@@ -1,16 +1,21 @@
 package com.devdynasty.CrowdCritic.model;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.validation.constraints.*;
 import lombok.*;
 
+import static jakarta.persistence.GenerationType.IDENTITY;
+
+//TODO username must be unique
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
 public class AppUser {
 
     @Id
+    @GeneratedValue(strategy = IDENTITY)
     private Integer id;
 
 
