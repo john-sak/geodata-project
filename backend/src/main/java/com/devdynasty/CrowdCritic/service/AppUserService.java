@@ -2,7 +2,6 @@ package com.devdynasty.CrowdCritic.service;
 
 import com.devdynasty.CrowdCritic.model.AppUser;
 import com.devdynasty.CrowdCritic.repository.AppUserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -33,6 +32,10 @@ public class AppUserService {
 
     public AppUser getAppUserByUsername(String username){
         return this.appUserRepository.findAppUsersByUsername(username).get();
+    }
+
+    public AppUser createAppUser(AppUser appUser){
+        return this.appUserRepository.save(appUser);
     }
 
 
