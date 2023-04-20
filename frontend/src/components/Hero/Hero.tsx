@@ -7,7 +7,7 @@ const Hero = () => {
   return (
     <div className="h-[500px] w-[100%] z-0 mt-[-80px]
     bg-sky-800 bg-blend-multiply bg-[url('../assets/image1.jpg')] bg-cover
-    flex flex-col">
+    flex flex-col lg:h-[600px]">
       <div className='lg:w-[40%]'>
         <HeroTitle/>
         <HeroSubtitle/>
