@@ -7,7 +7,8 @@ const Feature = (props: IFeature) => {
     const {
         title,
         subtitle,
-        image
+        image,
+        imageAlt
     } = props;
 
   return (
@@ -16,7 +17,7 @@ const Feature = (props: IFeature) => {
         <div className='w-[100%] flex justify-center mt-2'>
             <Image
             src={require(`../../assets/${image}`)}
-            alt='An image of a search icon'
+            alt={imageAlt}
             priority
             className='w-14 h-14'
             />

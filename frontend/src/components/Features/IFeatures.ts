@@ -1,5 +1,6 @@
 export interface IFeature {
     title: string,
     subtitle: string,
-    image: string
+    image: string,
+    imageAlt: string
 }
