@@ -1,4 +1,4 @@
-import React, {useState, useContext} from 'react'
+import React, {useState} from 'react'
 import NavLogo from './NavLogo'
 import NavMenu from './NavMenu';
 import NavIcon from './NavIcon';
