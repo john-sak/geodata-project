@@ -2,6 +2,7 @@ import React from 'react'
 import Head from 'next/head'
 import NavBar from './components/NavBar/NavBar'
 import { LayoutProps } from './interfaces/ILayout'
+import Footer from './components/Footer/Footer'
 
 const Layout = (props: LayoutProps) => {
 
@@ -18,6 +19,7 @@ const Layout = (props: LayoutProps) => {
     <main>
         {children}
     </main>
+    <Footer/>
     </>
   )
 }

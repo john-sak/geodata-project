@@ -6,7 +6,7 @@ import Testimonial from './Testimonial'
 
 const Testimonials = () => {
   return (
-    <div className='w-[100%] h-[450px] md:max-sm:h-[550px] bg-sky-200 lg:h-[400px]'>
+    <div className='w-[100%] h-[450px] bg-sky-200 lg:h-[400px]'>
         <div className='w-[100%] flex flex-col items-center gap-7'>
             <TestimonialsTitle/>
             <TestimonialsSubtitle/>
