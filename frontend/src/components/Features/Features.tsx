@@ -6,21 +6,21 @@ const Features = () => {
 
   const featureSearch: IFeature = {
     title: 'Αναζήτηση',
-    subtitle: 'Ανακάλυψε τα δημόσια κτίρια της Ελλάδας στο χάρτη',
+    subtitle: 'Ανακάλυψε τα δημόσια κτίρια της Ελλάδας στον χάρτη',
     image: 'search.png',
     imageAlt: 'Image of a search icon'
   }
 
   const featureCompare: IFeature = {
-    title: 'Σύγκριση',
-    subtitle: 'Δες τις αξιολογήσεις χρηστών στα σημεία ενδιαφέροντός σου',
+    title: 'Αγαπημένα',
+    subtitle: 'Δήλωσε σημεία ενδιαφέροντος σε συγκεκριμένη ακτίνα',
     image: 'compare.png',
     imageAlt: 'Image of a scale icon'
   }
 
   const featureMessage: IFeature = {
-    title: 'Αξιολόγηση',
-    subtitle: 'Μην ξεχνάς να αφήνεις το σχόλιό σου για να συνεισφέρεις και εσύ στο εγχείρημα',
+    title: 'Ενημερώσεις',
+    subtitle: 'Θα ειδοποιηθείς για οποιαδήποτε αλλαγή στα δεδομένα των επιλογών σου',
     image: 'message.png',
     imageAlt: 'Image of a message icon'
   }
