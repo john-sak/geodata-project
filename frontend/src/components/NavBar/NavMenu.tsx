@@ -10,7 +10,7 @@ const NavMenu = (props: INavMenu) => {
     let ref = useCloseModal(() => setOpen(!open))
 
   return (
-    <div className='absolute top-0 right-0 w-44 h-[260px] bg-slate-300 rounded'
+    <div className='absolute top-0 right-0 w-44 h-[260px] bg-slate-300 rounded z-9'
     ref={ref}
     >
         <div className='absolute top-[70px] h-[160px] w-44'>
