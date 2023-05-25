@@ -32,7 +32,7 @@ const NavBar = (props: INavMenuProps) => {
   }
 
   return (
-    <nav className='relative h-20 bg-inherit flex items-center'>
+    <nav className='relative h-20 bg-inherit flex items-center z-20'>
       <NavLogo/>
       <div className='relative ml-28 flex flex-column'>
         <NavLink {...NavItem1}/>
