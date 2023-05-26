@@ -5,7 +5,7 @@ const NavButtons = () => {
   return (
     <div className='hidden lg:flex lg:absolute lg:right-0 lg:w-60 lg:h-20 lg:justify-start
     lg:gap-7 lg:items-center 2xl:w-80 2xl:gap-10'>
-        <Link href={'DummyPage'}
+        <Link href={'SigninPage'}
         className='flex justify-center items-center lg:w-24 lg:h-9 2xl:w-28 2xl:h-10 
         rounded bg-sky-900 hover:bg-sky-400 cursor-pointer'
         >

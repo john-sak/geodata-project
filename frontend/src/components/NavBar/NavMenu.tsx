@@ -31,7 +31,7 @@ const NavMenu = (props: INavMenu) => {
                 </Link>
             </div>
             <div className='h-10 flex justify-center items-center'>
-                <Link href={'/DummyPage'}
+                <Link href={'/SigninPage'}
                 onClick={() => setOpen(!open)}
                 className='underline text-sky-700'
                 >
@@ -39,7 +39,7 @@ const NavMenu = (props: INavMenu) => {
                 </Link>
             </div>
             <div className='h-10 flex justify-center items-center'>
-                <Link href={'/DummyPage'}
+                <Link href={'/SignupPage'}
                 onClick={() => setOpen(!open)}
                 className='underline text-sky-700'
                 >
