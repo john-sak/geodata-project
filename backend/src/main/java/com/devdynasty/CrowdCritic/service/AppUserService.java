@@ -2,13 +2,16 @@ package com.devdynasty.CrowdCritic.service;
 
 import com.devdynasty.CrowdCritic.model.AppUser;
 import com.devdynasty.CrowdCritic.repository.AppUserRepository;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 
 @Service
-public class AppUserService {
+public class AppUserService implements UserDetailsService {
 
     AppUserRepository appUserRepository;
 
@@ -39,9 +42,8 @@ public class AppUserService {
     }
 
 
-
-
-
-
-
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        return this.appUserRepository.findAppUsersByUsername(username).get();
+    }
 }

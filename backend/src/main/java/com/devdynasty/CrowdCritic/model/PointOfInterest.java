@@ -1,14 +1,16 @@
 package com.devdynasty.CrowdCritic.model;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import static jakarta.persistence.GenerationType.IDENTITY;
 
+@Builder
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
+@Getter
+@Setter
 public class PointOfInterest {
 
     @Id
