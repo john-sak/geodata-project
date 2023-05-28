@@ -1,19 +1,41 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import Search from '@/components/Search'
-import { ISearchValue } from '@/components/Search/ISearch';
+import { ISearchData } from '@/components/Search/ISearch';
+import { INavMenuProps } from '@/components/NavBar/Inav';
 
-const search = () => {
+const search = (props: INavMenuProps) => {
 
-  const [value, setValue] = useState('');
+  const { setNavbarProps } = props;
+
+  useEffect(() => {
+    setNavbarProps({
+      menuColor: 'black'
+    });
+  },[])
 
   // Preserving input values on side bar close
-  const searchValue: ISearchValue = {
-    value: value,
-    setValue: setValue
+  const [searchData, setSearchData] = useState({
+    buildingType: '',
+    municipality: '',
+    county: '',
+    region: '',
+  });
+
+  const handleInputChange = (key: string, value: string) => {
+    setSearchData((prevData) => ({
+      ...prevData,
+      [key]: value,
+    }));
+  };
+
+  const searchValues: ISearchData = {
+    searchData: searchData,
+    setSearchData: setSearchData,
+    handleInputChange: handleInputChange
   }
 
   return (
-      <Search {...searchValue}/>
+      <Search {...searchValues}/>
   )
 }
 

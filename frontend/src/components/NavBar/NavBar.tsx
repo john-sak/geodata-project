@@ -22,12 +22,12 @@ const NavBar = (props: INavMenuProps) => {
   }
 
   const NavItem1: INavLink = {
-    link: 'DummyPage',
+    link: '/search',
     text: 'Εφαρμογή'
   }
 
   const NavItem2: INavLink = {
-    link: 'DummyPage',
+    link: '/DummyPage',
     text: 'Δεδομένα'
   }
 
