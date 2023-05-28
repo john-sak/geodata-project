@@ -1,27 +1,39 @@
 import React, { useState } from 'react'
 import SearchSide from './SearchSide'
 import SearchFiltersIcon from './SearchFiltersIcon'
-import { ISearchFilter, ISearchValue } from './ISearch'
+import { ISearchData, ISearchInputs, IUseFilter } from './ISearch'
 import useFilter from './useFilter'
+import SearchMap from './SearchMap'
 
-const Search = (props: ISearchValue) => {
+const Search = (props: ISearchData) => {
 
-    const { value, setValue } = props;
+  const [isClicked, setIsClicked] = useState(false);
 
-    const { openFilter, setOpenFilter } = useFilter();
+  const filterProps: IUseFilter = {
+    isClicked: isClicked,
+    setIsClicked: setIsClicked
+  }
 
-    const searchFilter: ISearchFilter = {
-        open: openFilter,
-        setOpen: setOpenFilter,
-        value: value,
-        setValue: setValue
-    }
+  const {
+    openFilter,
+    setOpenFilter,
+    showMap
+  } = useFilter({...filterProps});
+
+  const searchInputs: ISearchInputs = {
+    open: openFilter,
+    setOpen: setOpenFilter,
+    isClicked: isClicked,
+    setIsClicked: setIsClicked,
+    data: props
+  }
 
   return (
     <>
         <div className='relative h-[800px] w-[100%] bg-sky-400 flex flex-row z-0'>
-            <SearchFiltersIcon {...searchFilter}/>
-            <SearchSide {...searchFilter}/>
+            <SearchFiltersIcon {...searchInputs}/>
+            <SearchSide {...searchInputs}/>
+            { showMap && <SearchMap/> }
         </div>
         {
           openFilter && 

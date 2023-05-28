@@ -1,18 +1,28 @@
 import React from 'react'
 import TuneIcon from '@mui/icons-material/Tune';
-import { ISearchFilter } from './ISearch';
+import { ISearchInputs } from './ISearch';
 
-const SearchFiltersIcon = (props: ISearchFilter) => {
+const SearchFiltersIcon = (props: ISearchInputs) => {
     
-    const { open, setOpen } = props;
+    const { 
+      open, 
+      setOpen, 
+      isClicked, 
+      setIsClicked 
+    } = props;
+
+    const handleClick = () => {
+      setOpen(!open);
+      setIsClicked(!isClicked);
+    }
 
   return (
-    <div className='absolute h-16 w-[100%] flex justify-start items-center lg:hidden'>
+    <div className='absolute h-16 w-[100%] flex justify-end items-center z-10 lg:hidden'>
         <i>
             <TuneIcon
             fontSize='large'
-            className='ml-4 cursor-pointer'
-            onClick={() => setOpen(!open)}
+            className='mr-5 cursor-pointer'
+            onClick={handleClick}
             />
         </i>
     </div>

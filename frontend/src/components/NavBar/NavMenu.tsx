@@ -15,7 +15,7 @@ const NavMenu = (props: INavMenu) => {
     >
         <div className='absolute top-[70px] h-[160px] w-44'>
             <div className='h-10 flex justify-center items-center'>
-                <Link href={'/DummyPage'}
+                <Link href={'/search'}
                 className='underline text-sky-700'
                 onClick={() => setOpen(!open)}
                 >
