@@ -1,8 +1,7 @@
 package com.devdynasty.CrowdCritic.config;
 
 
-import jakarta.servlet.Filter;
-import lombok.AllArgsConstructor;
+
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -21,7 +20,6 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import java.util.List;
 
-import static com.devdynasty.CrowdCritic.model.Role.ADMIN;
 
 @Configuration
 @EnableWebSecurity
@@ -45,8 +43,6 @@ public class SecurityConfig {
                         "api/login"
                 )
                 .permitAll()
-
-
                 .anyRequest()
                 .authenticated().and()
                 .sessionManagement()
@@ -54,7 +50,6 @@ public class SecurityConfig {
                 .and()
                 .authenticationProvider(authenticationProvider)
                 .addFilterAfter(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
-
                 .logout()
                 .logoutUrl("/api/logout")
                 .addLogoutHandler(logoutHandler)

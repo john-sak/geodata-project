@@ -1,5 +1,6 @@
 package com.devdynasty.CrowdCritic.service;
 
+import com.devdynasty.CrowdCritic.dto.UserDto;
 import com.devdynasty.CrowdCritic.model.AppUser;
 import com.devdynasty.CrowdCritic.repository.AppUserRepository;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -8,6 +9,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 
 @Service
@@ -21,24 +23,30 @@ public class AppUserService implements UserDetailsService {
         this.appUserRepository = appUserRepository;
     }
 
-    public AppUser getAppUserById(Integer id){
+    public UserDto getAppUserById(Integer id){
 
-        return this.appUserRepository.findById(id).get();
+        return new UserDto(this.appUserRepository.findById(id).get());
     }
 
 
-    public List<AppUser> getAllAppUsers(){
+    public List<UserDto> getAllAppUsers(){
 
-        return this.appUserRepository.findAll();
+             return  this.appUserRepository
+                     .findAll()
+                     .stream()
+                     .map(UserDto::new)
+                     .collect(Collectors.toList());
+
+
 
     }
 
-    public AppUser getAppUserByUsername(String username){
-        return this.appUserRepository.findAppUsersByUsername(username).get();
+    public UserDto getAppUserByUsername(String username){
+        return new UserDto(this.appUserRepository.findAppUsersByUsername(username).get());
     }
 
-    public AppUser createAppUser(AppUser appUser){
-        return this.appUserRepository.save(appUser);
+    public UserDto createAppUser(AppUser appUser){
+        return new UserDto(this.appUserRepository.save(appUser));
     }
 
 
