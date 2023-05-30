@@ -69,9 +69,7 @@ public class AuthenticationService {
 
         Optional<Token> prevToken = Optional.ofNullable(tokenRepository.findByUserIdAndExpiredIsFalse(user.getId()).orElse(null));
 
-        if (prevToken.isPresent()){
-            tokenService.expireToken(prevToken.get().id);
-        }
+        prevToken.ifPresent(token -> tokenService.expireToken(token.id));
 
         tokenRepository.save(newToken);
 

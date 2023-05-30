@@ -41,14 +41,12 @@ public class SecurityConfig {
                 .disable()
                 .authorizeHttpRequests()
                 .requestMatchers(
-                            "/register",
-                        "/token"
-//                        "/api/*"
+                            "api/register",
+                        "api/login"
                 )
                 .permitAll()
 
-//                .requestMatchers("api/user").authenticated()
-//                .requestMatchers("api/user/*").authenticated()
+
                 .anyRequest()
                 .authenticated().and()
                 .sessionManagement()

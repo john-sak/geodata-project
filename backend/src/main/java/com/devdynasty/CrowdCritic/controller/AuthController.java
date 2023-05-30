@@ -27,11 +27,8 @@ public class AuthController {
 
 
 
-    @PostMapping("token")
+    @PostMapping("api/login")
     public ResponseEntity<AuthenticationResponse> token(@RequestBody AuthenticationRequest authenticationRequest){
-
-
-
 
 
             return ResponseEntity.ok(authenticationService.authenticate(authenticationRequest));
@@ -39,7 +36,7 @@ public class AuthController {
         }
 
 
-    @PostMapping("register")
+    @PostMapping("api/register")
     public ResponseEntity<AuthenticationResponse> register(
             @RequestBody RegisterRequest request
     ) {
