@@ -82,6 +82,9 @@ public class AppUser implements UserDetails {
     @Column(columnDefinition = "boolean default true")
     private boolean enabled;
 
+    @ManyToMany
+    private List<PointOfInterest> favorites;
+
 
     public AppUser(RegisterRequest request) {
         this.id=0;
