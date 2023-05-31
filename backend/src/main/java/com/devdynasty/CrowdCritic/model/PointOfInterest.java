@@ -23,14 +23,14 @@ public class PointOfInterest {
     @ManyToMany
     private List<Keyword> keywords;
 
-    @ManyToMany
-    private List<Category> categories;
+    @ManyToOne
+    private Category categories;
 
     private Double latitude;
 
     private Double longitude;
 
-    public PointOfInterest(Integer id, String name, String description, Prefecture prefecture, List<Keyword> keywords, List<Category> categories, Double latitude, Double longitude) {
+    public PointOfInterest(Integer id, String name, String description, Prefecture prefecture, List<Keyword> keywords, Category categories, Double latitude, Double longitude) {
         this.id = id;
         this.name = name;
         this.description = description;
@@ -85,11 +85,11 @@ public class PointOfInterest {
         this.keywords = keywords;
     }
 
-    public List<Category> getCategories() {
+    public Category getCategories() {
         return categories;
     }
 
-    public void setCategories(List<Category> categories) {
+    public void setCategories(Category categories) {
         this.categories = categories;
     }
 
@@ -108,4 +108,5 @@ public class PointOfInterest {
     public void setLongitude(Double longitude) {
         this.longitude = longitude;
     }
+
 }
