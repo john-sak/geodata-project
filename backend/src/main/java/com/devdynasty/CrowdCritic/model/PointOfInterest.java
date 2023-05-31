@@ -1,30 +1,34 @@
 package com.devdynasty.CrowdCritic.model;
 
-import jakarta.persistence.*;
-import lombok.*;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-import static jakarta.persistence.GenerationType.IDENTITY;
-
-@Builder
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
-@Getter
 @Setter
+@Getter
 public class PointOfInterest {
 
     @Id
-    @GeneratedValue(strategy = IDENTITY)
-    Integer id;
-
-    @ManyToOne
-    @JoinColumn(name = "appuser_id")
-    AppUser appUser;
-
-    @ManyToOne
-    @JoinColumn(name = "appbuilding_id")
-    AppBuilding appBuilding;
+    private Integer id;
 
 
+    private String name;
 
+    private String description;
+
+
+    private String prefecture;
+
+    private String city;
+
+
+    private Double latitude;
+
+    private Double longitude;
 }
