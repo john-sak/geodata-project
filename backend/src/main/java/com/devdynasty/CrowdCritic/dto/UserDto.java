@@ -2,6 +2,7 @@ package com.devdynasty.CrowdCritic.dto;
 
 import com.devdynasty.CrowdCritic.model.AppUser;
 import com.devdynasty.CrowdCritic.model.Role;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
@@ -10,6 +11,7 @@ import lombok.Setter;
 @Setter
 @Getter
 @Builder
+@AllArgsConstructor
 public class UserDto {
 
     private Integer id;
