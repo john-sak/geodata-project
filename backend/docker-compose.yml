@@ -1,0 +1,19 @@
+version: '3'
+
+services:
+  db:
+    image: crowdcritic-db-img
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres@123
+      POSTGRES_DB: CrowdCritic
+    ports:
+     - 5432:5432
+    volumes:
+#     - db_data:/var/lib/postgresql/data
+       - ./init.sql:/docker-entrypoint-initdb.d/1-schema.sql
+#    - ./data.sql:/docker-entrypoint-initdb.d/2-data.sql
+
+volumes:
+  db_data:
