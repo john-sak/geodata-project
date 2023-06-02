@@ -20,21 +20,21 @@ public class PointOfInterestController {
     public PointOfInterestController(PointOfInterestService pointOfInterestService) { this.pointOfInterestService = pointOfInterestService; }
 
     @GetMapping
-    public ResponseEntity<List<PointOfInterest>> getAllAppBuildings() {
+    public ResponseEntity<List<PointOfInterest>> getAllPointsOfInterest() {
 
-        return ResponseEntity.status(HttpStatus.OK).body(this.pointOfInterestService.getAllAppBuildings());
+        return ResponseEntity.status(HttpStatus.OK).body(this.pointOfInterestService.getAllPointsOfInterest());
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<PointOfInterest> getById(@PathVariable Integer id) {
 
-        return ResponseEntity.status(HttpStatus.OK).body(this.pointOfInterestService.getAppBuildingById(id));
+        return ResponseEntity.status(HttpStatus.OK).body(this.pointOfInterestService.getPointOfInterestById(id));
     }
 
     @GetMapping("/name/{name}")
     public ResponseEntity<PointOfInterest> getByName(@PathVariable String name) {
 
-        return ResponseEntity.status(HttpStatus.OK).body(this.pointOfInterestService.getAppBuildingByName(name));
+        return ResponseEntity.status(HttpStatus.OK).body(this.pointOfInterestService.getPointOfInterestByName(name));
     }
 
 

@@ -16,17 +16,17 @@ public class PointOfInterestService {
     public PointOfInterestService(PointOfInterestRepository pointOfInterestRepository) { this.pointOfInterestRepository = pointOfInterestRepository; }
 
 
-    public PointOfInterest getAppBuildingById(Integer id) {
+    public PointOfInterest getPointOfInterestById(Integer id) {
 
         return this.pointOfInterestRepository.findById(id).get();
     }
 
-    public List<PointOfInterest> getAllAppBuildings() {
+    public List<PointOfInterest> getAllPointsOfInterest() {
 
         return this.pointOfInterestRepository.findAll();
     }
 
-    public PointOfInterest getAppBuildingByName(String name) {
+    public PointOfInterest getPointOfInterestByName(String name) {
 
         return this.pointOfInterestRepository.findAppBuildingsByName(name).get();
     }
