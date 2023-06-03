@@ -23,12 +23,11 @@ const NavMenu = (props: INavMenu) => {
                 </Link>
             </div>
             <div className='h-10 flex justify-center items-center'>
-                <Link href={'/DummyPage'}
-                onClick={() => setOpen(!open)}
+                <p
                 className='underline text-sky-700'
                 >
                     Δεδομένα
-                </Link>
+                </p>
             </div>
             <div className='h-10 flex justify-center items-center'>
                 <Link href={'/SigninPage'}

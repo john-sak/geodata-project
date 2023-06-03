@@ -7,7 +7,7 @@ export interface INavMenu {
 }
 
 export interface INavLink {
-    link: string,
+    link?: string,
     text: string
 }
 

@@ -2,7 +2,6 @@ import {Dispatch, SetStateAction} from 'react'
 
 export interface ISearchState {
     buildingType: string;
-    municipality: string;
     county: string;
     region: string;
 }
@@ -13,12 +12,18 @@ export interface ISearchData {
     handleInputChange: (key: string, value: string) => void;
 }
 
+export interface ISearchRadius {
+    radiusValue: number,
+    setRadiusValue: Dispatch<SetStateAction<number>>
+}
+
 export interface ISearchInputs {
     open: boolean,
     setOpen: Dispatch<SetStateAction<boolean>>,
     isClicked: boolean,
     setIsClicked: Dispatch<SetStateAction<boolean>>,
-    data: ISearchData
+    data: ISearchData,
+    radius: ISearchRadius
 }
 
 export interface ISearchInputProps {

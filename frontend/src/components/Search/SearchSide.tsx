@@ -1,14 +1,19 @@
-import React, { useEffect } from 'react'
-import { ISearchInputProps, ISearchInputs } from './ISearch'
+import React, { useEffect, useState } from 'react'
+import { ISearchInputProps, ISearchInputs, ISearchRadius } from './ISearch'
 import SearchInput from './SearchInput';
+import SearchName from './SearchName';
+import SearchRadius from './SearchRadius';
 
 const SearchSide = (props: ISearchInputs) => {
 
-    const { open, data } = props;
+    const {
+        open,
+        data,
+        radius
+    } = props;
     const { searchData } = data;
     const {
         buildingType,
-        municipality,
         county,
         region
     } = searchData;
@@ -22,13 +27,6 @@ const SearchSide = (props: ISearchInputs) => {
         value: buildingType,
         name: 'buildingType',
         label: 'Τύπος κτιρίου'
-    }
-
-    const municipalityInput: ISearchInputProps = {
-        data: data,
-        value: municipality,
-        name: 'municipality',
-        label: 'Δήμος'
     }
 
     const countyInput: ISearchInputProps = {
@@ -49,12 +47,13 @@ const SearchSide = (props: ISearchInputs) => {
     <>
         {
             open &&
-            <div className='h-[100%] w-full bg-red-500 flex flex-col lg:w-[30%] xl:w-[25%] 2xl:w-[20%]'>
+            <div className='h-[100%] w-[100%] bg-sky-800 border-4 border-orange-300 flex flex-col lg:w-[30%] xl:w-[25%] 2xl:w-[20%]'>
                 <div className='w-[100%] h-[100%] flex flex-col mt-16 last:mb-4 lg:mt-0'>
                     <SearchInput {...buidlingTypeInput}/>
-                    <SearchInput {...municipalityInput}/>
                     <SearchInput {...countyInput}/>
                     <SearchInput {...regionInput}/>
+                    <SearchName/>
+                    <SearchRadius {...radius}/>
                 </div>
             </div>
         }

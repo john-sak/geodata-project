@@ -17,7 +17,7 @@ const SearchFiltersIcon = (props: ISearchInputs) => {
     }
 
   return (
-    <div className='absolute h-16 w-[100%] flex justify-end items-center z-10 lg:hidden'>
+    <div className='absolute h-16 w-[50%] ml-[50%] flex justify-end items-center z-10 lg:hidden'>
         <i>
             <TuneIcon
             fontSize='large'

@@ -1,9 +1,12 @@
 import React from 'react'
 import 'leaflet/dist/leaflet.css'
-import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet'
+import { MapContainer, TileLayer, Marker, Popup, Circle } from 'react-leaflet'
 import { icon } from 'leaflet'
+import { ISearchRadius } from './ISearch'
 
-const SearchMap = () => {
+const SearchMap = (props: ISearchRadius) => {
+
+    const { radiusValue } = props;
 
     const ICON = icon({
         iconUrl: "/blue_pin.png",
@@ -23,6 +26,8 @@ const SearchMap = () => {
             A pretty CSS3 popup. <br /> Easily customizable.
             </Popup>
         </Marker>
+        <Circle center={[37.98856735, 23.72533417]} radius={radiusValue*1000}
+        />
     </MapContainer>
   )
 }

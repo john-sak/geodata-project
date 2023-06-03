@@ -16,7 +16,6 @@ const search = (props: INavMenuProps) => {
   // Preserving input values on side bar close
   const [searchData, setSearchData] = useState({
     buildingType: '',
-    municipality: '',
     county: '',
     region: '',
   });

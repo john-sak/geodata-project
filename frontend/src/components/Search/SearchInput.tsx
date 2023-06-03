@@ -21,14 +21,14 @@ const SearchInput = (props: ISearchInputProps) => {
     })
 
   return (
-    <div className='w-[100%] h-[25%] bg-green-600 z-0'>
-        <div className='w-[100%] h-10 mt-4 bg-amber-500 flex items-center justify-start'>
+    <div className='relative w-[100%] h-[17%] bg-sky-800'>
+        <div className='w-[100%] mt-4 flex items-center justify-start'>
             <p className='text-lg ml-4'>
                 {label}
             </p>
         </div>
         <div ref={ref}>
-            <div className='h-[55px] w-[94%] bg-pink-300 ml-4 mt-8 rounded flex flex-row lg:w-[90%]'>
+            <div className='h-12 w-[92%] bg-white ml-4 mt-6 rounded flex flex-row lg:w-[88%] xl:w-[90%]'>
                 <input 
                 className='w-[85%] rounded-l-lg'
                 type="text"
@@ -46,7 +46,7 @@ const SearchInput = (props: ISearchInputProps) => {
             </div>
             {
                 clicked &&
-                    <div className='h-[150px] w-[92%] bg-white ml-4 z-10 rounded-b-lg'>
+                    <div className='absolute h-[150px] w-[92%] bg-white ml-4 z-10 rounded-b-lg lg:w-[88%] xl:w-[90%]'>
 
                     </div>
             }
