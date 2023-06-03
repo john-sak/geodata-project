@@ -27,7 +27,6 @@ const NavBar = (props: INavMenuProps) => {
   }
 
   const NavItem2: INavLink = {
-    link: '/DummyPage',
     text: 'Δεδομένα'
   }
 

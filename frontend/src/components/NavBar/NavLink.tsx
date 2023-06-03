@@ -9,9 +9,15 @@ const NavLink = (props: INavLink) => {
   return (
     <div className='hidden lg:text-base lg:flex lg:justify-center
     lg:items-center lg:h-10: lg:w-20 lg:ml-10 2xl:w-22 2xl:ml-12'>
-        <Link href={link}>
+        {
+          link ?
+          <Link href={link}>
             {text}
-        </Link>
+        </Link> :
+        <p>
+          {text}
+        </p>
+        }
             
     </div>
   )
