@@ -4,11 +4,16 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 
 import java.util.List;
 
 @Entity
+@AllArgsConstructor
+@NoArgsConstructor
 public class PointOfInterest {
+
 
     @Id
     private Integer id;
@@ -30,20 +35,13 @@ public class PointOfInterest {
 
     private Double longitude;
 
-    public PointOfInterest(Integer id, String name, String description, Prefecture prefecture, List<Keyword> keywords, Category categories, Double latitude, Double longitude) {
-        this.id = id;
-        this.name = name;
-        this.description = description;
-        this.prefecture = prefecture;
-        this.keywords = keywords;
-        this.categories = categories;
-        this.latitude = latitude;
-        this.longitude = longitude;
-    }
 
-    public PointOfInterest() {
+    private  String address;
 
-    }
+
+
+
+
 
     public Integer getId() {
         return id;

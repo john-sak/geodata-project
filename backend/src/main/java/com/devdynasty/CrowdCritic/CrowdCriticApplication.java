@@ -10,7 +10,7 @@ import org.springframework.context.annotation.Bean;
 
 import static com.devdynasty.CrowdCritic.model.Role.ADMIN;
 
-//TODO DOCKERFILE init.sql
+//TODO ids annotation type should ne matching the database(id , default etc)
 
 @SpringBootApplication
 public class CrowdCriticApplication {

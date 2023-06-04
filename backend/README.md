@@ -52,21 +52,51 @@ docker compose έτσι ώστε να συντηρούνται τα δεδομέ
 και γίνεται attach το volume.Το volume χρησιμεύει στο να κρατιουνται τα δεδομενα 
 κατα τις επανακινήσεις του container. 
 
-```dockerfile
+```bash
 
 #Build και εκκίνηση του container την πρώτη φορά 
 
 docker-compose up  -d
 
-#Τις επόμενες Stop και start 
+#Τις επόμενες  φορές αντίστοιχα Stop και start 
 docker-compose stop
  
 docker-compose start
 
-#Αν θέλω να το σταματήσω και να διαγράψω 
+#Αν θέλω να το σταματήσω και να διαγράψω service και container αντίστοιχα
 docker-compose down -v
 
 
 
 ```
 
+## UPDATE 04/06/2023
+
+Έκανα κάποιες αλλαγές στην βάση και άλλαξα το init.sql αρχείο.
+Για να ξανατρέξετε όσοι έχετε  τρέξει έχτω μια φορά απο την στιγμη που βάλαμε τα volumes πρέπει να κάνετε τα παρακάτω.
+
+Για να σταματησει το service και να διαγράψει το container.
+```bash
+
+docker-compose down  
+
+```
+
+Για να διαγραφεί το volume.
+
+```bash
+docker  volume  rm backend_db_data
+
+
+```
+
+Για να διαγραφεί το image που περιέχει το προηγούμενο image.
+```bash
+
+docker rmi crowdcritic-db-img
+
+
+```
+
+Στην συνέχεια επαναλαμβάνουμε τις προηγούμενες οδηγίες για να ξεκινήσει 
+ξανά το service με το καινούργιο σχήμα.
