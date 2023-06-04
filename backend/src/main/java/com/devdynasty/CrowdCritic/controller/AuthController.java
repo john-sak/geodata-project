@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+
+//TODO DEBUG updates tokens of different users
 @RestController
 public class AuthController {
     private final AuthenticationService authenticationService;
