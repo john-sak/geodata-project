@@ -1,6 +1,7 @@
 package com.devdynasty.CrowdCritic.service;
 
 import com.devdynasty.CrowdCritic.model.PointOfInterest;
+import com.devdynasty.CrowdCritic.model.SearchRequestBody;
 import com.devdynasty.CrowdCritic.repository.PointOfInterestRepository;
 import org.springframework.stereotype.Service;
 
@@ -34,4 +35,31 @@ public class PointOfInterestService {
 
 
 
+    public List<PointOfInterest> searchFreeText(String text) {
+
+        //TODO
+
+        return null;
+    }
+
+    public List<PointOfInterest> searchDistance(SearchRequestBody.Filters.Distance distance) {
+
+        //TODO
+
+        return null;
+    }
+
+    public List<PointOfInterest> searchKeywords(List<String> keywords) {
+
+        //TODO
+
+        return null;
+    }
+
+    public List<PointOfInterest> searchCategories(List<String> categories) {
+
+        //TODO
+
+        return null;
+    }
 }
