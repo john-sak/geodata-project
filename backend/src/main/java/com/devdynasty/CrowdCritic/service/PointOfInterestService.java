@@ -28,7 +28,7 @@ public class PointOfInterestService {
 
     public PointOfInterest getPointOfInterestByName(String name) {
 
-        return this.pointOfInterestRepository.findAppBuildingsByName(name).get();
+        return this.pointOfInterestRepository.findPointsOfInterestByName(name).get();
     }
 
 

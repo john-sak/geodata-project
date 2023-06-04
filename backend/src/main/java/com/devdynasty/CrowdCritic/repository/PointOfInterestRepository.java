@@ -16,7 +16,7 @@ public interface PointOfInterestRepository extends JpaRepository<PointOfInterest
     List<PointOfInterest> findAll();
 
 
-    Optional<PointOfInterest> findAppBuildingsByName(String name);
+    Optional<PointOfInterest> findPointsOfInterestByName(String name);
 
 
 }
