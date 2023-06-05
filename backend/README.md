@@ -1,3 +1,16 @@
+## TODO
+
+### BUGS
+*  κάθε χρήστης δικό του token  
+* τα getByname και getById δεν λειτουργουν παντού σωστά
+
+### IMPL
+* πρέπει να γίνει validation σε όλα τα model που παίρνουμε από έξω
+* πρέπει να ολοκληρωθεί το exceptionhandling έτσι ώστε να στέλνουμε σωστό response 
+στο frontend
+* refresh token
+* αναζήτηση (ολοκλήρωση του search request)
+* import το csv
 
 
 
