@@ -37,29 +37,21 @@ public class PointOfInterestService {
 
     public List<PointOfInterest> searchFreeText(String text) {
 
-        //TODO
-
-        return null;
+        return this.pointOfInterestRepository.findByFreeText(text);
     }
 
     public List<PointOfInterest> searchDistance(SearchRequestBody.Filters.Distance distance) {
 
-        //TODO
-
-        return null;
+        return this.pointOfInterestRepository.findByDistance(distance);
     }
 
     public List<PointOfInterest> searchKeywords(List<String> keywords) {
 
-        //TODO
-
-        return null;
+        return this.pointOfInterestRepository.findByKeywords(keywords);
     }
 
     public List<PointOfInterest> searchCategories(List<String> categories) {
 
-        //TODO
-
-        return null;
+        return this.pointOfInterestRepository.findByCategories(categories);
     }
 }

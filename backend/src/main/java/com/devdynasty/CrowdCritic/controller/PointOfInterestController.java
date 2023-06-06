@@ -10,8 +10,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 @RestController
 @RequestMapping("api/poi")
@@ -39,20 +37,22 @@ public class PointOfInterestController {
         return ResponseEntity.status(HttpStatus.OK).body(this.pointOfInterestService.getPointOfInterestByName(name));
     }
 
-    @PostMapping("/search") // /api/poi//search instead of /search/pois
+    @PostMapping("/search") // /api/poi/search instead of /search/pois
     public SearchResponseBody search(@RequestBody SearchRequestBody request) {
+
+        List<PointOfInterest> pois = new ArrayList<PointOfInterest>();
+
+        pois.addAll(this.pointOfInterestService.searchFreeText(request.getText()));
+        pois.addAll(this.pointOfInterestService.searchDistance(request.getFilters().getDistance()));
+        pois.addAll(this.pointOfInterestService.searchKeywords(request.getFilters().getKeywords()));
+        pois.addAll(this.pointOfInterestService.searchCategories(request.getFilters().getCategories()));
 
         SearchResponseBody response = new SearchResponseBody();
 
-        String freeText = request.getText();
-
-        SearchRequestBody.Filters.Distance distance = request.getFilters().getDistance();
-
-        List<String> keywords = request.getFilters().getKeywords();
-
-        List<String> categories = request.getFilters().getCategories();
-
-        //TODO
+        response.setStart(request.getStart());
+        response.setCount(request.getCount());
+        response.setTotal(pois.size());
+        response.setData(pois);
 
         return response;
     }
