@@ -35,23 +35,32 @@ public class PointOfInterestService {
 
 
 
-    public List<PointOfInterest> searchFreeText(String text) {
+    public List<PointOfInterest> searchEverywhere(String text) {
 
-        return this.pointOfInterestRepository.findByFreeText(text);
+        return this.pointOfInterestRepository.findEverywhere(text);
     }
 
     public List<PointOfInterest> searchDistance(SearchRequestBody.Filters.Distance distance) {
 
-        return this.pointOfInterestRepository.findByDistance(distance);
+        Double latMin, latMax, lonMin, lonMax;
+
+        //TODO
+
+        latMin = 0.0;
+        latMax = 0.0;
+        lonMin = 0.0;
+        lonMax = 0.0;
+
+        return this.pointOfInterestRepository.findByDistance(latMin, latMax, lonMin, lonMax);
     }
 
-    public List<PointOfInterest> searchKeywords(List<String> keywords) {
+    public List<PointOfInterest> searchKeyword(String keyword) {
 
-        return this.pointOfInterestRepository.findByKeywords(keywords);
+        return this.pointOfInterestRepository.findByKeyword(keyword);
     }
 
-    public List<PointOfInterest> searchCategories(List<String> categories) {
+    public List<PointOfInterest> searchCategory(String category) {
 
-        return this.pointOfInterestRepository.findByCategories(categories);
+        return this.pointOfInterestRepository.findByCategory(category);
     }
 }

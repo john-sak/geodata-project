@@ -42,10 +42,10 @@ public class PointOfInterestController {
 
         List<PointOfInterest> pois = new ArrayList<PointOfInterest>();
 
-        pois.addAll(this.pointOfInterestService.searchFreeText(request.getText()));
+        for (String word: request.getText().split("[^a-zA-Z]+")) pois.addAll(this.pointOfInterestService.searchEverywhere(word));
         pois.addAll(this.pointOfInterestService.searchDistance(request.getFilters().getDistance()));
-        pois.addAll(this.pointOfInterestService.searchKeywords(request.getFilters().getKeywords()));
-        pois.addAll(this.pointOfInterestService.searchCategories(request.getFilters().getCategories()));
+        for (String keyword: request.getFilters().getKeywords()) pois.addAll(this.pointOfInterestService.searchKeyword(keyword));
+        for (String category: request.getFilters().getCategories()) pois.addAll(this.pointOfInterestService.searchCategory(category));
 
         SearchResponseBody response = new SearchResponseBody();
 

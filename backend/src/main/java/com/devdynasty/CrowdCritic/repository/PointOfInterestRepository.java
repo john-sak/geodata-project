@@ -22,14 +22,14 @@ public interface PointOfInterestRepository extends JpaRepository<PointOfInterest
 
 
     @Query("")
-    List<PointOfInterest> findByFreeText(String text);
+    List<PointOfInterest> findEverywhere(String text);
 
     @Query("")
-    List<PointOfInterest> findByDistance(SearchRequestBody.Filters.Distance distance);
+    List<PointOfInterest> findByDistance(Double latMin, Double latMax, Double lonMin, Double lonMax);
 
     @Query("")
-    List<PointOfInterest> findByKeywords(List<String> keywords);
+    List<PointOfInterest> findByKeyword(String keyword);
 
     @Query("")
-    List<PointOfInterest> findByCategories(List<String> categories);
+    List<PointOfInterest> findByCategory(String category);
 }
