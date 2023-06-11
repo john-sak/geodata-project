@@ -2,9 +2,7 @@ package com.devdynasty.CrowdCritic.model;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
-import jakarta.persistence.ManyToMany;
-
-import java.util.List;
+import jakarta.persistence.ManyToOne;
 
 @Entity
 public class Prefecture {
@@ -14,13 +12,13 @@ public class Prefecture {
 
     private String name;
 
-    @ManyToMany
-    private List<Region> regions;
+    @ManyToOne
+    private Region region;
 
-    public Prefecture(Integer id, String name, List<Region> regions) {
+    public Prefecture(Integer id, String name, Region region) {
         this.id = id;
         this.name = name;
-        this.regions = regions;
+        this.region = region;
     }
 
     public Prefecture() {
@@ -43,11 +41,11 @@ public class Prefecture {
         this.name = name;
     }
 
-    public List<Region> getRegions() {
-        return regions;
+    public Region getRegions() {
+        return region;
     }
 
-    public void setRegions(List<Region> regions) {
-        this.regions = regions;
+    public void setRegion(Region region) {
+        this.region = region;
     }
 }
