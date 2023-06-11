@@ -43,16 +43,7 @@ public class PointOfInterestService {
 
     public List<PointOfInterest> searchDistance(Distance distance) {
 
-        Double latMin, latMax, lonMin, lonMax;
-
-        //TODO
-
-        latMin = 0.0;
-        latMax = 0.0;
-        lonMin = 0.0;
-        lonMax = 0.0;
-
-        return this.pointOfInterestRepository.findByDistance(latMin, latMax, lonMin, lonMax);
+        return this.pointOfInterestRepository.findByDistance(distance.getLat(), distance.getLon(), distance.getKm() * 1000);
     }
 
     public List<PointOfInterest> searchKeyword(String keyword) {
