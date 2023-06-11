@@ -64,7 +64,7 @@ public class AuthenticationService {
 
 
 
-        Token newToken = new Token(0,jwtToken,false,user);
+        Token newToken = new Token(null,jwtToken,false,user);
 
 
         Optional<Token> prevToken = Optional.ofNullable(tokenRepository.findByUserIdAndExpiredIsFalse(user.getId()).orElse(null));
