@@ -16,6 +16,7 @@ public class Token {
 
 
         @Id
+        @GeneratedValue(strategy = GenerationType.IDENTITY)
         public Integer id;
 
         @Column(unique = true)

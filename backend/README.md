@@ -1,7 +1,6 @@
 ## TODO
 
 ### BUGS
-*  κάθε χρήστης δικό του token  
 * τα getByname και getById δεν λειτουργουν παντού σωστά
 
 ### IMPL
