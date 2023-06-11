@@ -1,5 +1,6 @@
 package com.devdynasty.CrowdCritic.service;
 
+import com.devdynasty.CrowdCritic.model.Distance;
 import com.devdynasty.CrowdCritic.model.PointOfInterest;
 import com.devdynasty.CrowdCritic.model.SearchRequestBody;
 import com.devdynasty.CrowdCritic.repository.PointOfInterestRepository;
@@ -40,7 +41,7 @@ public class PointOfInterestService {
         return this.pointOfInterestRepository.findEverywhere(text);
     }
 
-    public List<PointOfInterest> searchDistance(SearchRequestBody.Filters.Distance distance) {
+    public List<PointOfInterest> searchDistance(Distance distance) {
 
         Double latMin, latMax, lonMin, lonMax;
 

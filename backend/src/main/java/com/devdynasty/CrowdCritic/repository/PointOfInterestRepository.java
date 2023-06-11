@@ -1,7 +1,6 @@
 package com.devdynasty.CrowdCritic.repository;
 
 import com.devdynasty.CrowdCritic.model.PointOfInterest;
-import com.devdynasty.CrowdCritic.model.SearchRequestBody;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
@@ -21,7 +20,8 @@ public interface PointOfInterestRepository extends JpaRepository<PointOfInterest
     Optional<PointOfInterest> findPointsOfInterestByName(String name);
 
 
-    @Query("")
+    @Query("SELECT * FROM point_of_interest poi INNER JOIN categories cat ON poi.categories = cat.id INNER JOIN prefecture pref ON poi.prefecture = pref.id INNER JOIN regions reg ON pref.id = reg.id " +
+            "WHERE to_tsvector(poi.description || ' ' || poi.name || ' ' || cat.name || ' ' || pref.name || ' ' || reg.name || ' ' || poi.address) @@ to_tsquery(':text')")
     List<PointOfInterest> findEverywhere(String text);
 
     @Query("")
