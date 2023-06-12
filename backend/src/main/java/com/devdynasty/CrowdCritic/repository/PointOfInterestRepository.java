@@ -20,16 +20,16 @@ public interface PointOfInterestRepository extends JpaRepository<PointOfInterest
     Optional<PointOfInterest> findPointsOfInterestByName(String name);
 
 
-    @Query(value = "SELECT poi.* FROM point_of_interest poi INNER JOIN category cat ON poi.categories = cat.id INNER JOIN prefecture pref ON poi.prefecture = pref.id INNER JOIN regions reg ON pref.region = reg.id " +
+    @Query(value = "SELECT poi.* FROM point_of_interest poi INNER JOIN category cat ON poi.categories = cat.id INNER JOIN prefecture pref ON poi.prefecture = pref.id INNER JOIN region reg ON pref.region = reg.id " +
             "WHERE to_tsvector(poi.description || ' ' || poi.name || ' ' || cat.name || ' ' || pref.name || ' ' || reg.name || ' ' || poi.address) @@ to_tsquery(':text')", nativeQuery = true)
     List<PointOfInterest> findEverywhere(String text);
 
     @Query(value = "SELECT poi.* FROM point_of_interest poi " +
-            "WHERE ST_DWithIn(ST_MakePoint(poi.latitude, poi.longitude)::geography, ST_MakePoint(:lat, :lon)::geography, :meters)", nativeQuery = true)
+            "WHERE ST_DWithin(CAST(ST_MakePoint(poi.latitude, poi.longitude) AS geography), CAST(ST_MakePoint(:lat, :lon) AS geography), :meters)", nativeQuery = true)
     List<PointOfInterest> findByDistance(Double lat, Double lon, Double meters);
 
-    @Query(value = "SELECT poi.* FROM point_of_interest poi INNER JOIN point_of_interest_keywords poi_key ON poi.id = poi_key.point_of_interest_id INNER JOIN keyword key ON poi_key.keywords = key.id " +
-            "WHERE to_tsvector(key.word) @@ to_tsquery(':keyword')", nativeQuery = true)
+    @Query(value = "SELECT poi.* FROM point_of_interest poi INNER JOIN point_of_interest_keywords poi_key ON poi.id = poi_key.point_of_interest_id INNER JOIN keyword kwrd ON poi_key.keywords = kwrd.id " +
+            "WHERE to_tsvector(kwrd.word) @@ to_tsquery(':keyword')", nativeQuery = true)
     List<PointOfInterest> findByKeyword(String keyword);
 
     @Query(value = "SELECT poi.* FROM point_of_interest poi INNER JOIN category cat ON poi.categories = cat.id " +
