@@ -40,7 +40,7 @@ public class PointOfInterestController {
     }
 
     @PostMapping("/search") // /api/poi/search instead of /search/pois
-    public SearchResponseBody search(@RequestBody SearchRequestBody request) {
+    public ResponseEntity<SearchResponseBody> search(@RequestBody SearchRequestBody request) {
 
         boolean allNull = false;
         List<PointOfInterest> set1 = new ArrayList<PointOfInterest>();
@@ -68,7 +68,7 @@ public class PointOfInterestController {
 
         if (!allNull && !(request.getFilters().getCategories() == null || request.getFilters().getCategories().isEmpty())) {
 
-            set4 = this.pointOfInterestService.searchCategories(request.getFilters().getCategories());
+            set4 = this.pointOfInterestService.searchCategories(request.getFilters().getCategories()); // todo: errors when spaces in name
             if (set4.isEmpty()) allNull = true;
         }
 
@@ -88,6 +88,6 @@ public class PointOfInterestController {
             }
         }
 
-        return new SearchResponseBody(request.getStart(), request.getCount(), pois.size(), new ArrayList<PointOfInterest>(pois));
+        return ResponseEntity.status(HttpStatus.OK).body(new SearchResponseBody(request.getStart(), request.getCount(), pois.size(), new ArrayList<PointOfInterest>(pois)));
     }
 }
