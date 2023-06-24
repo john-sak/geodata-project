@@ -9,7 +9,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @RestController
 @RequestMapping("api/poi")
@@ -40,20 +42,52 @@ public class PointOfInterestController {
     @PostMapping("/search") // /api/poi/search instead of /search/pois
     public SearchResponseBody search(@RequestBody SearchRequestBody request) {
 
-        List<PointOfInterest> pois = new ArrayList<PointOfInterest>();
+        boolean allNull = false;
+        List<PointOfInterest> set1 = new ArrayList<PointOfInterest>();
+        List<PointOfInterest> set2 = new ArrayList<PointOfInterest>();
+        List<PointOfInterest> set3 = new ArrayList<PointOfInterest>();
+        List<PointOfInterest> set4 = new ArrayList<PointOfInterest>();
 
-        for (String word: request.getText().split("[^a-zA-Z]+")) pois.addAll(this.pointOfInterestService.searchEverywhere(word));
-        pois.addAll(this.pointOfInterestService.searchDistance(request.getFilters().getDistance()));
-        for (String keyword: request.getFilters().getKeywords()) pois.addAll(this.pointOfInterestService.searchKeyword(keyword));
-        for (String category: request.getFilters().getCategories()) pois.addAll(this.pointOfInterestService.searchCategory(category));
+        if (!(request.getText() == null || request.getText().isEmpty() || request.getText().isBlank())) {
 
-        SearchResponseBody response = new SearchResponseBody();
+            set1 = this.pointOfInterestService.searchEverywhere(request.getText());
+            if (set1.isEmpty()) allNull = true;
+        }
 
-        response.setStart(request.getStart());
-        response.setCount(request.getCount());
-        response.setTotal(pois.size());
-        response.setData(pois);
+        if (!allNull && request.getFilters().getDistance().getKm() > 0) {
 
-        return response;
+            set2 = this.pointOfInterestService.searchDistance(request.getFilters().getDistance());
+            if (set2.isEmpty()) allNull = true;
+        }
+
+        if (!allNull && !(request.getFilters().getKeywords() == null || request.getFilters().getKeywords().isEmpty())) {
+
+            set3 = this.pointOfInterestService.searchKeywords(request.getFilters().getKeywords());
+            if (set3.isEmpty()) allNull = true;
+        }
+
+        if (!allNull && !(request.getFilters().getCategories() == null || request.getFilters().getCategories().isEmpty())) {
+
+            set4 = this.pointOfInterestService.searchCategories(request.getFilters().getCategories());
+            if (set4.isEmpty()) allNull = true;
+        }
+
+        Set<PointOfInterest> pois = new HashSet<PointOfInterest>();
+
+        if (!allNull) {
+
+            List<List<PointOfInterest>> nonEmptyLists = new ArrayList<>();
+            if (!set1.isEmpty()) nonEmptyLists.add(set1);
+            if (!set2.isEmpty()) nonEmptyLists.add(set2);
+            if (!set3.isEmpty()) nonEmptyLists.add(set3);
+            if (!set4.isEmpty()) nonEmptyLists.add(set4);
+
+            if (!nonEmptyLists.isEmpty()) {
+                pois.addAll(nonEmptyLists.get(0));
+                for (int i = 1; i < nonEmptyLists.size(); i++) pois.retainAll(nonEmptyLists.get(i));
+            }
+        }
+
+        return new SearchResponseBody(request.getStart(), request.getCount(), pois.size(), new ArrayList<PointOfInterest>(pois));
     }
 }

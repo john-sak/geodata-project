@@ -1,7 +1,12 @@
 package com.devdynasty.CrowdCritic.model;
 
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
+
 import java.util.List;
 
+@AllArgsConstructor
+@NoArgsConstructor
 public class SearchResponseBody {
 
     private Integer start;

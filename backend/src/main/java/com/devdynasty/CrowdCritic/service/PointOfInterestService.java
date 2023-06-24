@@ -2,7 +2,6 @@ package com.devdynasty.CrowdCritic.service;
 
 import com.devdynasty.CrowdCritic.model.Distance;
 import com.devdynasty.CrowdCritic.model.PointOfInterest;
-import com.devdynasty.CrowdCritic.model.SearchRequestBody;
 import com.devdynasty.CrowdCritic.repository.PointOfInterestRepository;
 import org.springframework.stereotype.Service;
 
@@ -38,7 +37,10 @@ public class PointOfInterestService {
 
     public List<PointOfInterest> searchEverywhere(String text) {
 
-        return this.pointOfInterestRepository.findEverywhere(text);
+        String[] words = text.split("[^\\p{IsGreek}\\p{IsLatin}]+");
+        String query = String.join(" & ", words);
+
+        return this.pointOfInterestRepository.findEverywhere(query);
     }
 
     public List<PointOfInterest> searchDistance(Distance distance) {
@@ -46,13 +48,19 @@ public class PointOfInterestService {
         return this.pointOfInterestRepository.findByDistance(distance.getLat(), distance.getLon(), distance.getKm() * 1000);
     }
 
-    public List<PointOfInterest> searchKeyword(String keyword) {
+    public List<PointOfInterest> searchKeywords(List<String> keywords) {
 
-        return this.pointOfInterestRepository.findByKeyword(keyword);
+        String query = keywords.get(0);
+        for (int i = 1; i < keywords.size(); i++) query = query.concat(" | " + keywords.get(i));
+
+        return this.pointOfInterestRepository.findByKeyword(query);
     }
 
-    public List<PointOfInterest> searchCategory(String category) {
+    public List<PointOfInterest> searchCategories(List<String> categories) {
 
-        return this.pointOfInterestRepository.findByCategory(category);
+        String query = categories.get(0);
+        for (int i = 1; i < categories.size(); i++) query = query.concat(" | " + categories.get(i));
+
+        return this.pointOfInterestRepository.findByCategory(query);
     }
 }
