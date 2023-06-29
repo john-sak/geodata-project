@@ -43,10 +43,14 @@ public class AuthenticationService {
         var user = new AppUser(request);
         user=this.appUserRepository.save(user);
 
-        var jwtToken = tokenService.generateToken(user);
-        Token token = new Token(0,jwtToken,false,user);
+
+
+        Token token = new Token(0,
+                tokenService.generateToken(user),
+                tokenService.generateRefreshToken(user),
+                false,user);
         this.tokenService.storeToken(token);
-        return new AuthenticationResponse(jwtToken);
+        return new AuthenticationResponse(token.getToken(),token.getRefreshToken());
     }
 
 
@@ -60,20 +64,23 @@ public class AuthenticationService {
 
         var user = appUserRepository.findAppUsersByUsername(authentication.getName())
                 .orElseThrow();
-        var jwtToken = tokenService.generateToken(user);
 
 
 
-        Token newToken = new Token(null,jwtToken,false,user);
+        Token newToken = new Token(null,
+                tokenService.generateToken(user),
+                tokenService.generateRefreshToken(user),
+                false,
+                user);
 
 
         Optional<Token> prevToken = Optional.ofNullable(tokenRepository.findByUserIdAndExpiredIsFalse(user.getId()).orElse(null));
 
-        prevToken.ifPresent(token -> tokenService.expireToken(token.id));
+        prevToken.ifPresent(token -> tokenService.expireToken(token.getId()));
 
         tokenRepository.save(newToken);
 
-        return new AuthenticationResponse(newToken.token);
+        return new AuthenticationResponse(newToken.getToken(), newToken.getRefreshToken());
     }
 
 

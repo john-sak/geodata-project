@@ -17,18 +17,21 @@ public class Token {
 
         @Id
         @GeneratedValue(strategy = GenerationType.IDENTITY)
-        public Integer id;
+        private Integer id;
 
         @Column(unique = true)
-        public String token;
+        private String token;
+
+        @Column(name="refreshtoken")
+        private String refreshToken;
 
 
         @Column
-        public boolean expired;
+        private boolean expired;
 
         @ManyToOne(fetch = FetchType.LAZY)
         @JoinColumn(name = "appuser_id")
-        public AppUser user;
+        private AppUser user;
 
 
 

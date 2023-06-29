@@ -7,6 +7,7 @@ import com.devdynasty.CrowdCritic.service.AuthenticationService;
 import com.devdynasty.CrowdCritic.service.TokenService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -44,6 +45,7 @@ public class AuthController {
     ) {
         return ResponseEntity.ok(authenticationService.register(request));
     }
+
 
 
 

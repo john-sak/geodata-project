@@ -1,24 +1,22 @@
 package com.devdynasty.CrowdCritic.model;
 
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.Setter;
 
-
+@AllArgsConstructor
+@Setter
+@Getter
 public class AuthenticationResponse {
 
 
     private String accessToken;
 
-    public AuthenticationResponse(String accessToken) {
-        this.accessToken = accessToken;
-    }
+    private String refreshToken;
 
-    public void setAccessToken(String accessToken) {
-        this.accessToken = accessToken;
-    }
 
-    public String getAccessToken() {
-        return accessToken;
-    }
+
 
 
 }

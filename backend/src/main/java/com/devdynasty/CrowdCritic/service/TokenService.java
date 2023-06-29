@@ -38,7 +38,9 @@ public class TokenService {
     private String secretKey="11adsfasfasdfasfasfasfasfas431asdasdasdasd234123412kjdknaaidfioajdoifjaoidjfoiabaifioaiodfjjafasdfasfasdfas341241234";
 
 
-    private Long expiration = 1231224142143L;
+    private Long expiration = 3600000L;
+
+    private Long refreshExpiration = 86400000L;
 
 
     public TokenService(PasswordEncoder encoder,TokenRepository tokenRepository) {
@@ -60,6 +62,18 @@ public class TokenService {
                 .setSubject(userDetails.getUsername())
                 .setIssuedAt(new Date(System.currentTimeMillis()))
                 .setExpiration(new Date(System.currentTimeMillis() + expiration))
+                .signWith(getSignInKey(), SignatureAlgorithm.HS256)
+                .compact();
+
+    }
+
+
+    public String generateRefreshToken(UserDetails userDetails){
+        return Jwts
+                .builder()
+                .setSubject(userDetails.getUsername())
+                .setIssuedAt(new Date(System.currentTimeMillis()))
+                .setExpiration(new Date(System.currentTimeMillis() + refreshExpiration))
                 .signWith(getSignInKey(), SignatureAlgorithm.HS256)
                 .compact();
 
