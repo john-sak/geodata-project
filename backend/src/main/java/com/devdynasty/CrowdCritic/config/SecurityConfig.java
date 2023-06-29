@@ -40,6 +40,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests()
                 .requestMatchers(
                             "api/register",
+                            "api/refreshtoken",
                         "api/login"
                 )
                 .permitAll()

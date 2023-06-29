@@ -17,6 +17,8 @@ import java.util.Optional;
 public class AuthenticationService {
 
     private final AppUserRepository appUserRepository;
+
+    private final AppUserService appUserService;
     private final TokenService tokenService;
     private final PasswordEncoder passwordEncoder;
 
@@ -25,10 +27,11 @@ public class AuthenticationService {
 
 
     public AuthenticationService(AppUserRepository appUserRepository,
-                                 TokenService tokenService,
+                                 AppUserService appUserService, TokenService tokenService,
                                  PasswordEncoder passwordEncoder,
                                  AuthenticationManager authenticationManager,
                                  TokenRepository tokenRepository){
+        this.appUserService = appUserService;
         this.tokenService=tokenService;
         this.authenticationManager=authenticationManager;
         this.passwordEncoder=passwordEncoder;
@@ -82,6 +85,49 @@ public class AuthenticationService {
 
         return new AuthenticationResponse(newToken.getToken(), newToken.getRefreshToken());
     }
+
+
+    public AuthenticationResponse refresh(RefreshRequest request) throws IllegalAccessException {
+
+
+        String username =  tokenService.extractUsername(request.getRefreshToken());
+
+        Token newToken;
+        String refreshToken = request.getRefreshToken();
+
+        if (!tokenService.isTokenValid(refreshToken, appUserService.loadUserByUsername(username))){
+
+              throw new IllegalAccessException("NOT VALID REFRESH TOKEN ");
+
+        }
+
+
+        var user = appUserRepository.findAppUsersByUsername(tokenService.extractUsername(refreshToken)).orElseThrow();
+
+        newToken = new Token(null,
+                tokenService.generateToken(user),
+                tokenService.generateRefreshToken(user),
+                false,
+                user);
+
+
+        Optional<Token> prevToken = Optional.ofNullable(tokenRepository.findByUserIdAndExpiredIsFalse(user.getId()).orElse(null));
+
+        prevToken.ifPresent(token -> tokenService.expireToken(token.getId()));
+
+        tokenRepository.save(newToken);
+
+
+
+        return new AuthenticationResponse(newToken.getToken(), newToken.getRefreshToken());
+
+
+
+
+    }
+
+
+
 
 
 }

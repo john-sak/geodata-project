@@ -2,6 +2,7 @@ package com.devdynasty.CrowdCritic.controller;
 
 import com.devdynasty.CrowdCritic.model.AuthenticationRequest;
 import com.devdynasty.CrowdCritic.model.AuthenticationResponse;
+import com.devdynasty.CrowdCritic.model.RefreshRequest;
 import com.devdynasty.CrowdCritic.model.RegisterRequest;
 import com.devdynasty.CrowdCritic.service.AuthenticationService;
 import com.devdynasty.CrowdCritic.service.TokenService;
@@ -46,6 +47,13 @@ public class AuthController {
         return ResponseEntity.ok(authenticationService.register(request));
     }
 
+
+        @PostMapping("api/refreshtoken")
+    public ResponseEntity<AuthenticationResponse> refresh(
+            @RequestBody RefreshRequest request
+    ) throws IllegalAccessException {
+        return ResponseEntity.ok(authenticationService.refresh(request));
+    }
 
 
 
