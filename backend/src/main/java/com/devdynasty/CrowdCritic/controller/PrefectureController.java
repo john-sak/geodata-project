@@ -1,12 +1,13 @@
 package com.devdynasty.CrowdCritic.controller;
 
 
-import com.devdynasty.CrowdCritic.model.Keyword;
+
 import com.devdynasty.CrowdCritic.model.Prefecture;
 import com.devdynasty.CrowdCritic.service.PrefectureService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -38,7 +39,8 @@ public class PrefectureController {
     }
 
 
-    public ResponseEntity<Prefecture> findById(Integer id){
+    @GetMapping("/id/{id}")
+    public ResponseEntity<Prefecture> findById(@PathVariable Integer id){
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(
@@ -48,7 +50,8 @@ public class PrefectureController {
 
     }
 
-    public ResponseEntity<Prefecture> findByName(String name){
+    @GetMapping("/name/{name}")
+    public ResponseEntity<Prefecture> findByName(@PathVariable String name){
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(

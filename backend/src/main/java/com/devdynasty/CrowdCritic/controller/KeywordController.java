@@ -7,6 +7,7 @@ import com.devdynasty.CrowdCritic.service.KeywordService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -40,7 +41,8 @@ public class KeywordController {
     }
 
 
-    public ResponseEntity<Keyword> findById(Integer id) {
+    @GetMapping("/id/{id}")
+    public ResponseEntity<Keyword> findById(@PathVariable Integer id) {
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(
@@ -50,7 +52,8 @@ public class KeywordController {
 
     }
 
-    public ResponseEntity<Keyword> findByName(String name) {
+    @GetMapping("/name/{name}")
+    public ResponseEntity<Keyword> findByName(@PathVariable String name) {
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(
