@@ -69,7 +69,7 @@ public class PointOfInterestController {
 
         if (!allNull && !(request.getFilters().getCategories() == null || request.getFilters().getCategories().isEmpty())) {
 
-            set4 = this.pointOfInterestService.searchCategories(request.getFilters().getCategories()); // todo: errors when spaces in name
+            set4 = this.pointOfInterestService.searchCategories(request.getFilters().getCategories());
             if (set4.isEmpty()) allNull = true;
         }
 

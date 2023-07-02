@@ -32,7 +32,7 @@ public interface PointOfInterestRepository extends JpaRepository<PointOfInterest
             "WHERE to_tsvector('greek', kwrd.word) @@ to_tsquery('greek', ?1)", nativeQuery = true)
     List<PointOfInterest> findByKeyword(String tsquery);
 
-    @Query(value = "SELECT poi.* FROM point_of_interest poi INNER JOIN category cat ON poi.categories = cat.id " +
-            "WHERE to_tsvector('greek', cat.name) @@ to_tsquery('greek', ?1)", nativeQuery = true)
-    List<PointOfInterest> findByCategory(String tsquery);
+    @Query(value = "SELECT poi.* FROM point_of_interest poi " +
+            "WHERE poi.categories IN ?1", nativeQuery = true)
+    List<PointOfInterest> findByCategory(List<Integer> categoryIDs);
 }

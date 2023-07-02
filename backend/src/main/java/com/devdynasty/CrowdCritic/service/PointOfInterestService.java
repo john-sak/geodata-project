@@ -56,11 +56,8 @@ public class PointOfInterestService {
         return this.pointOfInterestRepository.findByKeyword(query);
     }
 
-    public List<PointOfInterest> searchCategories(List<String> categories) {
+    public List<PointOfInterest> searchCategories(List<Integer> categories) {
 
-        String query = categories.get(0);
-        for (int i = 1; i < categories.size(); i++) query = query.concat(" | " + categories.get(i));
-
-        return this.pointOfInterestRepository.findByCategory(query);
+        return this.pointOfInterestRepository.findByCategory(categories);
     }
 }
