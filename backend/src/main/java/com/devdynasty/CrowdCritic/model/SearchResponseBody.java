@@ -1,5 +1,6 @@
 package com.devdynasty.CrowdCritic.model;
 
+import com.devdynasty.CrowdCritic.dto.PointOfInterestDTO;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 
@@ -12,7 +13,7 @@ public class SearchResponseBody {
     private Integer start;
     private Integer count;
     private Integer total;
-    private List<PointOfInterest> data;
+    private List<PointOfInterestDTO> data;
 
     public Integer getStart() {
         return start;
@@ -38,11 +39,11 @@ public class SearchResponseBody {
         this.total = total;
     }
 
-    public List<PointOfInterest> getData() {
+    public List<PointOfInterestDTO> getData() {
         return data;
     }
 
-    public void setData(List<PointOfInterest> data) {
+    public void setData(List<PointOfInterestDTO> data) {
         this.data = data;
     }
 }

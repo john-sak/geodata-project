@@ -1,5 +1,6 @@
 package com.devdynasty.CrowdCritic.controller;
 
+import com.devdynasty.CrowdCritic.dto.PointOfInterestDTO;
 import com.devdynasty.CrowdCritic.model.PointOfInterest;
 import com.devdynasty.CrowdCritic.model.SearchRequestBody;
 import com.devdynasty.CrowdCritic.model.SearchResponseBody;
@@ -88,6 +89,9 @@ public class PointOfInterestController {
             }
         }
 
-        return ResponseEntity.status(HttpStatus.OK).body(new SearchResponseBody(request.getStart(), request.getCount(), pois.size(), new ArrayList<PointOfInterest>(pois)));
+        List<PointOfInterestDTO> out = new ArrayList<PointOfInterestDTO>();
+        for (PointOfInterest poi: pois) out.add(new PointOfInterestDTO(poi));
+
+        return ResponseEntity.status(HttpStatus.OK).body(new SearchResponseBody(request.getStart(), request.getCount(), pois.size(), out));
     }
 }
