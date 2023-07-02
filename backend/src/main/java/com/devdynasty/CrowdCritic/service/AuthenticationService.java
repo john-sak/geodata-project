@@ -1,5 +1,6 @@
 package com.devdynasty.CrowdCritic.service;
 
+import com.devdynasty.CrowdCritic.dto.UserDto;
 import com.devdynasty.CrowdCritic.model.*;
 
 import com.devdynasty.CrowdCritic.repository.AppUserRepository;
@@ -53,7 +54,7 @@ public class AuthenticationService {
                 tokenService.generateRefreshToken(user),
                 false,user);
         this.tokenService.storeToken(token);
-        return new AuthenticationResponse(token.getToken(),token.getRefreshToken());
+        return new AuthenticationResponse(new UserDto(user),token.getToken(),token.getRefreshToken());
     }
 
 
@@ -83,7 +84,7 @@ public class AuthenticationService {
 
         tokenRepository.save(newToken);
 
-        return new AuthenticationResponse(newToken.getToken(), newToken.getRefreshToken());
+        return new AuthenticationResponse(new UserDto(user),newToken.getToken(), newToken.getRefreshToken());
     }
 
 
@@ -119,7 +120,7 @@ public class AuthenticationService {
 
 
 
-        return new AuthenticationResponse(newToken.getToken(), newToken.getRefreshToken());
+        return new AuthenticationResponse(new UserDto(user),newToken.getToken(), newToken.getRefreshToken());
 
 
 
