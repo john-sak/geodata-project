@@ -1,5 +1,7 @@
 package com.devdynasty.CrowdCritic.exceptionHandling;
 
+import com.devdynasty.CrowdCritic.exception.KeyWordNotFoundException;
+import com.devdynasty.CrowdCritic.exception.PrefectureNotFoundException;
 import com.devdynasty.CrowdCritic.model.ErrorModel;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.ValidationException;
@@ -24,6 +26,22 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
         return new ResponseEntity<>(errorModel,HttpStatus.NOT_FOUND);
 
     }
+
+
+    @ExceptionHandler(PrefectureNotFoundException.class)
+    private ResponseEntity<ErrorModel> hendlePrefectureNotFoundException(Exception ex){
+        ErrorModel errorModel = new ErrorModel(HttpStatus.NOT_FOUND, LocalDateTime.now(),"PREFECTURENOTFOUND", ex.getMessage());
+        return new ResponseEntity<>(errorModel,HttpStatus.NOT_FOUND);
+
+    }
+
+    @ExceptionHandler(KeyWordNotFoundException.class)
+    private ResponseEntity<ErrorModel> hendleKeyWordNotFoundException(Exception ex){
+        ErrorModel errorModel = new ErrorModel(HttpStatus.NOT_FOUND, LocalDateTime.now(),"KEYWORDNOTFOUND", ex.getMessage());
+        return new ResponseEntity<>(errorModel,HttpStatus.NOT_FOUND);
+
+    }
+
     @ExceptionHandler(EntityNotFoundException.class)
     private ResponseEntity<ErrorModel> handleEntityNotFound(EntityNotFoundException ex){
 

@@ -1,11 +1,11 @@
 package com.devdynasty.CrowdCritic.service;
 
+import com.devdynasty.CrowdCritic.exception.KeyWordNotFoundException;
 import com.devdynasty.CrowdCritic.model.Keyword;
 import com.devdynasty.CrowdCritic.repository.KeywordRespository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.NoSuchElementException;
 
 @Service
 public class KeywordService {
@@ -17,20 +17,20 @@ public class KeywordService {
         this.keywordRespository = keywordRespository;
     }
 
-    public Keyword findKeywordById(Integer id) throws NoSuchElementException {
+    public Keyword findKeywordById(Integer id) throws KeyWordNotFoundException {
 
         return keywordRespository
                 .findById(id)
-                .get();
+                .orElseThrow(() ->new KeyWordNotFoundException("Keyword with id "+id+" not found"));
 
     }
 
 
-    public Keyword findKeywordByName(String name) throws NoSuchElementException {
+    public Keyword findKeywordByName(String name) throws KeyWordNotFoundException {
 
         return keywordRespository
                 .findKeywordByWord(name)
-                .get();
+                .orElseThrow(() ->new KeyWordNotFoundException("Keyword with name "+name+" not found"));
 
     }
 
@@ -39,5 +39,14 @@ public class KeywordService {
 
         return keywordRespository
                 .findAll();
+    }
+
+    public Keyword saveKeyword(Keyword keyword) {
+
+        return keywordRespository.
+                findKeywordByWord(keyword.getWord())
+                .orElseGet(() -> keywordRespository
+                        .save(keyword));
+
     }
 }
