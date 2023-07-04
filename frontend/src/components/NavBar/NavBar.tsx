@@ -6,6 +6,8 @@ import { INavLink, INavMenu } from './Inav';
 import NavLink from './NavLink';
 import NavButtons from './NavButtons';
 import { INavMenuProps } from './Inav';
+import useLogged from './useLogged';
+import NavBarAccount from './NavBarAccount';
 
 const NavBar = (props: INavMenuProps) => {
 
@@ -14,6 +16,8 @@ const NavBar = (props: INavMenuProps) => {
   console.log(menuColor);
 
   const [open, setOpen] = useState(false);
+
+  const { isLogged } = useLogged();
 
   const menuProps: INavMenu = {
     open: open,
@@ -37,7 +41,11 @@ const NavBar = (props: INavMenuProps) => {
         <NavLink {...NavItem1}/>
         <NavLink {...NavItem2}/>
       </div>
-      <NavButtons/>
+      {
+        isLogged ?
+          <NavBarAccount/> :
+            <NavButtons/>
+      }
       <NavIcon {...menuProps}/>
       { open && <NavMenu {...menuProps}/> }
     </nav>
