@@ -1,9 +1,9 @@
 import {Dispatch, SetStateAction} from 'react'
 
 export interface ISearchState {
+    freeText: string;
     buildingType: string;
-    county: string;
-    region: string;
+    keyword: string;
 }
 
 export interface ISearchData {
@@ -23,7 +23,8 @@ export interface ISearchInputs {
     isClicked: boolean,
     setIsClicked: Dispatch<SetStateAction<boolean>>,
     data: ISearchData,
-    radius: ISearchRadius
+    radius: ISearchRadius,
+    showMap: boolean
 }
 
 export interface ISearchInputProps {
