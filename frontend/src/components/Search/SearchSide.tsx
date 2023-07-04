@@ -9,38 +9,43 @@ const SearchSide = (props: ISearchInputs) => {
     const {
         open,
         data,
-        radius
+        radius,
+        showMap
     } = props;
     const { searchData } = data;
     const {
+        freeText,
         buildingType,
-        county,
-        region
+        keyword
     } = searchData;
 
     useEffect(() => {
         console.log(searchData);
+        const buidlingTypeList = searchData.buildingType.split(',');
+        console.log('buidlingTypeList', buidlingTypeList);
+        const keywordList = searchData.keyword.split(',');
+        console.log('keywordList', keywordList);
     }, [searchData])
+
+    const freeTextInput: ISearchInputProps = {
+        data: data,
+        value: freeText,
+        name: 'freeText',
+        label: 'Ελεύθερη Αναζήτηση'
+    }
 
     const buidlingTypeInput: ISearchInputProps = {
         data: data,
         value: buildingType,
         name: 'buildingType',
-        label: 'Τύπος κτιρίου'
+        label: 'Τύπος Κτιρίου'
     }
 
-    const countyInput: ISearchInputProps = {
+    const keywordInput: ISearchInputProps = {
         data: data,
-        value: county,
-        name: 'county',
-        label: 'Νομός'
-    }
-
-    const regionInput: ISearchInputProps = {
-        data: data,
-        value: region,
-        name: 'region',
-        label: 'Περιφέρεια'
+        value: keyword,
+        name: 'keyword',
+        label: 'Κατηγορίες'
     }
 
   return (
@@ -49,9 +54,9 @@ const SearchSide = (props: ISearchInputs) => {
             open &&
             <div className='h-[100%] w-[100%] bg-sky-800 border-4 border-orange-300 flex flex-col lg:w-[30%] xl:w-[25%] 2xl:w-[20%]'>
                 <div className='w-[100%] h-[100%] flex flex-col mt-16 last:mb-4 lg:mt-0'>
+                    { !showMap && <SearchInput {...freeTextInput}/> }
                     <SearchInput {...buidlingTypeInput}/>
-                    <SearchInput {...countyInput}/>
-                    <SearchInput {...regionInput}/>
+                    <SearchInput {...keywordInput}/>
                     <SearchName/>
                     <SearchRadius {...radius}/>
                 </div>
