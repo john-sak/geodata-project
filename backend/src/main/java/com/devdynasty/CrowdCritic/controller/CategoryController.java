@@ -38,7 +38,6 @@ public class CategoryController {
                 String categoryName = data[0].trim();
 
                 Category category = new Category();
-//                category.setId(999);  ERROR: ID needs to be automatically assigned for each new category
                 category.setName(categoryName);
                 categories.add(category);
             }
