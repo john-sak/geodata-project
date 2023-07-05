@@ -12,6 +12,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("api/prefecture")
+@CrossOrigin
 public class PrefectureController {
 
 

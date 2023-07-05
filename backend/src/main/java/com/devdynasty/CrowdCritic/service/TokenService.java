@@ -3,12 +3,10 @@ package com.devdynasty.CrowdCritic.service;
 
 import com.devdynasty.CrowdCritic.model.Token;
 import com.devdynasty.CrowdCritic.repository.TokenRepository;
-import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.*;
 import com.devdynasty.CrowdCritic.model.AppUser;
 import com.devdynasty.CrowdCritic.model.AuthenticationRequest;
 import com.devdynasty.CrowdCritic.model.Role;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import lombok.RequiredArgsConstructor;
@@ -88,7 +86,7 @@ public class TokenService {
 
 
 
-    private Claims extractAllClaims(String token) {
+    private Claims extractAllClaims(String token) throws ExpiredJwtException {
         return Jwts
                 .parserBuilder()
                 .setSigningKey(getSignInKey())
