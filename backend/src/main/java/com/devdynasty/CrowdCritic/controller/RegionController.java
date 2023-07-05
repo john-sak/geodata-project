@@ -10,6 +10,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("api/region")
+@CrossOrigin
 public class RegionController {
 
     private final RegionService regionService;

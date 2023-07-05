@@ -16,6 +16,7 @@ import java.util.Set;
 
 @RestController
 @RequestMapping("api/poi")
+@CrossOrigin
 public class PointOfInterestController {
 
     private final PointOfInterestService pointOfInterestService;
