@@ -1,12 +1,26 @@
 import React, { useState } from 'react';
+import axios from 'axios'
 
 const SigninForm = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     console.log(`Submitted: ${username} ${password}`);
+
+    try {
+      // Making POST request to the backend API endpoint for registration
+      const response = await axios.post('http://localhost:8080/api/login', {
+        username,
+        password
+      });
+      console.log('Registration response:', response.data);
+      // Handle the registration response as needed, such as displaying a success message
+    } catch (error) {
+      console.error('Registration error:', error);
+      // Handle registration error, display error message, etc.
+    }
   };
 
   return (
@@ -34,7 +48,7 @@ const SigninForm = () => {
             />
           </label>
         </div>
-        <button className="bg-purple-900 text-white hover:bg-blue-400 font-bold py-2 px-4 mt-3 rounded"> Σύνδεση</button>
+        <button type="submit" className="bg-purple-900 text-white hover:bg-blue-400 font-bold py-2 px-4 mt-3 rounded"> Σύνδεση</button>
       </div>
     </form>
   );
