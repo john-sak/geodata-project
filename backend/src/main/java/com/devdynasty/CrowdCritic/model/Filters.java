@@ -11,7 +11,7 @@ public class Filters {
 
     private Distance distance;
     private List<String> keywords;
-    private List<Integer> categories;
+    private List<String> categories;
 
     public Distance getDistance() {
         return distance;
@@ -29,11 +29,11 @@ public class Filters {
         this.keywords = keywords;
     }
 
-    public List<Integer> getCategories() {
+    public List<String> getCategories() {
         return categories;
     }
 
-    public void setCategories(List<Integer> categories) {
+    public void setCategories(List<String> categories) {
         this.categories = categories;
     }
 }

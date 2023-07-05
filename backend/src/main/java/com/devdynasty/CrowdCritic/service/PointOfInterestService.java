@@ -6,6 +6,7 @@ import com.devdynasty.CrowdCritic.repository.PointOfInterestRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class PointOfInterestService {
@@ -56,8 +57,11 @@ public class PointOfInterestService {
         return this.pointOfInterestRepository.findByKeyword(query);
     }
 
-    public List<PointOfInterest> searchCategories(List<Integer> categories) {
+    public List<PointOfInterest> searchCategories(List<String> categories) {
 
-        return this.pointOfInterestRepository.findByCategory(categories);
+        List<Integer> categoryIDs = categories.stream()
+                .map(Integer::parseInt)
+                .collect(Collectors.toList());
+        return this.pointOfInterestRepository.findByCategory(categoryIDs);
     }
 }
