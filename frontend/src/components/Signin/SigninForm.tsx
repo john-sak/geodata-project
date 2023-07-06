@@ -1,9 +1,12 @@
 import React, { useState } from 'react';
 import axios from 'axios'
+import Link from 'next/link'
 
 const SigninForm = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -15,18 +18,38 @@ const SigninForm = () => {
         username,
         password
       });
+      // If request is succesful, show response in console and add access token to local storage
       console.log('Registration response:', response.data);
-      // Handle the registration response as needed, such as displaying a success message
-    } catch (error) {
+      const accesstoken = response.data;
+      window.localStorage.setItem('access_token', accesstoken)
+      setIsLoggedIn(true);                // Used to print succesful login message
+    } 
+    catch (error) {
       console.error('Registration error:', error);
-      // Handle registration error, display error message, etc.
+      // Handle registration error, display error message
+      setErrorMessage('Invalid credentials. Please try again.');
     }
   };
+
+  if(isLoggedIn){
+    return (
+      <div className="flex w-full mb-auto rounded-xl mx-auto py-8 px-24 flex-col items-center">
+      Συνδεθήκατε με επιτυχία!
+      <br />
+      <Link href="/">
+          <button className="bg-purple-900 text-white hover:bg-blue-400 font-bold py-2 px-4 mt-3 rounded">
+            Προχωρήστε στην εφαρμογή
+          </button>
+        </Link>
+    </div>
+    );
+  }
 
   return (
     <form onSubmit={handleSubmit}>
       <div className="flex w-full mb-auto bg-white rounded-xl mx-auto shadow-lg py-8 px-24 flex-col items-center">
         <h1 className="text-3xl mb-4 ">Σύνδεση στον Λογαριασμό</h1>
+        {errorMessage && <p className="text-red-500 mb-4">{errorMessage}</p>}
         <div className="grid w-11/12 grid-cols-1 gap-3">
           <label>
             <input
