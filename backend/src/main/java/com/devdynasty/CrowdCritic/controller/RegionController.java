@@ -38,18 +38,19 @@ public class RegionController {
     }
 
 
-//
-//    @PostMapping
-//    public ResponseEntity<String> createRegion(@RequestBody Region region){
-//
-//        var region= Optional.of(this.regionService.(region));
-//
-//        if (region.isEmpty())
-//            return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body("AppUser Not Created");
-//
-//        return ResponseEntity.status(HttpStatus.CREATED).body("Region Created");
-//
-//    }
+
+    @PostMapping("/post")
+    public ResponseEntity<Region> createRegion(@RequestBody Region region){
+
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(
+                        regionService
+                                .saveRegion(region)
+                );
+
+
+    }
 
 
 

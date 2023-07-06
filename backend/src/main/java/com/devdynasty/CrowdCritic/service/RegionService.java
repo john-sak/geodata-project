@@ -1,5 +1,6 @@
 package com.devdynasty.CrowdCritic.service;
 
+import com.devdynasty.CrowdCritic.model.Prefecture;
 import com.devdynasty.CrowdCritic.model.Region;
 import com.devdynasty.CrowdCritic.repository.RegionRepository;
 import org.springframework.stereotype.Service;
@@ -39,6 +40,16 @@ public class RegionService {
     }
 
 
+    public Region saveRegion(Region region) {
+
+
+        return regionRepository.
+                findRegionsByName(region.getName())
+                .orElseGet(() -> regionRepository
+                        .save(region));
+
+
+    }
 
 
 
