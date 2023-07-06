@@ -14,7 +14,6 @@ import java.util.List;
 @NoArgsConstructor
 public class PointOfInterest {
 
-
     @Id
     private Integer id;
 
@@ -35,13 +34,18 @@ public class PointOfInterest {
 
     private Double longitude;
 
-
     private  String address;
 
-
-
-
-
+    public PointOfInterest(String name, String description, Prefecture prefecture, List<Keyword> keywords, Category categories, Double latitude, Double longitude, String address) {
+        this.name = name;
+        this.description = description;
+        this.prefecture = prefecture;
+        this.keywords = keywords;
+        this.categories = categories;
+        this.latitude = latitude;
+        this.longitude = longitude;
+        this.address = address;
+    }
 
     public Integer getId() {
         return id;

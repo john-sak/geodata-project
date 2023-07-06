@@ -1,5 +1,6 @@
 package com.devdynasty.CrowdCritic.service;
 
+import com.devdynasty.CrowdCritic.exception.PointOfInterestNotFoundException;
 import com.devdynasty.CrowdCritic.model.Distance;
 import com.devdynasty.CrowdCritic.model.PointOfInterest;
 import com.devdynasty.CrowdCritic.repository.PointOfInterestRepository;
@@ -11,30 +12,32 @@ import java.util.stream.Collectors;
 @Service
 public class PointOfInterestService {
 
-    PointOfInterestRepository pointOfInterestRepository;
+    public final PointOfInterestRepository pointOfInterestRepository;
 
+    public PointOfInterestService(PointOfInterestRepository pointOfInterestRepository) {
 
-
-    public PointOfInterestService(PointOfInterestRepository pointOfInterestRepository) { this.pointOfInterestRepository = pointOfInterestRepository; }
-
-
-    public PointOfInterest getPointOfInterestById(Integer id) {
-
-        return this.pointOfInterestRepository.findById(id).get();
+        this.pointOfInterestRepository = pointOfInterestRepository;
     }
 
-    public List<PointOfInterest> getAllPointsOfInterest() {
+    public PointOfInterest findPointOfInterestById(Integer id) throws PointOfInterestNotFoundException {
 
-        return this.pointOfInterestRepository.findAll();
+        return pointOfInterestRepository
+                .findById(id)
+                .orElseThrow(() -> new PointOfInterestNotFoundException("PointOfInterest with id " + id + " not found"));
     }
 
-    public PointOfInterest getPointOfInterestByName(String name) {
+    public PointOfInterest findPointOfInterestByName(String name) throws  PointOfInterestNotFoundException {
 
-        return this.pointOfInterestRepository.findPointsOfInterestByName(name).get();
+        return pointOfInterestRepository
+                .findPointsOfInterestByName(name)
+                .orElseThrow(() -> new PointOfInterestNotFoundException("PointOfInterest with name " + name + " not found"));
     }
 
+    public List<PointOfInterest> findAll() {
 
-
+        return this.pointOfInterestRepository
+                .findAll();
+    }
 
     public List<PointOfInterest> searchEverywhere(String text) {
 
@@ -63,5 +66,12 @@ public class PointOfInterestService {
                 .map(Integer::parseInt)
                 .collect(Collectors.toList());
         return this.pointOfInterestRepository.findByCategory(categoryIDs);
+    }
+
+    public PointOfInterest savePointOfInterest(PointOfInterest pointOfInterest) {
+
+        return pointOfInterestRepository
+                .findPointsOfInterestByName(pointOfInterest.getName())
+                .orElseGet(() -> pointOfInterestRepository.save(pointOfInterest));
     }
 }

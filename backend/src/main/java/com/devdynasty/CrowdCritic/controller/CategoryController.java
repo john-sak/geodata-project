@@ -46,7 +46,7 @@ public class CategoryController {
     }
 
     @PostMapping("/import")
-    public ResponseEntity<List<Category>> importCategories(@RequestParam("file") MultipartFile file) {
+    public ResponseEntity<List<Category>> importCategories(@RequestParam("file") MultipartFile file) throws CategoryNotFoundException {
 
         List<Category> categories = new ArrayList<Category>();
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(file.getInputStream()))) {

@@ -24,6 +24,10 @@ public class Prefecture {
 
     }
 
+    public Prefecture(String name) {
+        this.name = name;
+    }
+
     public Integer getId() {
         return id;
     }
