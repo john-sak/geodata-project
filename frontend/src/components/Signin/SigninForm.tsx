@@ -20,8 +20,18 @@ const SigninForm = () => {
       });
       // If request is succesful, show response in console and add access token to local storage
       console.log('Registration response:', response.data);
-      const accesstoken = response.data;
-      window.localStorage.setItem('access_token', accesstoken)
+
+      const { userDto, accessToken, refreshToken} = response.data;
+
+      //console.log('acc: ', accessToken, 'ref: ', refreshToken, 'user: ', userDto)
+
+      // Save tokens and user data in local storage
+      window.localStorage.setItem('access_token', accessToken);
+      window.localStorage.setItem('refresh_token', refreshToken);
+      window.localStorage.setItem('user', JSON.stringify(userDto));
+
+      console.log(window.localStorage.getItem('user'));
+      
       setIsLoggedIn(true);                // Used to print succesful login message
     } 
     catch (error) {
