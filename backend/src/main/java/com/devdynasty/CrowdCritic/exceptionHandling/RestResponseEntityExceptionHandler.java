@@ -7,6 +7,7 @@ import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.ValidationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
@@ -26,6 +27,14 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
         return new ResponseEntity<>(errorModel,HttpStatus.NOT_FOUND);
 
     }
+
+    @ExceptionHandler(BadCredentialsException.class)
+    private ResponseEntity<ErrorModel> handleBadCredentialsExceptionHandler(Exception ex){
+        ErrorModel errorModel = new ErrorModel(HttpStatus.FORBIDDEN, LocalDateTime.now(),"BAD_CREDENTIALS", ex.getMessage());
+        return new ResponseEntity<>(errorModel,HttpStatus.FORBIDDEN);
+
+    }
+
 
 
     @ExceptionHandler(PrefectureNotFoundException.class)
