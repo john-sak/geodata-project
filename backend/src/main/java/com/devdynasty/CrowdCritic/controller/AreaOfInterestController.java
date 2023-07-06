@@ -1,5 +1,6 @@
 package com.devdynasty.CrowdCritic.controller;
 
+import com.devdynasty.CrowdCritic.dto.AreaOfInterestDTO;
 import com.devdynasty.CrowdCritic.model.AreaOfInterest;
 import com.devdynasty.CrowdCritic.service.AreaOfInterestService;
 import org.springframework.http.HttpStatus;
@@ -21,7 +22,7 @@ public class AreaOfInterestController {
     }
 
     @GetMapping("all")
-    public ResponseEntity<List<AreaOfInterest>> getAll(){
+    public ResponseEntity<List<AreaOfInterestDTO>> getAll(){
         return ResponseEntity.status(HttpStatus.OK).body(areaOfInterestService.getAll());
     }
 

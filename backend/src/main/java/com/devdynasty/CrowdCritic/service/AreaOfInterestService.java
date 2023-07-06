@@ -1,6 +1,8 @@
 package com.devdynasty.CrowdCritic.service;
 
 
+import com.devdynasty.CrowdCritic.dto.AreaOfInterestDTO;
+import com.devdynasty.CrowdCritic.dto.UserDto;
 import com.devdynasty.CrowdCritic.model.AreaOfInterest;
 import com.devdynasty.CrowdCritic.repository.AreaOfInterestRepository;
 import org.springframework.stereotype.Service;
@@ -19,10 +21,25 @@ public class AreaOfInterestService {
     }
 
 
-    //TODO return DAO NOT EXPOSING USERS INFO
-    public List<AreaOfInterest> getAll() {
+    public List<AreaOfInterestDTO> getAll() {
 
-      return   this.areaOfInterestRepository.findAll();
+
+      return   this.
+              areaOfInterestRepository
+              .findAll().stream()
+              .map(AreaOfInterestDTO::new)
+              .toList();
 
     }
+
+    //TODO by username
+    public AreaOfInterestDTO getByUserName(String username){
+
+        return null;
+
+    }
+
+
+
+
 }
