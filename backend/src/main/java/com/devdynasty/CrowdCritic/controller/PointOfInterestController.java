@@ -1,14 +1,21 @@
 package com.devdynasty.CrowdCritic.controller;
 
 import com.devdynasty.CrowdCritic.dto.PointOfInterestDTO;
-import com.devdynasty.CrowdCritic.model.PointOfInterest;
-import com.devdynasty.CrowdCritic.model.SearchRequestBody;
-import com.devdynasty.CrowdCritic.model.SearchResponseBody;
+import com.devdynasty.CrowdCritic.exception.PointOfInterestNotFoundException;
+import com.devdynasty.CrowdCritic.model.*;
+import com.devdynasty.CrowdCritic.repository.PointOfInterestRepository;
+import com.devdynasty.CrowdCritic.service.CategoryService;
 import com.devdynasty.CrowdCritic.service.PointOfInterestService;
+import com.devdynasty.CrowdCritic.service.PrefectureService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.parameters.P;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -19,25 +26,32 @@ import java.util.Set;
 public class PointOfInterestController {
 
     private final PointOfInterestService pointOfInterestService;
+    private final CategoryService categoryService;
+    private final PrefectureService prefectureService;
 
-    public PointOfInterestController(PointOfInterestService pointOfInterestService) { this.pointOfInterestService = pointOfInterestService; }
+    public PointOfInterestController(PointOfInterestService pointOfInterestService, PointOfInterestRepository pointOfInterestRepository, CategoryService categoryService, PrefectureService prefectureService) {
 
-    @GetMapping
-    public ResponseEntity<List<PointOfInterest>> getAllPointsOfInterest() {
-
-        return ResponseEntity.status(HttpStatus.OK).body(this.pointOfInterestService.getAllPointsOfInterest());
+        this.pointOfInterestService = pointOfInterestService;
+        this.categoryService = categoryService;
+        this.prefectureService = prefectureService;
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<PointOfInterest> getById(@PathVariable Integer id) {
+    @GetMapping
+    public ResponseEntity<List<PointOfInterest>> getAll() {
 
-        return ResponseEntity.status(HttpStatus.OK).body(this.pointOfInterestService.getPointOfInterestById(id));
+        return ResponseEntity.status(HttpStatus.OK).body(pointOfInterestService.findAll());
+    }
+
+    @GetMapping("/id/{id}")
+    public ResponseEntity<PointOfInterest> getById(@PathVariable Integer id) throws PointOfInterestNotFoundException {
+
+        return ResponseEntity.status(HttpStatus.OK).body(pointOfInterestService.findPointOfInterestById(id));
     }
 
     @GetMapping("/name/{name}")
-    public ResponseEntity<PointOfInterest> getByName(@PathVariable String name) {
+    public ResponseEntity<PointOfInterest> getByName(@PathVariable String name) throws PointOfInterestNotFoundException {
 
-        return ResponseEntity.status(HttpStatus.OK).body(this.pointOfInterestService.getPointOfInterestByName(name));
+        return ResponseEntity.status(HttpStatus.OK).body(this.pointOfInterestService.findPointOfInterestByName(name));
     }
 
     @PostMapping("/search") // /api/poi/search instead of /search/pois
@@ -93,5 +107,35 @@ public class PointOfInterestController {
         for (PointOfInterest poi: pois) out.add(new PointOfInterestDTO(poi));
 
         return ResponseEntity.status(HttpStatus.OK).body(new SearchResponseBody(request.getStart(), request.getCount(), pois.size(), out));
+    }
+
+    @PostMapping("/import")
+    public ResponseEntity<List<PointOfInterest>> importPointsOfInterest(@RequestParam("file") MultipartFile file) throws PointOfInterestNotFoundException {
+
+        List<PointOfInterest> pois = new ArrayList<PointOfInterest>();
+        try (BufferedReader reader = new BufferedReader(new InputStreamReader(file.getInputStream()))) {
+
+            String line;
+            while ((line = reader.readLine()) != null) {
+
+                String[] data = line.split(",");
+                String poiDescription = data[0].trim();
+                Double poiLat = Double.valueOf(data[1].trim());
+                Double poiLon = Double.valueOf(data[2].trim());
+                String poiName = data[3].trim();
+                Category poiCategory = categoryService.saveCategory(new Category(data[4].trim()));
+                Prefecture poiPrefecture = prefectureService.savePrefecture(new Prefecture(data[5].trim()));
+                String poiAddress = data[6].trim();
+
+                PointOfInterest poi = new PointOfInterest(poiName, poiDescription, poiPrefecture, null, poiCategory, poiLat, poiLon, poiAddress);
+                pois.add(poi);
+
+                pointOfInterestService.savePointOfInterest(poi);
+            }
+        } catch (IOException e) {
+//          // Handle the exception
+        }
+
+        return ResponseEntity.status(HttpStatus.OK).body(pois);
     }
 }

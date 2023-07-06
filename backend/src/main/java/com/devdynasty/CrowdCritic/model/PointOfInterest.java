@@ -1,9 +1,6 @@
 package com.devdynasty.CrowdCritic.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.ManyToMany;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 
@@ -14,8 +11,8 @@ import java.util.List;
 @NoArgsConstructor
 public class PointOfInterest {
 
-
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     private String name;
@@ -35,13 +32,18 @@ public class PointOfInterest {
 
     private Double longitude;
 
-
     private  String address;
 
-
-
-
-
+    public PointOfInterest(String name, String description, Prefecture prefecture, List<Keyword> keywords, Category categories, Double latitude, Double longitude, String address) {
+        this.name = name;
+        this.description = description;
+        this.prefecture = prefecture;
+        this.keywords = keywords;
+        this.categories = categories;
+        this.latitude = latitude;
+        this.longitude = longitude;
+        this.address = address;
+    }
 
     public Integer getId() {
         return id;
