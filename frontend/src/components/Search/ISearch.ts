@@ -27,11 +27,25 @@ export interface ISearchInputs {
     showMap: boolean
 }
 
+export interface IDataList {
+    id: number,
+    name: string
+}
+
 export interface ISearchInputProps {
     data: ISearchData,
     value: string,
     name: string,
-    label: string
+    label: string,
+    isCategories: boolean,
+    dataList: IDataList[]
+}
+
+export interface ISearchFreeTextInputProps {
+    data: ISearchData,
+    value: string,
+    name: string,
+    label: string,
 }
 
 export interface IUseFilter {

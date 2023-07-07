@@ -14,6 +14,7 @@ const InfoImage = () => {
               (max-width: 1200px) 50vw,
               33vw"
         className='object-contain'
+        priority
         />
 
     </div>

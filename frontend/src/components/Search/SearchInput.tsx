@@ -9,7 +9,9 @@ const SearchInput = (props: ISearchInputProps) => {
         data,
         value,
         name,
-        label
+        label,
+        isCategories,
+        dataList
     } = props;
 
     const { handleInputChange } = data;
@@ -23,7 +25,8 @@ const SearchInput = (props: ISearchInputProps) => {
             const substrings = value.split(',');
             const validSubstrings = substrings.filter(substring => {
                 const trimmedSubstring = substring.trim();
-                return dummyData.some(option => option.name.toLowerCase() === trimmedSubstring.toLowerCase());
+                // return dummyData.some(option => option.name.toLowerCase() === trimmedSubstring.toLowerCase());
+                return dataList.some(option => option.name.toLowerCase() === trimmedSubstring.toLowerCase())
             });
             const updatedValue = validSubstrings.join(',');
             if(updatedValue.length !== 0) {
@@ -49,24 +52,24 @@ const SearchInput = (props: ISearchInputProps) => {
         setIsFocused(false);
     };
 
-    const dummyData: {id: number, name: string}[] = [
-        {
-            id: 1,
-            name: 'Επιλογή1'
-        },
-        {
-            id: 2,
-            name: 'Επιλογή2'
-        },
-        {
-            id: 3,
-            name: 'Επιλογή3'
-        },
-        {
-            id: 4,
-            name: 'Επιλογή4'
-        },
-    ];
+    // const dummyData: {id: number, name: string}[] = [
+    //     {
+    //         id: 1,
+    //         name: 'Επιλογή1'
+    //     },
+    //     {
+    //         id: 2,
+    //         name: 'Επιλογή2'
+    //     },
+    //     {
+    //         id: 3,
+    //         name: 'Επιλογή3'
+    //     },
+    //     {
+    //         id: 4,
+    //         name: 'Επιλογή4'
+    //     },
+    // ];
 
     const [filteredData, setFilteredData] = useState<any>([]);
 
@@ -76,7 +79,10 @@ const SearchInput = (props: ISearchInputProps) => {
     const handleFilter = (e: ChangeEvent<HTMLInputElement>) => {
         const parts = e.target.value.split(',');
         const inputValue = parts[parts.length - 1].trim();
-        const filteredInput = dummyData.filter((value) => {
+        // const filteredInput = dummyData.filter((value) => {
+        //     return value.name.toLowerCase().includes(inputValue.toLowerCase());
+        // })
+        const filteredInput = dataList.filter((value) => {
             return value.name.toLowerCase().includes(inputValue.toLowerCase());
         })
         const isSpaceOrSequenceOfSpaces = /^\s*$/.test(inputValue);
@@ -141,7 +147,7 @@ const SearchInput = (props: ISearchInputProps) => {
                 filteredData.length !==0 &&
                     <div className='absolute min-h-0 max-h-[160px] w-[92%] bg-white ml-4 z-10 rounded-b-md lg:w-[88%] xl:w-[90%]'>
                         {
-                            dummyData.map((value) => {
+                            filteredData.map((value: any) => {
                                 return(
                                     <p
                                     key={value.id}
