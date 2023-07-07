@@ -54,4 +54,16 @@ public class AppUserService implements UserDetailsService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         return this.appUserRepository.findAppUsersByUsername(username).get();
     }
+
+
+    public String getUserEmailByUsername(String username){
+
+        return this
+                .appUserRepository
+                .findAppUsersByUsername(username)
+                .get().getEmail();
+
+    }
+
+
 }
