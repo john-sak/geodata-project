@@ -1,5 +1,6 @@
 package com.devdynasty.CrowdCritic.exceptionHandling;
 
+import com.devdynasty.CrowdCritic.exception.AreaOfInterestNotFoundException;
 import com.devdynasty.CrowdCritic.exception.KeyWordNotFoundException;
 import com.devdynasty.CrowdCritic.exception.PrefectureNotFoundException;
 import com.devdynasty.CrowdCritic.model.ErrorModel;
@@ -29,11 +30,22 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
     }
 
     @ExceptionHandler(BadCredentialsException.class)
-    private ResponseEntity<ErrorModel> handleBadCredentialsExceptionHandler(Exception ex){
+    private ResponseEntity<ErrorModel> handleBadCredentialsException(Exception ex){
         ErrorModel errorModel = new ErrorModel(HttpStatus.FORBIDDEN, LocalDateTime.now(),"BAD_CREDENTIALS", ex.getMessage());
         return new ResponseEntity<>(errorModel,HttpStatus.FORBIDDEN);
 
     }
+
+
+    @ExceptionHandler(AreaOfInterestNotFoundException.class)
+    private ResponseEntity<ErrorModel> handleAreaOfInterestNotFoundException(Exception ex){
+        ErrorModel errorModel = new ErrorModel(HttpStatus.NOT_FOUND, LocalDateTime.now(),"AREA_OF_INTEREST_NOT_FOUND", ex.getMessage());
+        return new ResponseEntity<>(errorModel,HttpStatus.NOT_FOUND);
+
+    }
+
+
+
 
 
 
