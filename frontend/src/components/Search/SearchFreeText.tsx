@@ -1,8 +1,8 @@
 import React, { useEffect, useRef } from 'react'
 import SearchIcon from '@mui/icons-material/Search';
-import { ISearchInputProps } from './ISearch'
+import { ISearchFreeTextInputProps } from './ISearch'
 
-const SearchFreeText = (props: ISearchInputProps) => {
+const SearchFreeText = (props: ISearchFreeTextInputProps) => {
 
     const {
         data,

@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import SearchSide from './SearchSide'
 import SearchFiltersIcon from './SearchFiltersIcon'
-import { ISearchData, ISearchInputs, IUseFilter, ISearchRadius, ISearchInputProps } from './ISearch'
+import { ISearchData, ISearchInputs, IUseFilter, ISearchRadius, ISearchFreeTextInputProps} from './ISearch'
 import useFilter from './useFilter'
 import SearchMap from './SearchMap'
 import SearchFreeText from './SearchFreeText'
@@ -40,7 +40,7 @@ const Search = (props: ISearchData) => {
     showMap: showMap
   }
 
-  const freeTextInput: ISearchInputProps = {
+  const freeTextInput: ISearchFreeTextInputProps = {
     data: props,
     value: freeText,
     name: 'freeText',
