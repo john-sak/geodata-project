@@ -54,8 +54,10 @@ public class PointOfInterestService {
 
     public List<PointOfInterest> searchKeywords(List<String> keywords) {
 
-        String query = keywords.get(0);
-        for (int i = 1; i < keywords.size(); i++) query = query.concat(" | " + keywords.get(i));
+        String query = String.join(" ", keywords
+                .stream()
+                .filter(str -> !(str.isEmpty() || str.isBlank()))
+                .collect(Collectors.toList()));
 
         return this.pointOfInterestRepository.findByKeyword(query);
     }

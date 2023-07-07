@@ -57,49 +57,60 @@ public class PointOfInterestController {
     @PostMapping("/search") // /api/poi/search instead of /search/pois
     public ResponseEntity<SearchResponseBody> search(@RequestBody SearchRequestBody request) {
 
-        boolean allNull = false;
+        boolean isAllNull = true;
+        boolean returnAllNull = false;
+
         List<PointOfInterest> set1 = new ArrayList<PointOfInterest>();
         List<PointOfInterest> set2 = new ArrayList<PointOfInterest>();
         List<PointOfInterest> set3 = new ArrayList<PointOfInterest>();
         List<PointOfInterest> set4 = new ArrayList<PointOfInterest>();
 
         if (!(request.getText() == null || request.getText().isEmpty() || request.getText().isBlank())) {
+            isAllNull = false;
 
             set1 = this.pointOfInterestService.searchEverywhere(request.getText());
-            if (set1.isEmpty()) allNull = true;
+            if (set1.isEmpty()) returnAllNull = true;
         }
 
-        if (!allNull && request.getFilters().getDistance().getKm() > 0) {
+        if (!returnAllNull && request.getFilters().getDistance().getKm() > 0) {
+            isAllNull = false;
 
             set2 = this.pointOfInterestService.searchDistance(request.getFilters().getDistance());
-            if (set2.isEmpty()) allNull = true;
+            if (set2.isEmpty()) returnAllNull = true;
         }
 
-        if (!allNull && !(request.getFilters().getKeywords() == null || request.getFilters().getKeywords().isEmpty())) {
+        if (!returnAllNull && !(request.getFilters().getKeywords() == null || request.getFilters().getKeywords().isEmpty())) {
+            isAllNull = false;
 
             set3 = this.pointOfInterestService.searchKeywords(request.getFilters().getKeywords());
-            if (set3.isEmpty()) allNull = true;
+            if (set3.isEmpty()) returnAllNull = true;
         }
 
-        if (!allNull && !(request.getFilters().getCategories() == null || request.getFilters().getCategories().isEmpty())) {
+        if (!returnAllNull && !(request.getFilters().getCategories() == null || request.getFilters().getCategories().isEmpty())) {
+            isAllNull = false;
 
             set4 = this.pointOfInterestService.searchCategories(request.getFilters().getCategories());
-            if (set4.isEmpty()) allNull = true;
+            if (set4.isEmpty()) returnAllNull = true;
         }
 
         Set<PointOfInterest> pois = new HashSet<PointOfInterest>();
 
-        if (!allNull) {
+        if (isAllNull) {
+            pois.addAll(this.pointOfInterestService.findAll());
 
-            List<List<PointOfInterest>> nonEmptyLists = new ArrayList<>();
-            if (!set1.isEmpty()) nonEmptyLists.add(set1);
-            if (!set2.isEmpty()) nonEmptyLists.add(set2);
-            if (!set3.isEmpty()) nonEmptyLists.add(set3);
-            if (!set4.isEmpty()) nonEmptyLists.add(set4);
+        } else {
+            if (!returnAllNull) {
 
-            if (!nonEmptyLists.isEmpty()) {
-                pois.addAll(nonEmptyLists.get(0));
-                for (int i = 1; i < nonEmptyLists.size(); i++) pois.retainAll(nonEmptyLists.get(i));
+                List<List<PointOfInterest>> nonEmptyLists = new ArrayList<>();
+                if (!set1.isEmpty()) nonEmptyLists.add(set1);
+                if (!set2.isEmpty()) nonEmptyLists.add(set2);
+                if (!set3.isEmpty()) nonEmptyLists.add(set3);
+                if (!set4.isEmpty()) nonEmptyLists.add(set4);
+
+                if (!nonEmptyLists.isEmpty()) {
+                    pois.addAll(nonEmptyLists.get(0));
+                    for (int i = 1; i < nonEmptyLists.size(); i++) pois.retainAll(nonEmptyLists.get(i));
+                }
             }
         }
 
@@ -133,7 +144,7 @@ public class PointOfInterestController {
                 pointOfInterestService.savePointOfInterest(poi);
             }
         } catch (IOException e) {
-//          // Handle the exception
+//            Handle the exception
         }
 
         return ResponseEntity.status(HttpStatus.OK).body(pois);
