@@ -53,7 +53,7 @@ public class PointOfInterestDTO {
         this.keywords = new ArrayList<String>();
         for (Keyword keyword: poi.getKeywords()) {
             this.keywordsIDs.add(keyword.getId());
-            this.keywords.add(keyword.getWord());
+            this.keywords.add(keyword.getName());
         }
 
         this.categoryID = poi.getCategories().getId();
