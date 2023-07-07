@@ -1,9 +1,6 @@
 package com.devdynasty.CrowdCritic.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
 @Entity
 public class Keyword {
@@ -12,11 +9,12 @@ public class Keyword {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    private String word;
+    @Column(name = "word")
+    private String name;
 
-    public Keyword(Integer id, String word) {
+    public Keyword(Integer id, String name) {
         this.id = id;
-        this.word = word;
+        this.name = name;
     }
 
     public Keyword() {
@@ -31,11 +29,11 @@ public class Keyword {
         this.id = id;
     }
 
-    public String getWord() {
-        return word;
+    public String getName() {
+        return name;
     }
 
-    public void setWord(String word) {
-        this.word = word;
+    public void setName(String word) {
+        this.name = word;
     }
 }

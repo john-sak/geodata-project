@@ -10,7 +10,7 @@ public interface KeywordRespository extends JpaRepository<Keyword,Integer> {
     @Override
     Optional<Keyword> findById(Integer integer);
 
-    Optional<Keyword> findKeywordByWord(String name);
+    Optional<Keyword> findKeywordByName(String name);
 
 
 }

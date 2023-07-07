@@ -29,7 +29,7 @@ public class KeywordService {
     public Keyword findKeywordByName(String name) throws KeyWordNotFoundException {
 
         return keywordRespository
-                .findKeywordByWord(name)
+                .findKeywordByName(name)
                 .orElseThrow(() ->new KeyWordNotFoundException("Keyword with name "+name+" not found"));
 
     }
@@ -44,7 +44,7 @@ public class KeywordService {
     public Keyword saveKeyword(Keyword keyword) {
 
         return keywordRespository.
-                findKeywordByWord(keyword.getWord())
+                findKeywordByName(keyword.getName())
                 .orElseGet(() -> keywordRespository
                         .save(keyword));
 
