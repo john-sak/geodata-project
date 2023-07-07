@@ -1,8 +1,9 @@
 import { useState, useEffect } from "react";
 import Link from 'next/link'
+import ImportForm from "@/components/Profile/ImportForm";
 
 const ProfilePage = () => {
-  const [selectedOption, setSelectedOption] = useState('profile');
+  const [selectedOption, setSelectedOption] = useState('info');
   const [userBio, setUserBio] = useState('This is my bio...');
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [userObject, setUserObject] = useState(null);
@@ -31,7 +32,7 @@ const ProfilePage = () => {
       username: 'JohnDoe',
       email: 'johndoe@example.com',
       phoneNumber: '1234567890',
-      role: 'USER',
+      role: 'ADMIN',
       bio: 'This is my bio...',
       avatar: 'avatar.png' 
     };
@@ -66,12 +67,6 @@ const ProfilePage = () => {
         ></textarea>
       </div>
     );
-  } else if (selectedOption === 'interest') {
-    mainContent = (
-      <div className="bg-white p-4 shadow">
-        <h2 className="text-lg font-bold mb-2">Χάρτης</h2>
-      </div>
-    );
   }
   else if (selectedOption === 'favorites') {
     mainContent = (
@@ -81,14 +76,8 @@ const ProfilePage = () => {
     );
   }
   else if (selectedOption === 'import') {
-    mainContent = (
-      <div className="bg-white p-4 shadow">
-        <h2 className="text-lg font-bold mb-2">Εισαγωγή νέου csv αρχείου</h2>
-      </div>
-    );
-  } 
-  else if (selectedOption === 'app') {}
-
+    mainContent = mainContent = <ImportForm />;
+  }
 
 
   if(isLoggedIn && user.role == 'USER'){
@@ -114,18 +103,6 @@ const ProfilePage = () => {
                     onClick={() => handleOptionSelect('info')}
                   >
                     Πληροφορίες Λογαριασμού
-                  </button>
-                </li>
-                <li className="mb-2">
-                  <button
-                    className={`flex items-center py-2 px-4 rounded ${
-                      selectedOption === 'interest'
-                        ? 'text-white bg-sky-950'
-                        : 'text-black-400 hover:text-white hover:bg-sky-800'
-                    }`}
-                    onClick={() => handleOptionSelect('interest')}
-                  >
-                    Περιοχή Ενδιαφέροντος
                   </button>
                 </li>
                 <li className="mb-2">
@@ -162,7 +139,7 @@ const ProfilePage = () => {
       </div>
     );
   }
-  else if(isLoggedIn && user.role == 'ADMIN'){
+  else if(/*isLoggedIn &&*/ user.role == 'ADMIN'){
     return (
       <div className="flex">
         <aside className="relative h-[690px] bg-cyan-200 text-black w-1/5">

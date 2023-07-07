@@ -37,7 +37,7 @@ const SigninForm = () => {
     catch (error) {
       console.error('Registration error:', error);
       // Handle registration error, display error message
-      setErrorMessage('Invalid credentials. Please try again.');
+      setErrorMessage('Μη έγκυρα στοιχεία.');
     }
   };
 
@@ -82,6 +82,10 @@ const SigninForm = () => {
           </label>
         </div>
         <button type="submit" className="bg-purple-900 text-white hover:bg-blue-400 font-bold py-2 px-4 mt-3 rounded"> Σύνδεση</button>
+        <p className="text-base mb-1 mt-8 ">Δεν έχετε Λογαριασμό;</p>
+        <Link href="/SignupPage">
+          <button className="bg-orange-600 text-white hover:bg-blue-400 font-bold py-1 px-4 rounded"> Εγγραφείτε εδώ!</button>
+        </Link>
       </div>
     </form>
   );
