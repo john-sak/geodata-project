@@ -139,7 +139,7 @@ const ProfilePage = () => {
       </div>
     );
   }
-  else if(/*isLoggedIn &&*/ user.role == 'ADMIN'){
+  else if(isLoggedIn && user.role == 'ADMIN'){
     return (
       <div className="flex">
         <aside className="relative h-[690px] bg-cyan-200 text-black w-1/5">
