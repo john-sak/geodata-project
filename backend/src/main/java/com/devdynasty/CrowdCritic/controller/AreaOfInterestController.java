@@ -3,11 +3,10 @@ package com.devdynasty.CrowdCritic.controller;
 import com.devdynasty.CrowdCritic.dto.AreaOfInterestDTO;
 import com.devdynasty.CrowdCritic.model.AreaOfInterest;
 import com.devdynasty.CrowdCritic.service.AreaOfInterestService;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -24,6 +23,16 @@ public class AreaOfInterestController {
     @GetMapping("all")
     public ResponseEntity<List<AreaOfInterestDTO>> getAll(){
         return ResponseEntity.status(HttpStatus.OK).body(areaOfInterestService.getAll());
+    }
+
+
+    @PostMapping("post")
+    public ResponseEntity<AreaOfInterestDTO> post(AreaOfInterestDTO areaOfInterestDTO ){
+
+
+        return ResponseEntity.status(HttpStatus.OK).body(areaOfInterestService.save(areaOfInterestDTO));
+
+
     }
 
 

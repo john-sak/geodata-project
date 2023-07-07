@@ -8,6 +8,7 @@ import com.devdynasty.CrowdCritic.model.AppUser;
 import com.devdynasty.CrowdCritic.model.AreaOfInterest;
 import com.devdynasty.CrowdCritic.repository.AppUserRepository;
 import com.devdynasty.CrowdCritic.repository.AreaOfInterestRepository;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -54,6 +55,32 @@ public class AreaOfInterestService {
         return list;
 
     }
+
+
+    //TODO TESTING
+    public AreaOfInterestDTO save(AreaOfInterestDTO areaOfInterestDTO) {
+
+
+       AppUser user= this.appUserRepository.findAppUsersByUsername(
+               areaOfInterestDTO
+                .getAppUsers()
+                .get(0)
+                .getUsername()
+               )
+                 .orElseThrow(()->new UsernameNotFoundException(""));
+
+
+
+       AreaOfInterest savedAoi=  areaOfInterestRepository
+               .save( new AreaOfInterest(areaOfInterestDTO,
+                       List.of(user)
+               )
+        );
+
+       return new AreaOfInterestDTO(savedAoi);
+
+    }
+
 
 
 

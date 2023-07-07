@@ -1,6 +1,7 @@
 package com.devdynasty.CrowdCritic.model;
 
 
+import com.devdynasty.CrowdCritic.dto.AreaOfInterestDTO;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToMany;
@@ -32,4 +33,11 @@ public class AreaOfInterest {
     private List<AppUser> appUsers;
 
 
+    public AreaOfInterest(AreaOfInterestDTO areaOfInterestDTO, List<AppUser> users) {
+        this.appUsers=users;
+        this.distance=areaOfInterestDTO.getDistance();
+        this.longitude= areaOfInterestDTO.getLongitude();
+        this.latitude=areaOfInterestDTO.getLatitude();
+
+    }
 }
