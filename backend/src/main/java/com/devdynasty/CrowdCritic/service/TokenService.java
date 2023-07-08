@@ -1,6 +1,7 @@
 package com.devdynasty.CrowdCritic.service;
 
 
+import com.devdynasty.CrowdCritic.exception.TokenNotFoundException;
 import com.devdynasty.CrowdCritic.model.Token;
 import com.devdynasty.CrowdCritic.repository.TokenRepository;
 import io.jsonwebtoken.*;
@@ -21,6 +22,7 @@ import java.security.Key;
 
 
 import java.util.Date;
+import java.util.Optional;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -120,11 +122,56 @@ public class TokenService {
 
     public boolean isTokenValid(String token, UserDetails userDetails) {
         final String username = extractUsername(token);
-        return (username.equals(userDetails.getUsername())) && !isTokenExpired(token);
+
+
+        return (username.equals(userDetails.getUsername()))
+                && !isTokenExpired(token);
+
+
+
+    }
+
+    public boolean isTokenStored(String token) {
+
+        return tokenRepository
+                   .findByTokenLikeAndExpiredFalse(token)
+                   .isPresent();
+
+    }
+
+
+    public boolean isRefreshTokenValid(String token, UserDetails userDetails) {
+        final String username = extractUsername(token);
+
+
+        return (username.equals(userDetails.getUsername()))
+                && !isTokenExpired(token) && isRefreshTokenStored(token);
+
+
+
     }
 
 
     public void expireToken(Integer id) {
         tokenRepository.updateTokensByIdSetExpiredTrue(id);
+    }
+
+
+    public boolean isRefreshTokenStored(String refreshToken){
+        return tokenRepository
+                .findByRefreshTokenLikeAndExpiredFalse(refreshToken)
+                .isPresent();
+    }
+
+    public Optional<Token> getToken(String token) throws TokenNotFoundException {
+
+        return tokenRepository
+                .findByTokenLikeAndExpiredFalse(token);
+    }
+
+
+
+    public Token save(Token token){
+      return   tokenRepository.save(token);
     }
 }

@@ -1,10 +1,13 @@
 package com.devdynasty.CrowdCritic.service;
 
 
+import com.devdynasty.CrowdCritic.exception.TokenNotFoundException;
+import com.devdynasty.CrowdCritic.model.Token;
 import com.devdynasty.CrowdCritic.repository.TokenRepository;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+import lombok.SneakyThrows;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.logout.LogoutHandler;
@@ -14,8 +17,9 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class LogoutService implements LogoutHandler {
 
-    private final TokenRepository tokenRepository;
+    private final TokenService tokenService;
 
+    @SneakyThrows
     @Override
     public void logout(
             HttpServletRequest request,
@@ -28,11 +32,13 @@ public class LogoutService implements LogoutHandler {
             return;
         }
         jwt = authHeader.substring(7);
-        var storedToken = tokenRepository.findByToken(jwt)
-                .orElse(null);
+
+
+        Token storedToken = tokenService.getToken(jwt).orElse(null);
+
         if (storedToken != null) {
             storedToken.setExpired(true);
-            tokenRepository.save(storedToken);
+            tokenService.save(storedToken);
             SecurityContextHolder.clearContext();
         }
     }

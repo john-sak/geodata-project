@@ -1,6 +1,7 @@
 package com.devdynasty.CrowdCritic.service;
 
 import com.devdynasty.CrowdCritic.dto.UserDto;
+import com.devdynasty.CrowdCritic.exception.RefreshTokenException;
 import com.devdynasty.CrowdCritic.exception.UserEmailExistsException;
 import com.devdynasty.CrowdCritic.exception.UsernameExistsException;
 import com.devdynasty.CrowdCritic.model.*;
@@ -97,24 +98,28 @@ public class AuthenticationService {
     }
 
 
-    public AuthenticationResponse refresh(RefreshRequest request) throws IllegalAccessException {
+    public AuthenticationResponse refresh(RefreshRequest request) throws  RefreshTokenException {
 
 
         String username =  tokenService.extractUsername(request.getRefreshToken());
 
-        Token newToken;
+
         String refreshToken = request.getRefreshToken();
 
-        if (!tokenService.isTokenValid(refreshToken, appUserService.loadUserByUsername(username))){
+        if (!tokenService.isRefreshTokenValid(refreshToken, appUserService.loadUserByUsername(username))
+              && !tokenService.isRefreshTokenStored(refreshToken)){
 
-              throw new IllegalAccessException("NOT VALID REFRESH TOKEN ");
+              throw new RefreshTokenException("NOT_VALID_REFRESH_TOKEN ");
 
         }
 
 
+
+
+
         var user = appUserRepository.findAppUsersByUsername(tokenService.extractUsername(refreshToken)).orElseThrow();
 
-        newToken = new Token(null,
+        var newToken = new Token(null,
                 tokenService.generateToken(user),
                 tokenService.generateRefreshToken(user),
                 false,

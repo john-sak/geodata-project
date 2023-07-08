@@ -15,7 +15,7 @@ public interface TokenRepository extends JpaRepository<Token,Integer> {
     List<Token> findAllByExpiredFalse();
 
 
-    Optional<Token> findByToken(String token);
+    Optional<Token> findByTokenLikeAndExpiredFalse(String token);
 
 
     Optional<Token> findByUserIdAndExpiredIsFalse(Integer id);
@@ -25,6 +25,15 @@ public interface TokenRepository extends JpaRepository<Token,Integer> {
     @Transactional
     @Query("update  Token t set t.expired=true where t.id = ?1 and t.expired = false")
     void updateTokensByIdSetExpiredTrue(Integer id);
+
+
+
+    Optional<Token> findByRefreshTokenLikeAndExpiredFalse(String refreshToken);
+
+
+
+
+
 
 
 
