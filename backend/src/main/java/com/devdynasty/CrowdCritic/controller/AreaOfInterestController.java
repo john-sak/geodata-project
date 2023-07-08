@@ -35,7 +35,7 @@ public class AreaOfInterestController {
 
 
     @PostMapping("post")
-    public ResponseEntity<AreaOfInterestDTO> post(AreaOfInterestDTO areaOfInterestDTO ){
+    public ResponseEntity<AreaOfInterestDTO> post(@RequestBody AreaOfInterestDTO areaOfInterestDTO ){
 
 
         return ResponseEntity
