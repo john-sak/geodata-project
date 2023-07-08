@@ -78,7 +78,6 @@ const SearchSide = (props: ISearchInputs) => {
         value: buildingType,
         name: 'buildingType',
         label: 'Τύπος Κτιρίου',
-        isCategories: true,
         dataList: categories
     }
 
@@ -88,7 +87,6 @@ const SearchSide = (props: ISearchInputs) => {
         value: keyword,
         name: 'keyword',
         label: 'Κατηγορίες',
-        isCategories: false,
         dataList: categories
     }
 

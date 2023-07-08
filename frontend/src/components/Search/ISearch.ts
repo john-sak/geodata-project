@@ -37,7 +37,6 @@ export interface ISearchInputProps {
     value: string,
     name: string,
     label: string,
-    isCategories: boolean,
     dataList: IDataList[]
 }
 

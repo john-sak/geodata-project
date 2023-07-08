@@ -1,13 +1,12 @@
-import useAxiosPrivate from "@/hooks/useAxiosPrivate";
 import { useEffect, useState } from "react";
+import axios from "@/api/axios";
 
 const useFindKeywords = () => {
-    const axiosPrivate = useAxiosPrivate();
     const [keywords, setKeywords] = useState([]);
     useEffect(() => {
         const findKeywords = async () => {
             try {
-                const response = await axiosPrivate.get('/api/keyword');
+                const response = await axios.get('/api/keyword');
                 setKeywords(response.data);
             }
             catch(error) {
@@ -15,7 +14,7 @@ const useFindKeywords = () => {
             }
         }
         findKeywords();
-    }, [axiosPrivate])
+    }, [])
     return { keywords }
 }
 
