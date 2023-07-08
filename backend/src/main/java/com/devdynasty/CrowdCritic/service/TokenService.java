@@ -5,26 +5,16 @@ import com.devdynasty.CrowdCritic.exception.TokenNotFoundException;
 import com.devdynasty.CrowdCritic.model.Token;
 import com.devdynasty.CrowdCritic.repository.TokenRepository;
 import io.jsonwebtoken.*;
-import com.devdynasty.CrowdCritic.model.AppUser;
-import com.devdynasty.CrowdCritic.model.AuthenticationRequest;
-import com.devdynasty.CrowdCritic.model.Role;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
-import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
 import java.security.Key;
-
-
 import java.util.Date;
 import java.util.Optional;
 import java.util.function.Function;
-import java.util.stream.Collectors;
+
 
 @Service
 public class TokenService {

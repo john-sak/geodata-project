@@ -50,7 +50,7 @@ public class AuthenticationService {
         Optional<AppUser> optionalAppUser = appUserRepository.findAppUsersByUsername(request.getUsername());
        if  (optionalAppUser.isPresent()) throw new UsernameExistsException("USER_NAME_EXISTS");
 
-        if ( (appUserRepository.findAppUserByEmail(request.getEmail())).isPresent())
+       if ( (appUserRepository.findAppUserByEmail(request.getEmail())).isPresent())
             throw new UserEmailExistsException("USER_EMAIL_EXISTS");
 
 
@@ -88,7 +88,7 @@ public class AuthenticationService {
                 user);
 
 
-        Optional<Token> prevToken = Optional.ofNullable(tokenRepository.findByUserIdAndExpiredIsFalse(user.getId()).orElse(null));
+        Optional<Token> prevToken = tokenRepository.findByUserIdAndExpiredIsFalse(user.getId());
 
         prevToken.ifPresent(token -> tokenService.expireToken(token.getId()));
 
@@ -126,13 +126,11 @@ public class AuthenticationService {
                 user);
 
 
-        Optional<Token> prevToken = Optional.ofNullable(tokenRepository.findByUserIdAndExpiredIsFalse(user.getId()).orElse(null));
+        Optional<Token> prevToken = tokenRepository.findByUserIdAndExpiredIsFalse(user.getId());
 
         prevToken.ifPresent(token -> tokenService.expireToken(token.getId()));
 
         tokenRepository.save(newToken);
-
-
 
         return new AuthenticationResponse(new UserDto(user),newToken.getToken(), newToken.getRefreshToken());
 

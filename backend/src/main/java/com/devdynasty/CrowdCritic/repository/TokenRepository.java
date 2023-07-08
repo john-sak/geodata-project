@@ -12,8 +12,6 @@ import java.util.Optional;
 public interface TokenRepository extends JpaRepository<Token,Integer> {
 
 
-    List<Token> findAllByExpiredFalse();
-
 
     Optional<Token> findByTokenLikeAndExpiredFalse(String token);
 

@@ -1,7 +1,7 @@
 package com.devdynasty.CrowdCritic.config;
 
-import com.devdynasty.CrowdCritic.model.AppUser;
-import com.devdynasty.CrowdCritic.repository.TokenRepository;
+
+
 import com.devdynasty.CrowdCritic.service.TokenService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -26,12 +26,10 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     private final TokenService tokenService;
     private final UserDetailsService userDetailsService;
 
-    private final TokenRepository tokenRepository;
 
-    public JwtAuthenticationFilter(TokenService tokenService, UserDetailsService userDetailsService, TokenRepository tokenRepository) {
+    public JwtAuthenticationFilter(TokenService tokenService, UserDetailsService userDetailsService) {
         this.tokenService = tokenService;
         this.userDetailsService = userDetailsService;
-        this.tokenRepository = tokenRepository;
     }
 
     @SneakyThrows
