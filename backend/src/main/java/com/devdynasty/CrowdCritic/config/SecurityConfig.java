@@ -41,13 +41,20 @@ public class SecurityConfig {
                 .cors().configurationSource(corsConfigurationSource()).and()
                 .authorizeHttpRequests()
                 .requestMatchers(
-                            "api/register",
-                            "api/refreshtoken",
-                        "api/login"
+                            "api/aoi/*",
+                        "api/categories/import",
+                        "api/keyword/post",
+                        "api/poi/import",
+                        "api/prefecture/post",
+                        "api/region/post",
+                        "api/user",
+                        "api/user/{id}"
+
+
                 )
-                .permitAll()
-                .anyRequest()
-                .authenticated().and()
+                .authenticated()
+                .anyRequest().permitAll()
+                .and()
                 .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
