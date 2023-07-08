@@ -1,9 +1,13 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import useAxiosPrivate from '@/hooks/useAxiosPrivate';
 
-const ImportForm = () => {
+const ImportFormPoi = () => {
+  const axiosPrivate = useAxiosPrivate();
+
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [importSuccess, setImportSuccess] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files && event.target.files.length > 0) {
@@ -42,7 +46,7 @@ const ImportForm = () => {
 
     try {
       // Make the API call to import the file
-      await axios.post('http://localhost:8080/api/poi/import', formData, {
+      await axiosPrivate.post('http://localhost:8080/api/poi/import', formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
           Authorization: `Bearer ${accessToken}`, // Include the access token in the headers
@@ -52,16 +56,19 @@ const ImportForm = () => {
       // Handle success and display a success message
       console.log('File imported successfully');
       setImportSuccess(true);
-      setSelectedFile(null); // Reset the selected file state
+      setSelectedFile(null);                    // Reset the selected file state
+      setErrorMessage('');
     } catch (error) {
       // Handle error and display an error message
       console.error('Error importing file:', error);
+      setImportSuccess(false);
+      setErrorMessage('Μη έγκυρο αρχείο. Παρακαλώ ανεβάστε ένα έγκυρο αρχείο μορφής .csv.');
     }
   };
 
   return (
     <div className="bg-white p-4 shadow" onDragOver={handleDragOver} onDrop={handleDrop}>
-      <h2 className="text-xl font-bold mb-10">Εισαγωγή νέου csv αρχείου</h2>
+      <h2 className="text-xl font-bold mb-10">Εισαγωγή νέων Points of Interest μέσω csv αρχείου</h2>
        <form onSubmit={handleSubmit}>
         <input type="file" title=" " onChange={handleFileChange} />
         <p className="text-xl my-8"> OR </p>
@@ -76,9 +83,10 @@ const ImportForm = () => {
         </div>
         <button type="submit" className="bg-purple-900 text-white hover:bg-blue-400 font-bold py-1 px-4 mt-3 rounded">Upload</button>
       </form>
-      {importSuccess && <p className="text-green-500">File imported successfully</p>}
+      {importSuccess && <p className="text-green-500">Το αρχείο ανέβηκε με επιτυχία!</p>}
+      {errorMessage && <p className="text-red-500">{errorMessage}</p>}
     </div>
   );
 };
 
-export default ImportForm;
+export default ImportFormPoi;
