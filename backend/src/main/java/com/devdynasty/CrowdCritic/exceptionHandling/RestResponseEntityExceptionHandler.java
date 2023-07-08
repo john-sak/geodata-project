@@ -8,7 +8,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
@@ -23,12 +22,28 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
 
 
     @ExceptionHandler(Exception.class)
-    private ResponseEntity<ErrorModel> hendleException(Exception ex){
+    private ResponseEntity<ErrorModel> handleException(Exception ex){
         ErrorModel errorModel = new ErrorModel(HttpStatus.FORBIDDEN, LocalDateTime.now(),"EXCEPTION", ex.getMessage());
         return new ResponseEntity<>(errorModel,HttpStatus.FORBIDDEN);
 
     }
 
+
+
+    @ExceptionHandler(TokenNotFoundException.class)
+    private ResponseEntity<ErrorModel> handleTokenNotFoundException(Exception ex){
+        ErrorModel errorModel = new ErrorModel(HttpStatus.FORBIDDEN, LocalDateTime.now(),ex.getMessage(), ex.getMessage());
+        return new ResponseEntity<>(errorModel,HttpStatus.FORBIDDEN);
+
+    }
+
+
+    @ExceptionHandler(RefreshTokenException.class)
+    private ResponseEntity<ErrorModel> handleRefreshTokenException(Exception ex){
+        ErrorModel errorModel = new ErrorModel(HttpStatus.FORBIDDEN, LocalDateTime.now(),ex.getMessage(), ex.getMessage());
+        return new ResponseEntity<>(errorModel,HttpStatus.FORBIDDEN);
+
+    }
 
 
     @ExceptionHandler(UserEmailExistsException.class)

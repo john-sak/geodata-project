@@ -1,5 +1,6 @@
 package com.devdynasty.CrowdCritic.controller;
 
+import com.devdynasty.CrowdCritic.exception.RefreshTokenException;
 import com.devdynasty.CrowdCritic.exception.UserEmailExistsException;
 import com.devdynasty.CrowdCritic.exception.UsernameExistsException;
 import com.devdynasty.CrowdCritic.model.AuthenticationRequest;
@@ -55,7 +56,7 @@ public class AuthController {
         @PostMapping("api/refreshtoken")
     public ResponseEntity<AuthenticationResponse> refresh(
             @RequestBody RefreshRequest request
-    ) throws IllegalAccessException {
+    ) throws  RefreshTokenException {
         return ResponseEntity
                 .ok(authenticationService
                         .refresh(request)
