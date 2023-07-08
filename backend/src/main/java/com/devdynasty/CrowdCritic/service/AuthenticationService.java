@@ -1,6 +1,8 @@
 package com.devdynasty.CrowdCritic.service;
 
 import com.devdynasty.CrowdCritic.dto.UserDto;
+import com.devdynasty.CrowdCritic.exception.UserEmailExistsException;
+import com.devdynasty.CrowdCritic.exception.UsernameExistsException;
 import com.devdynasty.CrowdCritic.model.*;
 
 import com.devdynasty.CrowdCritic.repository.AppUserRepository;
@@ -40,10 +42,17 @@ public class AuthenticationService {
         this.tokenRepository = tokenRepository;
     }
 
-    public AuthenticationResponse register(RegisterRequest request) {
+    public AuthenticationResponse register(RegisterRequest request) throws UsernameExistsException, UserEmailExistsException {
 
         var password = passwordEncoder.encode(request.getPassword());
         request.setPassword(password);
+        Optional<AppUser> optionalAppUser = appUserRepository.findAppUsersByUsername(request.getUsername());
+        if  (optionalAppUser.isPresent()) throw new UsernameExistsException("USER_NAME_EXISTS");
+
+        if (appUserRepository.findAppUserByEmail(request.getEmail()).isPresent())
+            throw new UserEmailExistsException("USER_EMAIL_EXISTS");
+
+
         var user = new AppUser(request);
         user=this.appUserRepository.save(user);
 
