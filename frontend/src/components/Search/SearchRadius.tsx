@@ -2,14 +2,14 @@ import React, { useState } from 'react'
 import { CircularProgressbar, buildStyles } from 'react-circular-progressbar';
 import 'react-circular-progressbar/dist/styles.css';
 import Slider from '@mui/material/Slider';
-import { ISearchRadius } from './ISearch';
+import { ISearchPoi } from './ISearch';
 
-const SearchRadius = (props: ISearchRadius) => {
+const SearchRadius = (props: ISearchPoi) => {
 
-  const { radiusValue, setRadiusValue } = props;
+  const { numbers, setNumbers } = props;
 
   const handleChange = (event: any, newValue: number | number[]) => {
-    setRadiusValue(newValue as number);
+    setNumbers('radius', newValue as number)
   };
 
   return (
@@ -21,9 +21,9 @@ const SearchRadius = (props: ISearchRadius) => {
         </div>
         <div style={{ width: 150, height: 150 }}>
             <CircularProgressbar
-                value={radiusValue}
+                value={numbers.radius}
                 maxValue={5}
-                text={`${radiusValue} km`}
+                text={`${numbers.radius} km`}
                 circleRatio={0.75}
                 styles={buildStyles({
                 rotation: 1 / 2 + 1 / 8,
@@ -36,7 +36,7 @@ const SearchRadius = (props: ISearchRadius) => {
       </div>
       <div className='mt-[-20px] w-[60%] flex items-center justify-center flex-col'>
         <Slider
-            value={radiusValue}
+            value={numbers.radius}
             min={0}
             max={5}
             step={1}

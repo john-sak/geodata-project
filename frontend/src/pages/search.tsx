@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import Search from '@/components/Search'
-import { ISearchData } from '@/components/Search/ISearch';
+import { ISearchData, ISearchPoi, ISearchPoiNumbers } from '@/components/Search/ISearch';
 import { INavMenuProps } from '@/components/NavBar/Inav';
 
 const search = (props: INavMenuProps) => {
@@ -26,11 +26,34 @@ const search = (props: INavMenuProps) => {
       [key]: value,
     }));
   };
+  
+  const [poiName, setPoiName] = useState('-');
+  const [poiNumbers, setPoiNumbers] = useState<ISearchPoiNumbers>({
+    lat: 37.98856735,
+    lon: 23.72533417,
+    radius: 0
+    
+  })
+
+  const handlePoiNumbersChange = (key: keyof ISearchPoiNumbers, value: number) => {
+    setPoiNumbers(prevState => ({
+      ...prevState,
+      [key]: value,
+    }));
+  };
+
+  const poiState: ISearchPoi = {
+    selectedName: poiName,
+    setSelectedName: setPoiName,
+    numbers: poiNumbers,
+    setNumbers: handlePoiNumbersChange
+  }
 
   const searchValues: ISearchData = {
     searchData: searchData,
     setSearchData: setSearchData,
-    handleInputChange: handleInputChange
+    handleInputChange: handleInputChange,
+    location: poiState
   }
 
   return (
