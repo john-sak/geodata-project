@@ -63,7 +63,7 @@ public class AuthenticationService {
                 tokenService.generateToken(user),
                 tokenService.generateRefreshToken(user),
                 false,user);
-        this.tokenService.storeToken(token);
+        this.tokenService.save(token);
         return new AuthenticationResponse(new UserDto(user),token.getToken(),token.getRefreshToken());
     }
 
@@ -92,7 +92,7 @@ public class AuthenticationService {
 
         prevToken.ifPresent(token -> tokenService.expireToken(token.getId()));
 
-        tokenRepository.save(newToken);
+        tokenService.save(newToken);
 
         return new AuthenticationResponse(new UserDto(user),newToken.getToken(), newToken.getRefreshToken());
     }
@@ -126,13 +126,22 @@ public class AuthenticationService {
                 user);
 
 
-        Optional<Token> prevToken = tokenRepository.findByUserIdAndExpiredIsFalse(user.getId());
+        tokenService
+                .findByUserIdAndExpiredIsFalse(user.getId())
+                .ifPresent(
+                        token -> tokenService
+                        .expireToken(
+                                token
+                                        .getId()
+                        )
+                );
 
-        prevToken.ifPresent(token -> tokenService.expireToken(token.getId()));
+        tokenService.save(newToken);
 
-        tokenRepository.save(newToken);
-
-        return new AuthenticationResponse(new UserDto(user),newToken.getToken(), newToken.getRefreshToken());
+        return new AuthenticationResponse(new UserDto(user),
+                newToken.getToken(),
+                newToken.getRefreshToken()
+        );
 
 
 

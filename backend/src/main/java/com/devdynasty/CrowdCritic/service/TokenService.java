@@ -20,30 +20,22 @@ import java.util.function.Function;
 public class TokenService {
 
 
-    private final PasswordEncoder encoder;
-
     private final TokenRepository tokenRepository;
 
 
-    private String secretKey="11adsfasfasdfasfasfasfasfas431asdasdasdasd234123412kjdknaaidfioajdoifjaoidjfoiabaifioaiodfjjafasdfasfasdfas341241234";
+    private final String secretKey="11adsfasfasdfasfasfasfasfas431asdasdasdasd234123412kjdknaaidfioajdoifjaoidjfoiabaifioaiodfjjafasdfasfasdfas341241234";
 
 
-    private Long expiration = 3600000L;
+    private final Long expiration = 3600000L;
 
-    private Long refreshExpiration = 86400000L;
+    private final Long refreshExpiration = 86400000L;
 
 
-    public TokenService(PasswordEncoder encoder,TokenRepository tokenRepository) {
-        this.encoder = encoder;
+    public TokenService(TokenRepository tokenRepository) {
         this.tokenRepository=tokenRepository;
     }
 
 
-    public Token storeToken(Token token){
-
-        return  this.tokenRepository.save(token);
-
-    }
 
 
     public String generateToken(UserDetails userDetails){
@@ -153,7 +145,7 @@ public class TokenService {
                 .isPresent();
     }
 
-    public Optional<Token> getToken(String token) throws TokenNotFoundException {
+    public Optional<Token> getToken(String token)  {
 
         return tokenRepository
                 .findByTokenLikeAndExpiredFalse(token);
@@ -163,5 +155,9 @@ public class TokenService {
 
     public Token save(Token token){
       return   tokenRepository.save(token);
+    }
+
+    public Optional<Token> findByUserIdAndExpiredIsFalse(Integer id) {
+        return tokenRepository.findByUserIdAndExpiredIsFalse(id);
     }
 }
