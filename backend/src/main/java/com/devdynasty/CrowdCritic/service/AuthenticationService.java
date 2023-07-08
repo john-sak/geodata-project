@@ -47,9 +47,9 @@ public class AuthenticationService {
         var password = passwordEncoder.encode(request.getPassword());
         request.setPassword(password);
         Optional<AppUser> optionalAppUser = appUserRepository.findAppUsersByUsername(request.getUsername());
-        if  (optionalAppUser.isPresent()) throw new UsernameExistsException("USER_NAME_EXISTS");
+       if  (optionalAppUser.isPresent()) throw new UsernameExistsException("USER_NAME_EXISTS");
 
-        if (appUserRepository.findAppUserByEmail(request.getEmail()).isPresent())
+        if ( (appUserRepository.findAppUserByEmail(request.getEmail())).isPresent())
             throw new UserEmailExistsException("USER_EMAIL_EXISTS");
 
 
