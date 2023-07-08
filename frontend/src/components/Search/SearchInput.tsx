@@ -84,6 +84,7 @@ const SearchInput = (props: ISearchInputProps) => {
     const handleClear = () => {
         handleInputChange(name, '');
         setFilteredData([]);
+        setSelectedOptions([]);
     }
 
   return (
