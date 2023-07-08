@@ -4,6 +4,8 @@ import com.devdynasty.CrowdCritic.dto.PointOfInterestDTO;
 import com.devdynasty.CrowdCritic.exception.PointOfInterestNotFoundException;
 import com.devdynasty.CrowdCritic.model.*;
 import com.devdynasty.CrowdCritic.repository.PointOfInterestRepository;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -27,6 +29,17 @@ public class PointOfInterestService {
 
     @Autowired
     private PrefectureService prefectureService;
+
+    @PersistenceContext
+    private EntityManager entityManager;
+
+    private List<Integer> executeSQL(Double lat, Double lon) {
+
+        String query = "SELECT usr.appuser_id FROM app_user usr INNER JOIN area_of_interest aoi ON usr.appuser_id = aoi.user_id " +
+                "WHERE earth_box(ll_to_earth(aoi.latitude, aoi.longitute), aoi.distance) @> ll_to_earth(" + lat + ", " + lon + ")";
+
+        return entityManager.createNativeQuery(query, AppUser.class).getResultList();
+    }
 
     public PointOfInterestService(PointOfInterestRepository pointOfInterestRepository) {
 
@@ -164,6 +177,8 @@ public class PointOfInterestService {
                 pois.add(poi);
 
                 savePointOfInterest(poi);
+
+                Set<Integer> userIDs = new HashSet<>(executeSQL(poiLat, poiLon));
             }
         } catch (IOException e) {
 //          // Handle the exception
