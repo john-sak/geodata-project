@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import Link from 'next/link'
 import ImportFormPoi from "@/components/Profile/ImportFormPoi";
 import ImportFormCat from "@/components/Profile/ImportFormCat";
+import Favorites from "@/components/Profile/Favorites";
 
 const ProfilePage = () => {
   const [selectedOption, setSelectedOption] = useState('info');
@@ -69,12 +70,8 @@ const ProfilePage = () => {
       </div>
     );
   }
-  else if (selectedOption === 'favorites') {
-    mainContent = (
-      <div className="bg-white p-4 shadow">
-        <h2 className="text-lg font-bold mb-2">Αγαπημένα</h2>
-      </div>
-    );
+  else if (selectedOption === "favorites") {
+    mainContent = <Favorites />;
   }
   else if (selectedOption === 'importpoi') {
     mainContent = <ImportFormPoi />;
