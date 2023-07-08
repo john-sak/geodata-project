@@ -22,7 +22,15 @@ public class AreaOfInterestController {
 
     @GetMapping("all")
     public ResponseEntity<List<AreaOfInterestDTO>> getAll(){
-        return ResponseEntity.status(HttpStatus.OK).body(areaOfInterestService.getAll());
+        return ResponseEntity
+                .status(
+                        HttpStatus
+                                .OK
+                )
+                .body(
+                        areaOfInterestService
+                                .getAll()
+                );
     }
 
 
@@ -30,10 +38,47 @@ public class AreaOfInterestController {
     public ResponseEntity<AreaOfInterestDTO> post(AreaOfInterestDTO areaOfInterestDTO ){
 
 
-        return ResponseEntity.status(HttpStatus.OK).body(areaOfInterestService.save(areaOfInterestDTO));
+        return ResponseEntity
+                .status(
+                        HttpStatus
+                                .OK
+                ).body(
+                        areaOfInterestService
+                                .save(
+                                        areaOfInterestDTO
+                                )
+                );
 
 
     }
+
+
+    @GetMapping("mine")
+    public ResponseEntity<List<AreaOfInterestDTO>> getMyAreaOfInterest(@RequestHeader (name="Authorization") String token){
+
+
+       return ResponseEntity
+               .status(
+                       HttpStatus
+                               .OK
+               )
+               .body(
+                       areaOfInterestService
+                               .getMyAreaOfInterest(token)
+               );
+
+
+
+
+
+    }
+
+
+
+
+
+
+
 
 
 
