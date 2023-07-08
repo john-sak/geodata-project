@@ -9,10 +9,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -48,24 +44,6 @@ public class CategoryController {
     @PostMapping("/import")
     public ResponseEntity<List<Category>> importCategories(@RequestParam("file") MultipartFile file) throws CategoryNotFoundException {
 
-        List<Category> categories = new ArrayList<Category>();
-        try (BufferedReader reader = new BufferedReader(new InputStreamReader(file.getInputStream()))) {
-
-            String line;
-            while ((line = reader.readLine()) != null) {
-
-                String[] data = line.split(",");
-                String categoryName = data[0].trim();
-
-                Category category = new Category(categoryName);
-                categories.add(category);
-
-                categoryService.saveCategory(category);
-            }
-        } catch (IOException e) {
-            // Handle the exception
-        }
-
-        return ResponseEntity.status(HttpStatus.OK).body(categories);
+        return ResponseEntity.status(HttpStatus.OK).body(categoryService.importCategories(file));
     }
 }
