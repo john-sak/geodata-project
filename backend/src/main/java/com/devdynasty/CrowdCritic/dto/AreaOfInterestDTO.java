@@ -28,6 +28,14 @@ public class AreaOfInterestDTO {
 
     public AreaOfInterestDTO(AreaOfInterest areaOfInterest){
 
+        this.id=areaOfInterest.getId();
+
+        this.latitude=areaOfInterest.getLatitude();
+
+        this.longitude=areaOfInterest.getLongitude();
+
+        this.distance=areaOfInterest.getDistance();
+
         this.appUsers=areaOfInterest.getAppUsers()
                 .stream()
                 .map(UserDto::new)
