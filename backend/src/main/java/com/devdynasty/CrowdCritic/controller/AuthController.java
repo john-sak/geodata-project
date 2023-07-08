@@ -1,5 +1,7 @@
 package com.devdynasty.CrowdCritic.controller;
 
+import com.devdynasty.CrowdCritic.exception.UserEmailExistsException;
+import com.devdynasty.CrowdCritic.exception.UsernameExistsException;
 import com.devdynasty.CrowdCritic.model.AuthenticationRequest;
 import com.devdynasty.CrowdCritic.model.AuthenticationResponse;
 import com.devdynasty.CrowdCritic.model.RefreshRequest;
@@ -45,7 +47,7 @@ public class AuthController {
     @PostMapping("api/register")
     public ResponseEntity<AuthenticationResponse> register(
             @RequestBody RegisterRequest request
-    ) {
+    ) throws UsernameExistsException, UserEmailExistsException {
         return ResponseEntity.ok(authenticationService.register(request));
     }
 
