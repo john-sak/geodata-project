@@ -12,7 +12,7 @@ import java.util.List;
 @AllArgsConstructor
 @Setter
 @Getter
-@NoArgsConstructor
+@NoArgsConstructor(force = true)
 public class AreaOfInterest {
 
     @Id
