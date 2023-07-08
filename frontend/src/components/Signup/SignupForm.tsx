@@ -45,21 +45,33 @@ const SignupForm = () => {
       return phonePattern.test(phoneNumber);
     };
 
+    const MIN_LENGTH = 4;
+    const MAX_LENGTH = 30;
+
     // Validation
     let hasError = false;
 
     if (name.trim() === '') {
       setNameError('Συμπληρώστε το όνομά σας.');
       hasError = true;
+    } else if (name.trim().length < MIN_LENGTH || name.trim().length > MAX_LENGTH) {
+      setNameError('Το όνομα πρέπει να είναι μεταξύ 4 και 30 χαρακτήρων.');
+      hasError = true;
     }
 
     if (surname.trim() === '') {
       setSurnameError('Συμπληρώστε το επώνυμο σας.');
       hasError = true;
+    } else if (surname.trim().length < MIN_LENGTH || surname.trim().length > MAX_LENGTH) {
+      setSurnameError('Το επώνυμο πρέπει να είναι μεταξύ 4 και 30 χαρακτήρων.');
+      hasError = true;
     }
 
     if (username.trim() === '') {
       setUsernameError('Συμπληρώστε το username σας.');
+      hasError = true;
+    } else if (username.trim().length < MIN_LENGTH || username.trim().length > MAX_LENGTH) {
+      setUsernameError('Το username πρέπει να είναι μεταξύ 4 και 30 χαρακτήρων.');
       hasError = true;
     }
 
@@ -131,7 +143,7 @@ const SignupForm = () => {
         else if(error.response.data.message == "USER_NAME_EXISTS"){
           setErrorMessage('Υπάρχει ήδη χρήστης με αυτό το username.');
         } else{
-          setErrorMessage('Υπάρχει ήδη χρήστης με αυτά τα στοιχεία.');
+          setErrorMessage('Υπήρξε κάποιο πρόβλημα με την εγγραφή. Δοκιμάστε ξανά.');
         }
         
       } else if (error.request) {
@@ -172,7 +184,7 @@ const SignupForm = () => {
               placeholder='Όνομα'
               className="border border-gray-400 py-1 px-2 w-full"
             />
-            {nameError && <p className="text-red-500">{nameError}</p>}
+            {nameError && <p className="text-red-500 whitespace-nowrap">{nameError}</p>}
           </label>
           <label>
             <input
@@ -182,7 +194,7 @@ const SignupForm = () => {
               placeholder='Επώνυμο'
               className="border border-gray-400 py-1 px-2 w-full"
             />
-            {surnameError && <p className="text-red-500">{surnameError}</p>}
+            {surnameError && <p className="text-red-500 whitespace-nowrap">{surnameError}</p>}
           </label>
           <label>
             <input
@@ -192,7 +204,7 @@ const SignupForm = () => {
               placeholder='Username'
               className="border border-gray-400 py-1 px-2 w-full"
             />
-            {usernameError && <p className="text-red-500">{usernameError}</p>}
+            {usernameError && <p className="text-red-500 whitespace-nowrap">{usernameError}</p>}
           </label>
           <label>
             <input
