@@ -33,9 +33,9 @@ public class PointOfInterestService {
     @PersistenceContext
     private EntityManager entityManager;
 
-    private List<Integer> executeSQL(Double lat, Double lon) {
+    private List<String> getEmails(Double lat, Double lon) {
 
-        String query = "SELECT usr.appuser_id FROM app_user usr INNER JOIN area_of_interest aoi ON usr.appuser_id = aoi.user_id " +
+        String query = "SELECT usr.email FROM app_user usr INNER JOIN area_of_interest aoi ON usr.appuser_id = aoi.user_id " +
                 "WHERE earth_box(ll_to_earth(aoi.latitude, aoi.longitute), aoi.distance) @> ll_to_earth(" + lat + ", " + lon + ")";
 
         return entityManager.createNativeQuery(query, AppUser.class).getResultList();
@@ -178,7 +178,8 @@ public class PointOfInterestService {
 
                 savePointOfInterest(poi);
 
-                Set<Integer> userIDs = new HashSet<>(executeSQL(poiLat, poiLon));
+                Set<String> userEmails = new HashSet<>(getEmails(poiLat, poiLon));
+                // notify every email in userEmails
             }
         } catch (IOException e) {
 //          // Handle the exception
