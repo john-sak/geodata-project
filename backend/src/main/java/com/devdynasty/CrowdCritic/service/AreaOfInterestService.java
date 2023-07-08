@@ -45,7 +45,7 @@ public class AreaOfInterestService {
 
 
         List<AreaOfInterestDTO> list = areaOfInterestRepository
-                .findByAppUsers_UsernameLike(appuser.getUsername())
+                .findByAppUser_UsernameLike(appuser.getUsername())
                 .stream()
                 .map(AreaOfInterestDTO::new)
                 .toList();
@@ -61,8 +61,7 @@ public class AreaOfInterestService {
 
        AppUser user= this.appUserRepository.findAppUsersByUsername(
                areaOfInterestDTO
-                .getAppUsers()
-                .get(0)
+                .getAppUser()
                 .getUsername()
                )
                  .orElseThrow(()->new UsernameNotFoundException(""));
@@ -74,9 +73,9 @@ public class AreaOfInterestService {
                        new AreaOfInterest
                                (
                                        areaOfInterestDTO,
-                                       List.of(
+
                                                user
-                                       )
+
                                )
         );
 
@@ -94,7 +93,7 @@ public class AreaOfInterestService {
 
 
         List <AreaOfInterest> areasOfInterests = areaOfInterestRepository
-                .findByAppUsers_UsernameLike(
+                .findByAppUser_UsernameLike(
                           username
                 );
 
