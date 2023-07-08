@@ -141,8 +141,6 @@ const SignupForm = () => {
         // Something happened in setting up the request that triggered an error
         console.log('Error:', error.message);
       }
-      // Handle registration error, display error message, etc.
-      
     }
   };
 
