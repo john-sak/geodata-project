@@ -2,6 +2,7 @@ package com.devdynasty.CrowdCritic.config;
 
 
 
+import com.devdynasty.CrowdCritic.model.Role;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -22,6 +23,8 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import java.util.List;
 
+import static com.devdynasty.CrowdCritic.model.Role.ADMIN;
+
 
 @Configuration
 @EnableWebSecurity
@@ -38,22 +41,27 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .csrf().disable()
-                .cors().configurationSource(corsConfigurationSource()).and()
+                .cors().configurationSource(corsConfigurationSource())
+                .and()
                 .authorizeHttpRequests()
                 .requestMatchers(
-                            "api/aoi/*",
+                            "api/aoi/*"
+                )
+                .authenticated()
+                .and()
+                .authorizeHttpRequests()
+                .requestMatchers(
+                        "api/user/{id}",
+                        "api/user",
                         "api/categories/import",
                         "api/keyword/post",
                         "api/poi/import",
                         "api/prefecture/post",
-                        "api/region/post",
-                        "api/user",
-                        "api/user/{id}"
-
-
+                        "api/region/post"
                 )
-                .authenticated()
-                .anyRequest().permitAll()
+                .hasAuthority(ADMIN.name())
+                .anyRequest()
+                .permitAll()
                 .and()
                 .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
