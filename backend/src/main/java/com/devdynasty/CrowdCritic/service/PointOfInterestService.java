@@ -59,7 +59,7 @@ public class PointOfInterestService {
     public List<PointOfInterest> searchEverywhere(String text) {
 
         String[] words = text.split("[^\\p{IsGreek}\\p{IsLatin}]+");
-        String query = String.join(" & ", words);
+        String query = String.join(" | ", words);
 
         return pointOfInterestRepository.findEverywhere(query);
     }
@@ -71,10 +71,20 @@ public class PointOfInterestService {
 
     public List<PointOfInterest> searchKeywords(List<String> keywords) {
 
-        String query = String.join(" ", keywords
+        List<String> formattedKeywords = keywords
                 .stream()
+                .map(keyword -> {
+                    if (keyword.contains(" ")) {
+                        keyword = keyword.replace("'", "''");
+                        return "'" + keyword + "'";
+                    } else {
+                        return keyword;
+                    }
+                })
                 .filter(str -> !(str.isEmpty() || str.isBlank()))
-                .collect(Collectors.toList()));
+                .collect(Collectors.toList());
+
+        String query = String.join(" | ", formattedKeywords);
 
         return pointOfInterestRepository.findByKeyword(query);
     }
