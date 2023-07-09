@@ -4,6 +4,7 @@ import Link from 'next/link';
 import useCloseModal from '@/hooks/useCloseModal';
 import useLogged from './useLogged';
 import { useRouter } from 'next/router';
+import useAxiosPrivate from '@/hooks/useAxiosPrivate';
 
 const NavMenu = (props: INavMenu) => {
 
@@ -15,7 +16,16 @@ const NavMenu = (props: INavMenu) => {
 
     const router = useRouter();
 
-    const handleLogout = () => {
+    const axiosPrivate = useAxiosPrivate();
+
+    const handleLogout = async () => {
+        try {
+            const response = await axiosPrivate.post('/api/logout');
+            console.log(response);
+        }
+        catch(error) {
+            console.error(error);
+        }
         localStorage.clear();
         setIsLogged(false);
         setOpen(!open);

@@ -7,7 +7,7 @@ const NavLink = (props: INavLink) => {
     const { link, text } = props;
 
   return (
-    <div className='hidden lg:text-base lg:flex lg:justify-center
+    <div className='hidden lg:text-base lg:flex lg:justify-center text-white
     lg:items-center lg:h-10: lg:w-20 lg:ml-10 2xl:w-22 2xl:ml-12'>
         {
           link ?

@@ -12,7 +12,7 @@ const Testimonial = (props: ITestimonial) => {
             <p className='text-sm text-center lg:text-base lg:mt-1 xl:mt-3'>
                 {count}
             </p>
-            <p className='text-sm mt-4 text-center lg:text-base lg:mt-6'>
+            <p className='text-sm mt-2 text-center lg:text-base lg:mt-6'>
                 {title}
             </p>
         </div>

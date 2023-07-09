@@ -4,6 +4,7 @@ import AccountBoxIcon from '@mui/icons-material/AccountBox';
 import useLogged from './useLogged';
 import { useRouter } from 'next/router';
 import useCloseModal from '@/hooks/useCloseModal';
+import useAxiosPrivate from '@/hooks/useAxiosPrivate';
 
 const NavBarAccount = () => {
 
@@ -13,7 +14,16 @@ const NavBarAccount = () => {
 
     const router = useRouter();
 
-    const handleLogout = () => {
+    const axiosPrivate = useAxiosPrivate();
+
+    const handleLogout = async () => {
+        try {
+            const response = await axiosPrivate.post('/api/logout');
+            console.log(response);
+        }
+        catch(error) {
+            console.error(error);
+        }
         localStorage.clear();
         setIsLogged(false);
         setOpen(!open);
