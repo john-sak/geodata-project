@@ -21,7 +21,7 @@ const Favorites = () => {
       const accessToken = localStorage.getItem('access_token');
       
       try {
-        const response = await axiosPrivate.get("http://localhost:8080/api/aoi/mine", {
+        const response = await axiosPrivate.get("https://localhost:8080/api/aoi/mine", {
           headers: {
             Authorization: `Bearer ${accessToken}`, // Include the access token in the headers
           },

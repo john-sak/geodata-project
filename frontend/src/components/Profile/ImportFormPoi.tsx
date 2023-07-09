@@ -46,7 +46,7 @@ const ImportFormPoi = () => {
 
     try {
       // Make the API call to import the file
-      await axiosPrivate.post('http://localhost:8080/api/poi/import', formData, {
+      await axiosPrivate.post('https://localhost:8080/api/poi/import', formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
           Authorization: `Bearer ${accessToken}`, // Include the access token in the headers

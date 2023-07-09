@@ -3,6 +3,8 @@ package com.devdynasty.CrowdCritic.exceptionHandling;
 import com.devdynasty.CrowdCritic.exception.*;
 import com.devdynasty.CrowdCritic.model.ErrorModel;
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.validation.ConstraintViolation;
+import jakarta.validation.ConstraintViolationException;
 import jakarta.validation.ValidationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,6 +15,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 
 @RestControllerAdvice
@@ -23,7 +26,7 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
 
     @ExceptionHandler(Exception.class)
     private ResponseEntity<ErrorModel> handleException(Exception ex){
-        ErrorModel errorModel = new ErrorModel(HttpStatus.FORBIDDEN, LocalDateTime.now(),"EXCEPTION", ex.getMessage());
+        ErrorModel errorModel = new ErrorModel(HttpStatus.FORBIDDEN, LocalDateTime.now(),ex.getMessage(), ex.getMessage());
         return new ResponseEntity<>(errorModel,HttpStatus.FORBIDDEN);
 
     }
@@ -110,10 +113,17 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
     }
 
 
-    @ExceptionHandler(value = {ValidationException.class})
-    private ResponseEntity<ErrorModel> handleMethodArgumentNotValidException(ValidationException ex){
+    @ExceptionHandler(value = {ConstraintViolationException.class})
+    private ResponseEntity<ErrorModel> handleMethodArgumentNotValidException(ConstraintViolationException ex){
 
-        ErrorModel error = new ErrorModel(HttpStatus.NOT_ACCEPTABLE, LocalDateTime.now(),"VALIDATION_EXCEPTION", ex.getMessage());
+        String message=ex.getConstraintViolations()
+                .stream()
+                .findFirst()
+                .map(ConstraintViolation::getMessage)
+                .get()
+                .toString();
+
+        ErrorModel error = new ErrorModel(HttpStatus.NOT_ACCEPTABLE, LocalDateTime.now(), message, ex.getMessage());
 
         return new ResponseEntity<>(error, HttpStatus.NOT_FOUND);
     }
