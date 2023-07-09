@@ -21,7 +21,7 @@ export interface ISearchPoi {
     selectedName: string,
     setSelectedName: Dispatch<SetStateAction<string>>,
     numbers: ISearchPoiNumbers,
-    setNumbers: (key: keyof ISearchPoiNumbers, value: number) => void;
+    setNumbers: (key: keyof ISearchPoiNumbers, value: number) => void,
 }
 
 export interface IPoiResult {
@@ -51,7 +51,8 @@ export interface ISearchInputs {
     setIsClicked: Dispatch<SetStateAction<boolean>>,
     data: ISearchData,
     location: ISearchPoi,
-    showMap: boolean
+    showMap: boolean,
+    results: IPoiResult[]
 }
 
 export interface IDataList {
