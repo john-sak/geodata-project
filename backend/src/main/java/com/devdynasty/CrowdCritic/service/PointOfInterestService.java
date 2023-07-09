@@ -4,8 +4,6 @@ import com.devdynasty.CrowdCritic.dto.PointOfInterestDTO;
 import com.devdynasty.CrowdCritic.exception.PointOfInterestNotFoundException;
 import com.devdynasty.CrowdCritic.model.*;
 import com.devdynasty.CrowdCritic.repository.PointOfInterestRepository;
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.PersistenceContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -29,6 +27,9 @@ public class PointOfInterestService {
 
     @Autowired
     private PrefectureService prefectureService;
+
+    @Autowired
+    private CrowdCriticEmailService crowdCriticEmailService;
 
     public PointOfInterestService(PointOfInterestRepository pointOfInterestRepository) {
 
@@ -179,8 +180,8 @@ public class PointOfInterestService {
 
                 savePointOfInterest(poi);
 
-                Set<String> userEmails = new HashSet<>(pointOfInterestRepository.getEmailsForPoint(poiLat, poiLon));
-                // notify every email in userEmails
+                List<String> userEmails = new ArrayList<>(pointOfInterestRepository.getEmailsForPoint(poiLat, poiLon));
+                crowdCriticEmailService.sendSimpleMessagToMultipleUsersByEmail(userEmails);
             }
         } catch (IOException e) {
 //          // Handle the exception
