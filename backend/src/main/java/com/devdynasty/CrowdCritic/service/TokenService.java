@@ -1,14 +1,13 @@
 package com.devdynasty.CrowdCritic.service;
 
 
-import com.devdynasty.CrowdCritic.exception.TokenNotFoundException;
 import com.devdynasty.CrowdCritic.model.Token;
 import com.devdynasty.CrowdCritic.repository.TokenRepository;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import java.security.Key;
 import java.util.Date;
@@ -22,13 +21,14 @@ public class TokenService {
 
     private final TokenRepository tokenRepository;
 
+    @Value("${keyforSigning}")
+    private  String secretKey;
 
-    private final String secretKey="11adsfasfasdfasfasfasfasfas431asdasdasdasd234123412kjdknaaidfioajdoifjaoidjfoiabaifioaiodfjjafasdfasfasdfas341241234";
+    @Value("${tokenExpiration}")
+    private  Long expiration ;
 
-
-    private final Long expiration = 3600000L;
-
-    private final Long refreshExpiration = 86400000L;
+    @Value("${refreshTokenExpiration}")
+    private  Long refreshExpiration ;
 
 
     public TokenService(TokenRepository tokenRepository) {
