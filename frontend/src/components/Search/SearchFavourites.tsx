@@ -4,8 +4,8 @@ import useAxiosPrivate from '@/hooks/useAxiosPrivate';
 
 const SearchFavourites = (props: ISearchInputs) => {
 
-    const { location, results } = props;
-    const { numbers, selectedName } = location;
+    const { location } = props;
+    const { numbers } = location;
 
     const axiosPrivate = useAxiosPrivate();
 
@@ -37,11 +37,11 @@ const SearchFavourites = (props: ISearchInputs) => {
             {
                 !isClicked ?
                 <button
-                disabled={results.length === 0 && true}
+                disabled={numbers.radius === 0 && true}
                 className={`flex justify-center items-center w-48 h-14 rounded text-white text-base 
-                ${results.length === 0 || selectedName === '-' ? 'cursor-not-allowed' : 'cursor-pointer'} 
-                ${results.length === 0 || selectedName === '-' ? 'bg-slate-500' : 'bg-orange-500'} 
-                ${results.length === 0 || selectedName === '-' ? 'hover:bg-slate-500' : 'hover:bg-orange-400'}`}
+                ${numbers.radius === 0 ? 'cursor-not-allowed' : 'cursor-pointer'} 
+                ${numbers.radius === 0 ? 'bg-slate-500' : 'bg-orange-500'} 
+                ${numbers.radius === 0 ? 'hover:bg-slate-500' : 'hover:bg-orange-400'}`}
                 onClick={handleClick}
                 >
                     Αποθήκευση της αναζήτησης
