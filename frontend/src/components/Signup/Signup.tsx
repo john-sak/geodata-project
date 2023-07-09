@@ -4,7 +4,7 @@ import SignupLogo from './SignupLogo'
 
 const Signup = () => {
   return (
-    <div className='relative h-[690px] w-[100%] bg-cyan-200 flex items-center flex-wrap flex-col'>
+    <div className='relative h-[740px] w-[100%] bg-cyan-200 flex items-center flex-wrap flex-col'>
         <SignupLogo/>
         <SignupForm/>
     </div>
