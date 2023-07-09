@@ -112,7 +112,7 @@ const SignupForm = () => {
 
     try {
       // Making POST request to the backend API endpoint for registration
-      const response = await axios.post('https://localhost:8080/api/register', {
+      const response = await axios.post('http://localhost:8080/api/register', {
         name,
         surname,
         username,

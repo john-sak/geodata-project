@@ -14,7 +14,7 @@ const SigninForm = () => {
 
     try {
       // Making POST request to the backend API endpoint for login
-      const response = await axios.post('https://localhost:8080/api/login', {
+      const response = await axios.post('http://localhost:8080/api/login', {
         username,
         password
       });
