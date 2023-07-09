@@ -61,9 +61,10 @@ public class CategoryService {
                 String categoryName = data[0].trim();
 
                 Category category = new Category(categoryName);
-                categories.add(category);
 
-                saveCategory(category);
+               category=saveCategory(category);
+               categories.add(category);
+
             }
         } catch (IOException e) {
             // Handle the exception
