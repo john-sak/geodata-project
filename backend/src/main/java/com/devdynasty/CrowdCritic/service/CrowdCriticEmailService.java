@@ -9,9 +9,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class CrowdCriticEmailService  {
-
-
+public class CrowdCriticEmailService {
 
 
     private final JavaMailSender emailSender;
@@ -24,30 +22,41 @@ public class CrowdCriticEmailService  {
     }
 
     public void sendSimpleMessage(String to, String subject, String text) {
-            SimpleMailMessage message = new SimpleMailMessage();
-            message.setFrom("crowdcritic8@gmail.com");
-            message.setTo(to);
-            message.setSubject(subject);
-            message.setText(text);
-            emailSender.send(message);
-        }
+        SimpleMailMessage message = new SimpleMailMessage();
+        message.setFrom("crowdcritic8@gmail.com");
+        message.setTo(to);
+        message.setSubject(subject);
+        message.setText(text);
+        emailSender.send(message);
+    }
 
 
-    public void sendSimpleMessagToMultipleUsers(List<AppUser> users){
+    public void sendSimpleMessagToMultipleUsers(List<AppUser> users) {
 
-        String message= "Έχουν προστεθεί καινούργια σημεία ενδιαφέροντος";
+        String message = "Έχουν προστεθεί καινούργια σημεία ενδιαφέροντος";
 
         users.stream().map(
                 user -> user.getEmail()
         ).forEach(
-                userMail -> sendSimpleMessage(userMail,"Ενημέρωση",message)
+                userMail -> sendSimpleMessage(userMail, "Ενημέρωση", message)
         );
 
 
-
-    }
-
     }
 
 
+    public void sendSimpleMessagToMultipleUsersByEmail (List<String> emails) {
+
+        String message = "Έχουν προστεθεί καινούργια σημεία ενδιαφέροντος";
+
+        emails.stream().forEach(
+                email -> sendSimpleMessage(email, "Ενημέρωση", message)
+        );
+
+
+    }
+
+
+
+}
 
