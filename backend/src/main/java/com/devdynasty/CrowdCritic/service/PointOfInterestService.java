@@ -179,12 +179,12 @@ public class PointOfInterestService {
 
                 poi = savePointOfInterest(poi);
                 pois.add(poi);
-                
+
                 List<String> userEmails = new ArrayList<>(pointOfInterestRepository.getEmailsForPoint(poiLat, poiLon));
                 crowdCriticEmailService.sendSimpleMessagToMultipleUsersByEmail(userEmails);
             }
         } catch (IOException e) {
-//          // Handle the exception
+//            Handle the exception
         }
 
         return pois;
