@@ -13,7 +13,7 @@ const SigninForm = () => {
     console.log(`Submitted: ${username} ${password}`);
 
     try {
-      // Making POST request to the backend API endpoint for registration
+      // Making POST request to the backend API endpoint for login
       const response = await axios.post('http://localhost:8080/api/login', {
         username,
         password
@@ -36,7 +36,6 @@ const SigninForm = () => {
     } 
     catch (error) {
       console.error('Registration error:', error);
-      // Handle registration error, display error message
       setErrorMessage('Μη έγκυρα στοιχεία.');
     }
   };

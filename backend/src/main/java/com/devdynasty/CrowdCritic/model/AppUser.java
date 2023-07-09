@@ -46,6 +46,7 @@ public class AppUser implements UserDetails {
 
     @NotBlank
     @NotNull
+    @Column(unique = true)
     @Email(message = "not email type")
     private String email;
 

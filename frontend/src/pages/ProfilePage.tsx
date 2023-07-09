@@ -1,6 +1,8 @@
 import { useState, useEffect } from "react";
 import Link from 'next/link'
-import ImportForm from "@/components/Profile/ImportForm";
+import ImportFormPoi from "@/components/Profile/ImportFormPoi";
+import ImportFormCat from "@/components/Profile/ImportFormCat";
+import Favorites from "@/components/Profile/Favorites";
 
 const ProfilePage = () => {
   const [selectedOption, setSelectedOption] = useState('info');
@@ -68,15 +70,14 @@ const ProfilePage = () => {
       </div>
     );
   }
-  else if (selectedOption === 'favorites') {
-    mainContent = (
-      <div className="bg-white p-4 shadow">
-        <h2 className="text-lg font-bold mb-2">Αγαπημένα</h2>
-      </div>
-    );
+  else if (selectedOption === "favorites") {
+    mainContent = <Favorites />;
   }
-  else if (selectedOption === 'import') {
-    mainContent = mainContent = <ImportForm />;
+  else if (selectedOption === 'importpoi') {
+    mainContent = <ImportFormPoi />;
+  }
+  else if (selectedOption === 'importcat') {
+    mainContent = <ImportFormCat />;
   }
 
 
@@ -117,7 +118,7 @@ const ProfilePage = () => {
                     Αγαπημένα
                   </button>
                 </li>
-                <li className="mb-2">
+                <li className="mt-10">
                   <Link href="/">
                   <button
                     className={`flex items-center py-2 px-4 rounded ${
@@ -167,16 +168,28 @@ const ProfilePage = () => {
                 <li className="mb-2">
                   <button
                     className={`flex items-center py-2 px-4 rounded ${
-                      selectedOption === 'import'
+                      selectedOption === 'importpoi'
                         ? 'text-white bg-sky-950'
                         : 'text-black-400 hover:text-white hover:bg-sky-800'
                     }`}
-                    onClick={() => handleOptionSelect('import')}
+                    onClick={() => handleOptionSelect('importpoi')}
                   >
-                    Εισαγωγή νέου αρχείου
+                    Εισαγωγή νέων points of interest
                   </button>
                 </li>
                 <li className="mb-2">
+                  <button
+                    className={`flex items-center py-2 px-4 rounded ${
+                      selectedOption === 'importcat'
+                        ? 'text-white bg-sky-950'
+                        : 'text-black-400 hover:text-white hover:bg-sky-800'
+                    }`}
+                    onClick={() => handleOptionSelect('importcat')}
+                  >
+                    Εισαγωγή νέων categories
+                  </button>
+                </li>
+                <li className="mt-10">
                   <Link href="/">
                   <button
                     className={`flex items-center py-2 px-4 rounded ${

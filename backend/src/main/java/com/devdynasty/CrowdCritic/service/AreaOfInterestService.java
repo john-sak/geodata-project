@@ -2,7 +2,6 @@ package com.devdynasty.CrowdCritic.service;
 
 
 import com.devdynasty.CrowdCritic.dto.AreaOfInterestDTO;
-import com.devdynasty.CrowdCritic.dto.UserDto;
 import com.devdynasty.CrowdCritic.exception.AreaOfInterestNotFoundException;
 import com.devdynasty.CrowdCritic.model.AppUser;
 import com.devdynasty.CrowdCritic.model.AreaOfInterest;
@@ -19,12 +18,14 @@ public class AreaOfInterestService {
 
     private final AreaOfInterestRepository areaOfInterestRepository;
     private final AppUserRepository appUserRepository;
+    private final TokenService tokenService;
 
 
     public AreaOfInterestService(AreaOfInterestRepository areaOfInterestRepository,
-                                 AppUserRepository appUserRepository) {
+                                 AppUserRepository appUserRepository, TokenService tokenService) {
         this.areaOfInterestRepository = areaOfInterestRepository;
         this.appUserRepository = appUserRepository;
+        this.tokenService = tokenService;
     }
 
 
@@ -44,10 +45,7 @@ public class AreaOfInterestService {
 
 
         List<AreaOfInterestDTO> list = areaOfInterestRepository
-                .findAreaOfInterestSByAppUsers(appuser)
-                .orElseThrow(()->new AreaOfInterestNotFoundException(
-                        "AREAOFINTEREST_NOT_FOUND_FOR_"+appuser.getUsername().toUpperCase()+"."
-                ))
+                .findByAppUser_UsernameLike(appuser.getUsername())
                 .stream()
                 .map(AreaOfInterestDTO::new)
                 .toList();
@@ -63,8 +61,7 @@ public class AreaOfInterestService {
 
        AppUser user= this.appUserRepository.findAppUsersByUsername(
                areaOfInterestDTO
-                .getAppUsers()
-                .get(0)
+                .getAppUser()
                 .getUsername()
                )
                  .orElseThrow(()->new UsernameNotFoundException(""));
@@ -72,9 +69,14 @@ public class AreaOfInterestService {
 
 
        AreaOfInterest savedAoi=  areaOfInterestRepository
-               .save( new AreaOfInterest(areaOfInterestDTO,
-                       List.of(user)
-               )
+               .save(
+                       new AreaOfInterest
+                               (
+                                       areaOfInterestDTO,
+
+                                               user
+
+                               )
         );
 
        return new AreaOfInterestDTO(savedAoi);
@@ -82,7 +84,27 @@ public class AreaOfInterestService {
     }
 
 
+    public List<AreaOfInterestDTO> getMyAreaOfInterest(String token) {
+
+        String jwt = token.substring(7);
+
+
+        String username=tokenService.extractUsername(jwt);
+
+
+        List <AreaOfInterest> areasOfInterests = areaOfInterestRepository
+                .findByAppUser_UsernameLike(
+                          username
+                );
 
 
 
+
+        return areasOfInterests
+                .stream()
+                .map(AreaOfInterestDTO::new)
+                .toList();
+
+
+    }
 }

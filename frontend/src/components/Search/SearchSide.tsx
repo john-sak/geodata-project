@@ -1,10 +1,9 @@
-import React, { useEffect, useState } from 'react'
-import { ISearchInputProps, ISearchInputs, ISearchRadius, ISearchFreeTextInputProps } from './ISearch'
+import React from 'react'
+import { ISearchInputProps, ISearchInputs, ISearchFreeTextInputProps } from './ISearch'
 import SearchInput from './SearchInput';
 import SearchName from './SearchName';
 import SearchRadius from './SearchRadius';
 import SearchSideFreeText from './SearchSideFreeText';
-import useAxiosPrivate from '@/hooks/useAxiosPrivate';
 import useFindKeywords from './useFindKeywords';
 import useFindCategories from './useFindCategories';
 
@@ -13,7 +12,7 @@ const SearchSide = (props: ISearchInputs) => {
     const {
         open,
         data,
-        radius,
+        location,
         showMap
     } = props;
     const { searchData } = data;
@@ -23,47 +22,8 @@ const SearchSide = (props: ISearchInputs) => {
         keyword
     } = searchData;
 
-    const axiosPrivate = useAxiosPrivate();
     const { keywords } = useFindKeywords();
-    console.log(keywords);
     const { categories } = useFindCategories();
-    console.log(categories);
-
-    useEffect(() => {
-        console.log(searchData);
-        console.log('freeText', searchData.freeText);
-        const buidlingTypeList = searchData.buildingType.split(',');
-        // console.log('buidlingTypeList', buidlingTypeList);
-        const filteredObjects = categories.filter(obj => buidlingTypeList.includes(obj.name));
-        const idBuildingTypeList = filteredObjects.map(obj => obj.id);
-        console.log('idBuildingTypeList', idBuildingTypeList);
-        const keywordList = searchData.keyword.split(',');
-        console.log('keywordList', keywordList);
-        // const fun = async () => {
-        //     const dat = {
-        //         "start": 0,
-        //         "count": 1,
-        //         "text": null,
-        //         "filters": {
-        //             "distance": {
-        //                 "lat": 38.27056885,
-        //                 "lon": 21.74781227,
-        //                 "km": 1
-        //             },
-        //             "keywords": [],
-        //             "categories": []
-        //         }
-        //     }
-        //     try {
-        //         const response = await axiosPrivate.post('/api/poi/search', dat);
-        //         console.log(response.data);
-        //     }
-        //     catch(error) {
-        //         console.error(error);
-        //     }
-        // }
-        // fun();
-    }, [searchData])
 
     const freeTextInput: ISearchFreeTextInputProps = {
         data: data,
@@ -87,7 +47,7 @@ const SearchSide = (props: ISearchInputs) => {
         value: keyword,
         name: 'keyword',
         label: 'Κατηγορίες',
-        dataList: categories
+        dataList: keywords
     }
 
   return (
@@ -99,8 +59,8 @@ const SearchSide = (props: ISearchInputs) => {
                     { !showMap && <SearchSideFreeText {...freeTextInput}/> }
                     <SearchInput {...buidlingTypeInput}/>
                     <SearchInput {...keywordInput}/>
-                    <SearchName/>
-                    <SearchRadius {...radius}/>
+                    <SearchName {...location}/>
+                    <SearchRadius {...location}/>
                 </div>
             </div>
         }

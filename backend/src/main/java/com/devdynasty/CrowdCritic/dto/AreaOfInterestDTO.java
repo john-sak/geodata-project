@@ -4,15 +4,15 @@ import com.devdynasty.CrowdCritic.model.AppUser;
 import com.devdynasty.CrowdCritic.model.AreaOfInterest;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToMany;
-import lombok.Getter;
-import lombok.NonNull;
-import lombok.Setter;
+import lombok.*;
 
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collector;
 @Getter
 @Setter
+@AllArgsConstructor
+@NoArgsConstructor
 public class AreaOfInterestDTO {
 
     private Integer id;
@@ -22,15 +22,20 @@ public class AreaOfInterestDTO {
 
     private Integer distance;
 
-
-    private List<UserDto> appUsers;
+    private UserDto appUser;
 
 
     public AreaOfInterestDTO(AreaOfInterest areaOfInterest){
 
-        this.appUsers=areaOfInterest.getAppUsers()
-                .stream()
-                .map(UserDto::new)
-                .toList();
+        this.id=areaOfInterest.getId();
+
+        this.latitude=areaOfInterest.getLatitude();
+
+        this.longitude=areaOfInterest.getLongitude();
+
+        this.distance=areaOfInterest.getDistance();
+
+        this.appUser=new UserDto(areaOfInterest.getAppUser());
+
     }
 }

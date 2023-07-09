@@ -1,5 +1,6 @@
 package com.devdynasty.CrowdCritic.controller;
 
+import com.devdynasty.CrowdCritic.exception.RefreshTokenException;
 import com.devdynasty.CrowdCritic.exception.UserEmailExistsException;
 import com.devdynasty.CrowdCritic.exception.UsernameExistsException;
 import com.devdynasty.CrowdCritic.model.AuthenticationRequest;
@@ -7,10 +8,6 @@ import com.devdynasty.CrowdCritic.model.AuthenticationResponse;
 import com.devdynasty.CrowdCritic.model.RefreshRequest;
 import com.devdynasty.CrowdCritic.model.RegisterRequest;
 import com.devdynasty.CrowdCritic.service.AuthenticationService;
-import com.devdynasty.CrowdCritic.service.TokenService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -24,13 +21,11 @@ import org.springframework.web.bind.annotation.RestController;
 public class AuthController {
     private final AuthenticationService authenticationService;
 
-    private final TokenService tokenService;
 
 
-    private static final Logger LOG = LoggerFactory.getLogger(AuthController.class);
-    public AuthController(AuthenticationService authenticationService, TokenService tokenService) {
+
+    public AuthController(AuthenticationService authenticationService) {
         this.authenticationService = authenticationService;
-        this.tokenService = tokenService;
     }
 
 
@@ -39,7 +34,10 @@ public class AuthController {
     public ResponseEntity<AuthenticationResponse> token(@RequestBody AuthenticationRequest authenticationRequest){
 
 
-            return ResponseEntity.ok(authenticationService.authenticate(authenticationRequest));
+            return ResponseEntity
+                    .ok(authenticationService
+                            .authenticate(authenticationRequest)
+                    );
 
         }
 
@@ -48,15 +46,21 @@ public class AuthController {
     public ResponseEntity<AuthenticationResponse> register(
             @RequestBody RegisterRequest request
     ) throws UsernameExistsException, UserEmailExistsException {
-        return ResponseEntity.ok(authenticationService.register(request));
+        return ResponseEntity
+                .ok(authenticationService
+                        .register(request)
+                );
     }
 
 
         @PostMapping("api/refreshtoken")
     public ResponseEntity<AuthenticationResponse> refresh(
             @RequestBody RefreshRequest request
-    ) throws IllegalAccessException {
-        return ResponseEntity.ok(authenticationService.refresh(request));
+    ) throws  RefreshTokenException {
+        return ResponseEntity
+                .ok(authenticationService
+                        .refresh(request)
+                );
     }
 
 
