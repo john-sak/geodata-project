@@ -1,6 +1,9 @@
 package com.devdynasty.CrowdCritic.service;
 
 import com.devdynasty.CrowdCritic.dto.UserDto;
+import com.devdynasty.CrowdCritic.exception.RefreshTokenException;
+import com.devdynasty.CrowdCritic.exception.UserEmailExistsException;
+import com.devdynasty.CrowdCritic.exception.UsernameExistsException;
 import com.devdynasty.CrowdCritic.model.*;
 
 import com.devdynasty.CrowdCritic.repository.AppUserRepository;
@@ -40,10 +43,17 @@ public class AuthenticationService {
         this.tokenRepository = tokenRepository;
     }
 
-    public AuthenticationResponse register(RegisterRequest request) {
+    public AuthenticationResponse register(RegisterRequest request) throws UsernameExistsException, UserEmailExistsException {
 
         var password = passwordEncoder.encode(request.getPassword());
         request.setPassword(password);
+        Optional<AppUser> optionalAppUser = appUserRepository.findAppUsersByUsername(request.getUsername());
+       if  (optionalAppUser.isPresent()) throw new UsernameExistsException("USER_NAME_EXISTS");
+
+       if ( (appUserRepository.findAppUserByEmail(request.getEmail())).isPresent())
+            throw new UserEmailExistsException("USER_EMAIL_EXISTS");
+
+
         var user = new AppUser(request);
         user=this.appUserRepository.save(user);
 
@@ -53,7 +63,7 @@ public class AuthenticationService {
                 tokenService.generateToken(user),
                 tokenService.generateRefreshToken(user),
                 false,user);
-        this.tokenService.storeToken(token);
+        this.tokenService.save(token);
         return new AuthenticationResponse(new UserDto(user),token.getToken(),token.getRefreshToken());
     }
 
@@ -78,49 +88,60 @@ public class AuthenticationService {
                 user);
 
 
-        Optional<Token> prevToken = Optional.ofNullable(tokenRepository.findByUserIdAndExpiredIsFalse(user.getId()).orElse(null));
+        Optional<Token> prevToken = tokenRepository.findByUserIdAndExpiredIsFalse(user.getId());
 
         prevToken.ifPresent(token -> tokenService.expireToken(token.getId()));
 
-        tokenRepository.save(newToken);
+        tokenService.save(newToken);
 
         return new AuthenticationResponse(new UserDto(user),newToken.getToken(), newToken.getRefreshToken());
     }
 
 
-    public AuthenticationResponse refresh(RefreshRequest request) throws IllegalAccessException {
+    public AuthenticationResponse refresh(RefreshRequest request) throws  RefreshTokenException {
 
 
         String username =  tokenService.extractUsername(request.getRefreshToken());
 
-        Token newToken;
+
         String refreshToken = request.getRefreshToken();
 
-        if (!tokenService.isTokenValid(refreshToken, appUserService.loadUserByUsername(username))){
+        if (!tokenService.isRefreshTokenValid(refreshToken, appUserService.loadUserByUsername(username))
+              && !tokenService.isRefreshTokenStored(refreshToken)){
 
-              throw new IllegalAccessException("NOT VALID REFRESH TOKEN ");
+              throw new RefreshTokenException("NOT_VALID_REFRESH_TOKEN ");
 
         }
 
 
+
+
+
         var user = appUserRepository.findAppUsersByUsername(tokenService.extractUsername(refreshToken)).orElseThrow();
 
-        newToken = new Token(null,
+        var newToken = new Token(null,
                 tokenService.generateToken(user),
                 tokenService.generateRefreshToken(user),
                 false,
                 user);
 
 
-        Optional<Token> prevToken = Optional.ofNullable(tokenRepository.findByUserIdAndExpiredIsFalse(user.getId()).orElse(null));
+        tokenService
+                .findByUserIdAndExpiredIsFalse(user.getId())
+                .ifPresent(
+                        token -> tokenService
+                        .expireToken(
+                                token
+                                        .getId()
+                        )
+                );
 
-        prevToken.ifPresent(token -> tokenService.expireToken(token.getId()));
+        tokenService.save(newToken);
 
-        tokenRepository.save(newToken);
-
-
-
-        return new AuthenticationResponse(new UserDto(user),newToken.getToken(), newToken.getRefreshToken());
+        return new AuthenticationResponse(new UserDto(user),
+                newToken.getToken(),
+                newToken.getRefreshToken()
+        );
 
 
 

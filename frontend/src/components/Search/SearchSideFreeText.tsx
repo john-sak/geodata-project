@@ -1,6 +1,7 @@
 import React, {useState} from 'react'
 import { ISearchFreeTextInputProps } from './ISearch'
 import SearchIcon from '@mui/icons-material/Search';
+import CloseIcon from '@mui/icons-material/Close';
 import useCloseModal from '@/hooks/useCloseModal';
 
 const SearchSideFreeText = (props: ISearchFreeTextInputProps) => {
@@ -42,7 +43,7 @@ const SearchSideFreeText = (props: ISearchFreeTextInputProps) => {
              ml-4 mt-6 ${clicked ? 'rounded-t-md' : 'rounded-md'} flex flex-row py-2 pl-2 pr-2 lg:w-[88%] xl:w-[90%]`}
              >
                 <input 
-                className='w-[85%] rounded-l-md outline-none'
+                className='w-[85%] rounded-l-md outline-none text-ellipsis whitespace-nowrap overflow-hidden'
                 type="text"
                 value={value}
                 onChange={(e) => handleInputChange(name, e.target.value)}
@@ -51,10 +52,17 @@ const SearchSideFreeText = (props: ISearchFreeTextInputProps) => {
                 />
                 <div className='w-[15%] h-[100%] flex items-center justify-center'>
                     <i className='text-sky-500'>
+                    {
+                        value.length !== 0 ?
+                        <CloseIcon
+                        fontSize='large'
+                        onClick={() => handleInputChange(name, '')}
+                        className='cursor-pointer'
+                        /> :
                         <SearchIcon
                         fontSize='large'
-                        onClick={() => setClicked(!clicked)}
                         />
+                    }
                     </i>
                 </div>
             </div>

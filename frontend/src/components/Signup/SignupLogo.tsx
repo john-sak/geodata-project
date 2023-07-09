@@ -4,7 +4,7 @@ import Link from 'next/link'
 
 const SignupLogo = () => {
   return (
-    <div className='w-[100%] h-32 mt-4 flex justify-center items-center lg:mt-6'>
+    <div className='w-[100%] flex justify-center items-center'>
         <Link href={'/'}
         className='h-20 w-20 relative'
         >

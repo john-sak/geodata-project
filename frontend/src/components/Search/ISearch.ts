@@ -6,15 +6,42 @@ export interface ISearchState {
     keyword: string;
 }
 
-export interface ISearchData {
-    searchData: ISearchState;
-    setSearchData: React.Dispatch<React.SetStateAction<ISearchState>>;
-    handleInputChange: (key: string, value: string) => void;
+export interface ISearchPoiNumbers {
+    lon: number,
+    lat: number,
+    radius: number,
 }
 
-export interface ISearchRadius {
-    radiusValue: number,
-    setRadiusValue: Dispatch<SetStateAction<number>>
+export interface ISearchPoiName {
+    selectedName: string,
+    setSelectedName: Dispatch<SetStateAction<string>>
+}
+
+export interface ISearchPoi {
+    selectedName: string,
+    setSelectedName: Dispatch<SetStateAction<string>>,
+    numbers: ISearchPoiNumbers,
+    setNumbers: (key: keyof ISearchPoiNumbers, value: number) => void;
+}
+
+export interface IPoiResult {
+    id: number,
+    name: string,
+    description?: string,
+    latitude: number,
+    longitude: number
+}
+
+export interface ISearchMap {
+    search: ISearchPoi,
+    results: IPoiResult[]
+}
+
+export interface ISearchData {
+    searchData: ISearchState;
+    setSearchData: Dispatch<React.SetStateAction<ISearchState>>;
+    handleInputChange: (key: string, value: string) => void;
+    location: ISearchPoi
 }
 
 export interface ISearchInputs {
@@ -23,7 +50,7 @@ export interface ISearchInputs {
     isClicked: boolean,
     setIsClicked: Dispatch<SetStateAction<boolean>>,
     data: ISearchData,
-    radius: ISearchRadius,
+    location: ISearchPoi,
     showMap: boolean
 }
 
@@ -37,7 +64,6 @@ export interface ISearchInputProps {
     value: string,
     name: string,
     label: string,
-    isCategories: boolean,
     dataList: IDataList[]
 }
 

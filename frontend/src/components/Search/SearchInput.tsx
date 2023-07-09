@@ -2,6 +2,7 @@ import React, { useState, useRef, useEffect, ChangeEvent, MouseEventHandler } fr
 import { ISearchInputProps } from './ISearch'
 import useCloseModal from '@/hooks/useCloseModal';
 import SearchIcon from '@mui/icons-material/Search';
+import CloseIcon from '@mui/icons-material/Close';
 
 const SearchInput = (props: ISearchInputProps) => {
 
@@ -10,7 +11,6 @@ const SearchInput = (props: ISearchInputProps) => {
         value,
         name,
         label,
-        isCategories,
         dataList
     } = props;
 
@@ -19,13 +19,10 @@ const SearchInput = (props: ISearchInputProps) => {
     const [clicked, setClicked] = useState(false);
 
     let ref = useCloseModal(() => {
-        // setClicked(false);
-
         if(value.length !== 0) {
             const substrings = value.split(',');
             const validSubstrings = substrings.filter(substring => {
                 const trimmedSubstring = substring.trim();
-                // return dummyData.some(option => option.name.toLowerCase() === trimmedSubstring.toLowerCase());
                 return dataList.some(option => option.name.toLowerCase() === trimmedSubstring.toLowerCase())
             });
             const updatedValue = validSubstrings.join(',');
@@ -36,8 +33,6 @@ const SearchInput = (props: ISearchInputProps) => {
                 handleInputChange(name, '');
             }
         }
-        
-
         setFilteredData([]);
     })
 
@@ -52,36 +47,12 @@ const SearchInput = (props: ISearchInputProps) => {
         setIsFocused(false);
     };
 
-    // const dummyData: {id: number, name: string}[] = [
-    //     {
-    //         id: 1,
-    //         name: 'Επιλογή1'
-    //     },
-    //     {
-    //         id: 2,
-    //         name: 'Επιλογή2'
-    //     },
-    //     {
-    //         id: 3,
-    //         name: 'Επιλογή3'
-    //     },
-    //     {
-    //         id: 4,
-    //         name: 'Επιλογή4'
-    //     },
-    // ];
-
     const [filteredData, setFilteredData] = useState<any>([]);
-
-    // const [userInput, setUserInput] = useState('');
     const [selectedOptions, setSelectedOptions] = useState<string[]>([]);
 
     const handleFilter = (e: ChangeEvent<HTMLInputElement>) => {
         const parts = e.target.value.split(',');
         const inputValue = parts[parts.length - 1].trim();
-        // const filteredInput = dummyData.filter((value) => {
-        //     return value.name.toLowerCase().includes(inputValue.toLowerCase());
-        // })
         const filteredInput = dataList.filter((value) => {
             return value.name.toLowerCase().includes(inputValue.toLowerCase());
         })
@@ -96,14 +67,11 @@ const SearchInput = (props: ISearchInputProps) => {
             setFilteredData(inputAscending.slice(0, 4));
         }
         handleInputChange(name, e.target.value);
-        // setUserInput(e.target.value);
     }
 
     const handleSelect = (str: string) => {
         const isAlreadySelected = selectedOptions.some(selectedOption => selectedOption === str);
         if(!isAlreadySelected) {
-            // const optionName = str + ',';
-            // setUserInput(prevValue => prevValue + optionName);
             setSelectedOptions(prevOptions => [...prevOptions, str]);
         }
     }
@@ -112,6 +80,12 @@ const SearchInput = (props: ISearchInputProps) => {
         selectedOptions.length !==0 && handleInputChange(name, selectedOptions.join(',') + ',');
         setFilteredData([]);
     }, [selectedOptions])
+
+    const handleClear = () => {
+        handleInputChange(name, '');
+        setFilteredData([]);
+        setSelectedOptions([]);
+    }
 
   return (
     <div className='relative w-[100%] h-[17%] bg-sky-800'>
@@ -126,7 +100,7 @@ const SearchInput = (props: ISearchInputProps) => {
              ml-4 mt-6 ${clicked ? 'rounded-t-md' : 'rounded-md'} flex flex-row py-2 pl-2 pr-2 lg:w-[88%] xl:w-[90%]`}
              >
                 <input 
-                className='w-[85%] rounded-l-md outline-none'
+                className='w-[85%] rounded-l-md outline-none text-ellipsis whitespace-nowrap overflow-hidden'
                 type="text"
                 value={value}
                 onChange={handleFilter}
@@ -136,10 +110,18 @@ const SearchInput = (props: ISearchInputProps) => {
                 />
                 <div className='w-[15%] h-[100%] flex items-center justify-center'>
                     <i className='text-sky-500'>
-                        <SearchIcon
-                        fontSize='large'
-                        onClick={() => setClicked(!clicked)}
-                        />
+                        {
+                            value.length !== 0 ?
+                                <CloseIcon
+                                fontSize='large'
+                                onClick={handleClear}
+                                className='cursor-pointer'
+                                /> :
+                                <SearchIcon
+                                fontSize='large'
+                                onClick={() => setClicked(!clicked)}
+                                />
+                        }
                     </i>
                 </div>
             </div>

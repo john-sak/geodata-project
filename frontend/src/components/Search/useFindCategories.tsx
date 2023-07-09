@@ -1,5 +1,5 @@
-import useAxiosPrivate from "@/hooks/useAxiosPrivate";
 import { useEffect, useState } from "react";
+import axios from "@/api/axios";
 
 interface ICategories {
     id: number,
@@ -7,12 +7,11 @@ interface ICategories {
 }
 
 const useFindCategories = () => {
-    const axiosPrivate = useAxiosPrivate();
     const [categories, setCategories] = useState<ICategories[]>([]);
     useEffect(() => {
         const findCategories = async () => {
             try {
-                const response = await axiosPrivate.get('/api/categories');
+                const response = await axios.get('/api/categories');
                 setCategories(response.data);
             }
             catch(error) {
@@ -20,7 +19,7 @@ const useFindCategories = () => {
             }
         }
         findCategories();
-    }, [axiosPrivate])
+    }, [])
     return { categories }
 }
 

@@ -2,22 +2,21 @@ package com.devdynasty.CrowdCritic.model;
 
 
 import com.devdynasty.CrowdCritic.dto.AreaOfInterestDTO;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.ManyToMany;
-import jakarta.persistence.NamedEntityGraph;
+import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
 import java.util.List;
 
 @Entity
 @AllArgsConstructor
-@NoArgsConstructor
 @Setter
 @Getter
+@NoArgsConstructor(force = true)
 public class AreaOfInterest {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     @NonNull
@@ -29,12 +28,14 @@ public class AreaOfInterest {
     private Integer distance;
 
     //TODO COLUMN NAME DB
-    @ManyToMany
-    private List<AppUser> appUsers;
+    @ManyToOne
+    @NotNull
+    @JoinColumn(name="appuser_id")
+    private AppUser appUser;
 
 
-    public AreaOfInterest(AreaOfInterestDTO areaOfInterestDTO, List<AppUser> users) {
-        this.appUsers=users;
+    public AreaOfInterest(AreaOfInterestDTO areaOfInterestDTO, AppUser user) {
+        this.appUser=user;
         this.distance=areaOfInterestDTO.getDistance();
         this.longitude= areaOfInterestDTO.getLongitude();
         this.latitude=areaOfInterestDTO.getLatitude();

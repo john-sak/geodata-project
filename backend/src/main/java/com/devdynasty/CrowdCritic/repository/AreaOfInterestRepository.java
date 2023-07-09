@@ -10,7 +10,10 @@ import java.util.Optional;
 public interface AreaOfInterestRepository extends JpaRepository<AreaOfInterest, Integer> {
 
 
-    public Optional<List<AreaOfInterest>> findAreaOfInterestSByAppUsers(AppUser appUser);
+
+    List<AreaOfInterest> findByAppUser_UsernameLike(String username);
+
+
 
 
 }

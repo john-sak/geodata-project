@@ -1,12 +1,13 @@
 package com.devdynasty.CrowdCritic.config;
 
-import com.devdynasty.CrowdCritic.model.AppUser;
-import com.devdynasty.CrowdCritic.repository.TokenRepository;
+
+
 import com.devdynasty.CrowdCritic.service.TokenService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import lombok.SneakyThrows;
 import org.springframework.lang.NonNull;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -25,24 +26,20 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     private final TokenService tokenService;
     private final UserDetailsService userDetailsService;
 
-    private final TokenRepository tokenRepository;
 
-    public JwtAuthenticationFilter(TokenService tokenService, UserDetailsService userDetailsService, TokenRepository tokenRepository) {
+    public JwtAuthenticationFilter(TokenService tokenService, UserDetailsService userDetailsService) {
         this.tokenService = tokenService;
         this.userDetailsService = userDetailsService;
-        this.tokenRepository = tokenRepository;
     }
 
+    @SneakyThrows
     @Override
     protected void doFilterInternal(
             @NonNull HttpServletRequest request,
             @NonNull HttpServletResponse response,
             @NonNull FilterChain filterChain
-    ) throws ServletException, IOException {
-        if (request.getServletPath().contains("/api/public/*")) {
-            filterChain.doFilter(request, response);
-            return;
-        }
+    )  {
+
         final String authHeader = request.getHeader("Authorization");
         final String jwt;
         final String username;
@@ -56,12 +53,11 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
         if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
             UserDetails userDetails = this.userDetailsService.loadUserByUsername(username);
-            var isTokenValid = tokenRepository.findByToken(jwt)
-                    .map(t -> !t.isExpired())
-                    .orElse(false);
-            if (tokenService.isTokenValid(jwt, userDetails) && isTokenValid) {
+
+
+            if (tokenService.isTokenValid(jwt, userDetails) && ( tokenService.isTokenStored(jwt)  ) ) {
                 UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
-                        userDetails.getUsername().toString(),
+                        userDetails.getUsername(),
                         jwt,
                         userDetails.getAuthorities()
                 );
