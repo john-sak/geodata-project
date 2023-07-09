@@ -7,13 +7,13 @@ const NavButtons = () => {
     lg:gap-7 lg:items-center 2xl:w-80 2xl:gap-10'>
         <Link href={'SigninPage'}
         className='flex justify-center items-center lg:w-24 lg:h-9 2xl:w-28 2xl:h-10 
-        rounded bg-sky-900 hover:bg-sky-400 cursor-pointer'
+        rounded bg-sky-900 hover:bg-sky-400 cursor-pointer text-white'
         >
             Σύνδεση
         </Link>
         <Link href={'SignupPage'}
         className='flex justify-center items-center lg:w-24 lg:h-9 2xl:w-28 2xl:h-10 \
-        rounded bg-orange-500 hover:bg-orange-400 cursor-pointer'
+        rounded bg-orange-500 hover:bg-orange-400 cursor-pointer text-white'
         >
             Εγγραφή
         </Link>

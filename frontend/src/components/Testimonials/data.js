@@ -1,27 +1,27 @@
 export const dummyData = [
     {
         id: 1,
-        title: 'Dummy1',
-        count: 10000
+        title: 'ΔΗΜΟΣ',
+        count: 844
     },
     {
         id: 2,
-        title: 'Dummy2',
-        count: 20000
+        title: 'ΚΕΠ',
+        count: 768
     },
     {
         id: 3,
-        title: 'Dummy3',
-        count: 30000
+        title: 'ΑΣΤΥΝΟΜΙΑ',
+        count: 558
     },
     {
         id: 4,
-        title: 'Dummy4',
-        count: 40000
+        title: 'ΝΟΜΑΡΧΙΑ',
+        count: 113
     },
     {
         id: 5,
-        title: 'Dummy5',
-        count: 50000
+        title: 'ΙΚΑ',
+        count: 20
     }
 ]
