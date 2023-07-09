@@ -96,7 +96,6 @@ public class PointOfInterestService {
 
     public SearchResponseBody search(SearchRequestBody request) {
 
-        boolean isAllNull = true;
         boolean returnAllNull = false;
 
         List<PointOfInterest> set1 = new ArrayList<PointOfInterest>();
@@ -105,28 +104,24 @@ public class PointOfInterestService {
         List<PointOfInterest> set4 = new ArrayList<PointOfInterest>();
 
         if (!(request.getText() == null || request.getText().isEmpty() || request.getText().isBlank())) {
-            isAllNull = false;
 
             set1 = searchEverywhere(request.getText());
             if (set1.isEmpty()) returnAllNull = true;
         }
 
         if (!returnAllNull && request.getFilters().getDistance().getKm() > 0) {
-            isAllNull = false;
 
             set2 = searchDistance(request.getFilters().getDistance());
             if (set2.isEmpty()) returnAllNull = true;
         }
 
         if (!returnAllNull && !(request.getFilters().getKeywords() == null || request.getFilters().getKeywords().isEmpty())) {
-            isAllNull = false;
 
             set3 = searchKeywords(request.getFilters().getKeywords());
             if (set3.isEmpty()) returnAllNull = true;
         }
 
         if (!returnAllNull && !(request.getFilters().getCategories() == null || request.getFilters().getCategories().isEmpty())) {
-            isAllNull = false;
 
             set4 = searchCategories(request.getFilters().getCategories());
             if (set4.isEmpty()) returnAllNull = true;
@@ -134,21 +129,17 @@ public class PointOfInterestService {
 
         Set<PointOfInterest> pois = new HashSet<PointOfInterest>();
 
-        if (isAllNull) {
-            pois.addAll(findAll());
-        } else {
-            if (!returnAllNull) {
+        if (!returnAllNull) {
 
-                List<List<PointOfInterest>> nonEmptyLists = new ArrayList<>();
-                if (!set1.isEmpty()) nonEmptyLists.add(set1);
-                if (!set2.isEmpty()) nonEmptyLists.add(set2);
-                if (!set3.isEmpty()) nonEmptyLists.add(set3);
-                if (!set4.isEmpty()) nonEmptyLists.add(set4);
+            List<List<PointOfInterest>> nonEmptyLists = new ArrayList<>();
+            if (!set1.isEmpty()) nonEmptyLists.add(set1);
+            if (!set2.isEmpty()) nonEmptyLists.add(set2);
+            if (!set3.isEmpty()) nonEmptyLists.add(set3);
+            if (!set4.isEmpty()) nonEmptyLists.add(set4);
 
-                if (!nonEmptyLists.isEmpty()) {
-                    pois.addAll(nonEmptyLists.get(0));
-                    for (int i = 1; i < nonEmptyLists.size(); i++) pois.retainAll(nonEmptyLists.get(i));
-                }
+            if (!nonEmptyLists.isEmpty()) {
+                pois.addAll(nonEmptyLists.get(0));
+                for (int i = 1; i < nonEmptyLists.size(); i++) pois.retainAll(nonEmptyLists.get(i));
             }
         }
 
