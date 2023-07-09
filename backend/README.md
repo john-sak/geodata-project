@@ -1,17 +1,3 @@
-## TODO
-
-### BUGS
-- [ ] τα getByname και getById δεν λειτουργουν παντού σωστά
-
-
-### IMPL
-- [ ]  validation σε όλα τα model που παίρνουμε από έξω 
-- [ ] exceptionhandling έτσι ώστε να στέλνουμε response 
-στο frontend
- - [ ] refresh token
- - [ ] αναζήτηση (ολοκλήρωση του search request)
-  - [ ] import το csv
-- [ ] notification(email, message brokers)
 
 
 ## Docker για την βάση (Postgres) 
