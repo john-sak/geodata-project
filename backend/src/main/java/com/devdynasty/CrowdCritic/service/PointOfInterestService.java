@@ -59,7 +59,7 @@ public class PointOfInterestService {
     public List<PointOfInterest> searchEverywhere(String text) {
 
         String[] words = text.split("[^\\p{IsGreek}\\p{IsLatin}]+");
-        String query = String.join(" & ", words);
+        String query = String.join(" | ", words);
 
         return pointOfInterestRepository.findEverywhere(query);
     }
@@ -71,7 +71,7 @@ public class PointOfInterestService {
 
     public List<PointOfInterest> searchKeywords(List<String> keywords) {
 
-        String query = String.join(" ", keywords
+        String query = String.join(" | ", keywords
                 .stream()
                 .filter(str -> !(str.isEmpty() || str.isBlank()))
                 .collect(Collectors.toList()));
