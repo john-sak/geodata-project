@@ -35,4 +35,8 @@ public interface PointOfInterestRepository extends JpaRepository<PointOfInterest
     @Query(value = "SELECT poi.* FROM point_of_interest poi " +
             "WHERE poi.categories IN ?1", nativeQuery = true)
     List<PointOfInterest> findByCategory(List<Integer> categoryIDs);
+
+    @Query(value = "SELECT usr.email FROM app_user usr INNER JOIN area_of_interest aoi ON usr.appuser_id = aoi.appuser_id " +
+            "WHERE (point(?1, ?2) <@ circle(point(aoi.latitude, aoi.longitude), aoi.distance))", nativeQuery = true)
+    List<String> getEmailsForPoint(Double lat, Double lon);
 }

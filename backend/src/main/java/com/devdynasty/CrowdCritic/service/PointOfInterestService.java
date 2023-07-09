@@ -30,17 +30,6 @@ public class PointOfInterestService {
     @Autowired
     private PrefectureService prefectureService;
 
-    @PersistenceContext
-    private EntityManager entityManager;
-
-    private List<String> getEmails(Double lat, Double lon) {
-
-        String query = "SELECT usr.email FROM app_user usr INNER JOIN area_of_interest aoi ON usr.appuser_id = aoi.appuser_id " +
-                "WHERE (point(" + lat + ", " + lon + ") <@ circle(point(aoi.latitude, aoi.longitude), aoi.distance))";
-
-        return entityManager.createNativeQuery(query, AppUser.class).getResultList();
-    }
-
     public PointOfInterestService(PointOfInterestRepository pointOfInterestRepository) {
 
         this.pointOfInterestRepository = pointOfInterestRepository;
@@ -62,7 +51,7 @@ public class PointOfInterestService {
 
     public List<PointOfInterest> findAll() {
 
-        return this.pointOfInterestRepository
+        return pointOfInterestRepository
                 .findAll();
     }
 
@@ -71,12 +60,12 @@ public class PointOfInterestService {
         String[] words = text.split("[^\\p{IsGreek}\\p{IsLatin}]+");
         String query = String.join(" & ", words);
 
-        return this.pointOfInterestRepository.findEverywhere(query);
+        return pointOfInterestRepository.findEverywhere(query);
     }
 
     public List<PointOfInterest> searchDistance(Distance distance) {
 
-        return this.pointOfInterestRepository.findByDistance(distance.getLat(), distance.getLon(), distance.getKm() * 1000);
+        return pointOfInterestRepository.findByDistance(distance.getLat(), distance.getLon(), distance.getKm() * 1000);
     }
 
     public List<PointOfInterest> searchKeywords(List<String> keywords) {
@@ -86,7 +75,7 @@ public class PointOfInterestService {
                 .filter(str -> !(str.isEmpty() || str.isBlank()))
                 .collect(Collectors.toList()));
 
-        return this.pointOfInterestRepository.findByKeyword(query);
+        return pointOfInterestRepository.findByKeyword(query);
     }
 
     public List<PointOfInterest> searchCategories(List<String> categories) {
@@ -94,7 +83,7 @@ public class PointOfInterestService {
         List<Integer> categoryIDs = categories.stream()
                 .map(Integer::parseInt)
                 .collect(Collectors.toList());
-        return this.pointOfInterestRepository.findByCategory(categoryIDs);
+        return pointOfInterestRepository.findByCategory(categoryIDs);
     }
 
     public PointOfInterest savePointOfInterest(PointOfInterest pointOfInterest) {
@@ -190,7 +179,7 @@ public class PointOfInterestService {
 
                 savePointOfInterest(poi);
 
-                Set<String> userEmails = new HashSet<>(getEmails(poiLat, poiLon));
+                Set<String> userEmails = new HashSet<>(pointOfInterestRepository.getEmailsForPoint(poiLat, poiLon));
                 // notify every email in userEmails
             }
         } catch (IOException e) {
