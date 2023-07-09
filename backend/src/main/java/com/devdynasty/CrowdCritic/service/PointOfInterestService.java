@@ -176,10 +176,10 @@ public class PointOfInterestService {
                 String poiAddress = data[6].trim();
 
                 PointOfInterest poi = new PointOfInterest(poiName, poiDescription, poiPrefecture, null, poiCategory, poiLat, poiLon, poiAddress);
+
+                poi = savePointOfInterest(poi);
                 pois.add(poi);
-
-                savePointOfInterest(poi);
-
+                
                 List<String> userEmails = new ArrayList<>(pointOfInterestRepository.getEmailsForPoint(poiLat, poiLon));
                 crowdCriticEmailService.sendSimpleMessagToMultipleUsersByEmail(userEmails);
             }
