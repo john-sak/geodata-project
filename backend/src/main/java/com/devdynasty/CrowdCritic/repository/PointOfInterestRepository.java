@@ -29,7 +29,10 @@ public interface PointOfInterestRepository extends JpaRepository<PointOfInterest
     List<PointOfInterest> findByDistance(Double lat, Double lon, Double meters);
 
     @Query(value = "SELECT poi.* FROM point_of_interest poi INNER JOIN point_of_interest_keywords poi_key ON poi.id = poi_key.point_of_interest_id INNER JOIN keyword kwrd ON poi_key.keywords = kwrd.id " +
-            "WHERE to_tsvector('greek', kwrd.word) @@ to_tsquery('greek', ?1)", nativeQuery = true)
+            "WHERE EXISTS (" +
+            "SELECT 1 FROM regexp_split_to_table(kwrd.word, E'\\s+') AS word " +
+            "WHERE to_tsvector('greek', word) @@ to_tsquery('greek', ?1)" +
+            ")", nativeQuery = true)
     List<PointOfInterest> findByKeyword(String tsquery);
 
     @Query(value = "SELECT poi.* FROM point_of_interest poi " +

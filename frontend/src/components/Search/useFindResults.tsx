@@ -35,7 +35,6 @@ const useFindResults = (props: ISearchData) => {
                         categories: idBuildingTypeList[0] === "" ? [] : idBuildingTypeList
                     }
                 }
-                console.log(data);
                 const response = await axios.post('/api/poi/search', data);
                 setResults(response.data.data);
             }
