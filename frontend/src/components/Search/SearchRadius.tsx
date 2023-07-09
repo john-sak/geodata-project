@@ -6,7 +6,7 @@ import { ISearchPoi } from './ISearch';
 
 const SearchRadius = (props: ISearchPoi) => {
 
-  const { numbers, setNumbers } = props;
+  const { numbers, setNumbers, selectedName } = props;
 
   const handleChange = (event: any, newValue: number | number[]) => {
     setNumbers('radius', newValue as number)
@@ -43,8 +43,9 @@ const SearchRadius = (props: ISearchPoi) => {
             onChange={handleChange}
             aria-labelledby="slider-label"
             style={{
-            color: '#FDBA74',
+            color: selectedName === '-' ? '#eee' : '#FDBA74',
             }}
+            disabled={selectedName === '-' && true}
         />
       </div>
     </div>

@@ -1,7 +1,7 @@
 import React from 'react'
 import 'leaflet/dist/leaflet.css'
 import { MapContainer, TileLayer, Marker, Popup, Circle, useMapEvents } from 'react-leaflet'
-import { icon } from 'leaflet'
+import { icon, LeafletMouseEvent } from 'leaflet'
 import { ISearchMap } from './ISearch'
 
 const SearchMap = (props: ISearchMap) => {
@@ -31,6 +31,12 @@ const SearchMap = (props: ISearchMap) => {
     return null;
     };
 
+    const handleClick = (e: LeafletMouseEvent, name: string, lat: number, lon: number) => {
+        setSelectedName(name);
+        setNumbers('lat', lat);
+        setNumbers('lon', lon);
+    }
+
   return (
     <MapContainer center={[numbers.lat, numbers.lon]} zoom={13} maxZoom={15} scrollWheelZoom={false}
     className='h-[100%] w-[100%] z-0'
@@ -45,7 +51,7 @@ const SearchMap = (props: ISearchMap) => {
             results.map((value) => {
                 return(
                     <Marker key={value.id} position={[value.latitude, value.longitude]} icon={ICON}
-                    eventHandlers={{click: (e) => {setSelectedName(value.name)}}}
+                    eventHandlers={{click: (e) => handleClick(e, value.name, value.latitude, value.longitude)}}
                     >
                         {
                             value.description &&
@@ -57,8 +63,7 @@ const SearchMap = (props: ISearchMap) => {
                 )
             })
         }
-        <Circle center={[numbers.lat, numbers.lon]} radius={numbers.radius*1000}
-        />
+        { numbers.radius !== 0 && <Circle center={[numbers.lat, numbers.lon]} radius={numbers.radius*1000}/> }
     </MapContainer>
   )
 }

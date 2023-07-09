@@ -6,6 +6,9 @@ import SearchRadius from './SearchRadius';
 import SearchSideFreeText from './SearchSideFreeText';
 import useFindKeywords from './useFindKeywords';
 import useFindCategories from './useFindCategories';
+import useLogged from '../NavBar/useLogged';
+import SearchNoFavourites from './SearchNoFavourites';
+import SearchFavourites from './SearchFavourites';
 
 const SearchSide = (props: ISearchInputs) => {
 
@@ -13,7 +16,8 @@ const SearchSide = (props: ISearchInputs) => {
         open,
         data,
         location,
-        showMap
+        showMap,
+        results
     } = props;
     const { searchData } = data;
     const {
@@ -24,6 +28,7 @@ const SearchSide = (props: ISearchInputs) => {
 
     const { keywords } = useFindKeywords();
     const { categories } = useFindCategories();
+    const { isLogged } = useLogged();
 
     const freeTextInput: ISearchFreeTextInputProps = {
         data: data,
@@ -61,6 +66,11 @@ const SearchSide = (props: ISearchInputs) => {
                     <SearchInput {...keywordInput}/>
                     <SearchName {...location}/>
                     <SearchRadius {...location}/>
+                    {
+                        isLogged ?  
+                        <SearchFavourites {...props}/> :
+                        <SearchNoFavourites/>
+                    }
                 </div>
             </div>
         }

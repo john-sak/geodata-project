@@ -25,16 +25,6 @@ const Search = (props: ISearchData) => {
     showMap
   } = useFilter({...filterProps});
 
-  const searchInputs: ISearchInputs = {
-    open: openFilter,
-    setOpen: setOpenFilter,
-    isClicked: isClicked,
-    setIsClicked: setIsClicked,
-    data: props,
-    location: location,
-    showMap: showMap
-  }
-
   const freeTextInput: ISearchFreeTextInputProps = {
     data: props,
     value: freeText,
@@ -44,6 +34,17 @@ const Search = (props: ISearchData) => {
 
   const { results } = useFindResults({...props});
   console.log('results', results);
+
+  const searchInputs: ISearchInputs = {
+    open: openFilter,
+    setOpen: setOpenFilter,
+    isClicked: isClicked,
+    setIsClicked: setIsClicked,
+    data: props,
+    location: location,
+    showMap: showMap,
+    results: results
+  }
 
   const mapData: ISearchMap = {
     search: location,
