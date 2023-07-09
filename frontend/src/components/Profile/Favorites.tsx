@@ -50,8 +50,8 @@ const Favorites = () => {
           <div key={favorite.id} className="w-full sm:w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/5 p-2">
             <div className="bg-gray-200 p-2 rounded">
               <p className="text-center mb-2">Περιοχή ενδιαφέροντος {index + 1}</p>
-              <p>Longitude σημείου: <span className="text-purple-500">{favorite.longitude}</span></p>
               <p>Latitude σημείου: <span className="text-purple-500">{favorite.latitude}</span></p>
+              <p>Longitude σημείου: <span className="text-purple-500">{favorite.longitude}</span></p>
               <p>Απόσταση από σημείο: <span className="text-purple-500">{favorite.distance}</span> χλμ.</p>
             </div>
           </div>
