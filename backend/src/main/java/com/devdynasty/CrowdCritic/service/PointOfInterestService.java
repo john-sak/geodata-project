@@ -35,8 +35,8 @@ public class PointOfInterestService {
 
     private List<String> getEmails(Double lat, Double lon) {
 
-        String query = "SELECT usr.email FROM app_user usr INNER JOIN area_of_interest aoi ON usr.appuser_id = aoi.user_id " +
-                "WHERE earth_box(ll_to_earth(aoi.latitude, aoi.longitute), aoi.distance) @> ll_to_earth(" + lat + ", " + lon + ")";
+        String query = "SELECT usr.email FROM app_user usr INNER JOIN area_of_interest aoi ON usr.appuser_id = aoi.appuser_id " +
+                "WHERE (point(" + lat + ", " + lon + ") <@ circle(point(aoi.latitude, aoi.longitude), aoi.distance))";
 
         return entityManager.createNativeQuery(query, AppUser.class).getResultList();
     }
